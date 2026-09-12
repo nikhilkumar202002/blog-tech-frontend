@@ -373,14 +373,12 @@
   font-size: 0.9375rem;
   font-weight: 500;
   color: #737373;
-  margin-bottom: 0.875rem;
-  letter-spacing: 0.02em;
 }
 
 .about-headline {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 2.25rem;
-  font-weight: 700;
+  font-weight: 500;
   color: #202020;
   line-height: 1.18;
   letter-spacing: -0.025em;
@@ -548,7 +546,7 @@
 
 .service-scroll-track {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1.5rem;
   overflow-x: auto;
   overflow-y: hidden;
@@ -631,7 +629,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-self: center;
+  align-self: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -746,7 +744,7 @@
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  align-self: center;
+  align-self: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -1047,13 +1045,12 @@
   font-weight: 500;
   color: #737373;
   display: block;
-  margin-bottom: 0.75rem;
 }
 
 .our-services-headline {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 500;
   color: #171717;
   line-height: 1.18;
   letter-spacing: -0.025em;
@@ -1241,7 +1238,8 @@
 }
 
 .tech-carousel-title-accent,
-.faq-title-accent {
+.faq-title-accent,
+.ceo-message-title-accent {
   color: #c05803;
   font-family: var(--font-cormorant-garamond), serif;
   font-size: 1.1em;

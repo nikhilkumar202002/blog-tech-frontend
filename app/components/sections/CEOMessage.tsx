@@ -9,7 +9,8 @@ export default function CEOMessage() {
           <div className="ceo-message-intro">
             <span className="ceo-message-eyebrow">The Story Behind Blogtec</span>
             <h2 className="ceo-message-title" id="ceo-message-title">
-              Built From a Clear Understanding of the Jewellery Business.
+              Built From a Clear Understanding of the{" "}
+              <span className="ceo-message-title-accent">Jewellery Business.</span>
             </h2>
           </div>
 
