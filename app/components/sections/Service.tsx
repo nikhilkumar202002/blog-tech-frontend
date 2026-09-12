@@ -16,46 +16,46 @@ const PRODUCTS: ServiceItem[] = [
     id: "aurix",
     title: "AURIX",
     description:
-      "A Comprehensive Jewellery Management Solution Built To Streamline Day-To-Day Operations, From Inventory And Billing To Customer Management And Accounting.",
+      "A comprehensive jewellery management solution built to streamline day-to-day operations, from inventory and billing to customer management and accounting.",
     image:
       "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
-    imageAlt: "AURIX Jewellery Management Software on Laptop",
+    imageAlt: "AURIX Jewellery Management Solution",
+  },
+  {
+    id: "employee-payroll",
+    title: "EMPLOYEE & PAYROLL MANAGEMENT",
+    description:
+      "A centralized system to manage employee information, attendance, salary processing, and documentation efficiently.",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "Employee and Payroll Management System",
+  },
+  {
+    id: "jewel-connect",
+    title: "JEWEL CONNECT",
+    description:
+      "A digital platform designed to provide jewellery customers with easy access to jewellery designs, product information, barcode details, and stock availability.",
+    image:
+      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "JEWEL CONNECT Digital Jewellery Platform",
   },
   {
     id: "scheme-app",
     title: "SCHEME MOBILE APP",
     description:
-      "A Mobile App Customized With Your Branding That Allows Customers To Manage Their Jewellery Schemes, Make Installment Payments, And Track Their Progress.",
+      "A mobile app customized with your branding that allows customers to manage their jewellery schemes, make installment payments, and track their progress.",
     image:
       "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
-    imageAlt: "Jewellery Scheme Mobile Application Interface",
+    imageAlt: "Scheme Mobile Application Interface",
   },
   {
-    id: "jewellery-pos",
-    title: "JEWELLERY POS & BILLING",
+    id: "aurown",
+    title: "AUROWN",
     description:
-      "A Touchscreen Point-Of-Sale System Built For Jewellery Stores, Offering Instant Invoicing, Barcode Scanning, RFID Integration, And Real-Time Gold Rate Adjustments.",
+      "An application designed specifically for jewellery business owners to monitor and track business operations, sales, and inventory from anywhere.",
     image:
-      "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80",
-    imageAlt: "Jewellery POS and Billing Software System",
-  },
-  {
-    id: "workshop-tracking",
-    title: "WORKSHOP & ORDER TRACKING",
-    description:
-      "Track Custom Manufacturing Orders From Metal Melting To Final Polish, Managing Artisan Craftsmen, Metal Wastage, Weight Variations, And Delivery Schedules.",
-    image:
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
-    imageAlt: "Jewellery Workshop and Order Tracking System",
-  },
-  {
-    id: "digital-catalog",
-    title: "DIGITAL CATALOG & APP",
-    description:
-      "Showcase Your Fine Jewellery Collections Online With An Interactive Digital Catalog App, Enabling Virtual Try-Ons, Live Rate Calculator, And Direct Customer Enquiries.",
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
-    imageAlt: "Digital Jewellery Catalog Application",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "AUROWN Business Owners Tracking App",
   },
 ];
 
