@@ -7,6 +7,7 @@ import Service from "./components/sections/Service";
 import OurServices from "./components/sections/OurServices";
 import Platform from "./components/sections/Platform";
 import Techcarousel from "./components/sections/Techcarousel";
+import CEOMessage from "./components/sections/CEOMessage";
 
 export default function Home() {
   return (
@@ -19,9 +20,9 @@ export default function Home() {
         <Platform />
         <OurServices />
         <Techcarousel />
+        <CEOMessage />
 
       </Frame>
     </div>
   );
 }
-
