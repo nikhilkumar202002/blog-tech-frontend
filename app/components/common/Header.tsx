@@ -26,9 +26,9 @@ export const BlogtecLogo: React.FC<{ className?: string }> = ({ className = "" }
       <Image
         src="/MAIN-LOGO.png"
         alt="Blogtec Software Logo"
-        width={100}
-        height={38}
-        className="h-5 md:h-6 w-auto object-contain"
+        width={160}
+        height={40}
+        className="h-7 md:h-8.5 w-auto object-contain"
         priority
       />
     </Link>

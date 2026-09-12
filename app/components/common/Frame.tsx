@@ -18,11 +18,11 @@ export interface FrameProps extends React.HTMLAttributes<HTMLDivElement> {
 function calculateFramePath(width: number, height: number): string {
 
     const w = Math.max(width, 320);
-    const h = Math.max(height, 200);
+    const h = Math.max(height, 250);
     const r = 22;
-    const leftShoulderH = 38;
-    const leftShoulderW = 105;
-    const leftRiseW = 28;
+    const leftShoulderH = 50;
+    const leftShoulderW = 160;
+    const leftRiseW = 36;
     const leftRiseEnd = leftShoulderW + leftRiseW;
 
     return [
@@ -125,8 +125,9 @@ const Frame: React.FC<FrameProps> = ({
                 </div>
             )}
             <div
-                className={`relative z-10 flex-1 flex flex-col pointer-events-auto overflow-auto ${headerSlot ? "pt-2" : "pt-12 md:pt-14"
-                    } px-6 md:px-8 pb-6 ${contentClassName}`}
+                style={{ clipPath: `url(#${clipId})` }}
+                className={`relative z-10 flex-1 flex flex-col pointer-events-auto overflow-y-auto overflow-x-hidden no-scrollbar ${contentClassName ? contentClassName : headerSlot ? "pt-2 px-6 pb-6" : "pt-12 md:pt-14 px-6 md:px-8 pb-6"
+                    }`}
             >
                 {children}
             </div>
