@@ -11,6 +11,9 @@
   --font-sans: var(--font-dm-sans), sans-serif;
   --font-desc: var(--font-inter), sans-serif;
   --font-description: var(--font-inter), sans-serif;
+  --font-cormorant: var(--font-cormorant-garamond), serif;
+  --font-cormorant-garamond: var(--font-cormorant-garamond), serif;
+  --font-serif: var(--font-cormorant-garamond), serif;
 }
 
 body {
@@ -22,6 +25,12 @@ body {
 .font-desc,
 .font-description {
   font-family: var(--font-inter), sans-serif;
+}
+
+.font-cormorant,
+.font-cormorant-garamond,
+.font-serif {
+  font-family: var(--font-cormorant-garamond), serif;
 }
 
 /* Custom Frame Utilities */
@@ -42,7 +51,11 @@ body {
   scrollbar-width: none;
 }
 
-/* Responsive Container Utility: 20px mobile, 50px iPad (768px+), 95px desktop (1024px+) */
+/* Common Responsive Container Utilities:
+   - Mobile (< 768px): 20px left & right padding
+   - iPad / Tablet (768px - 1023px): 50px left & right padding
+   - Desktop (1024px+): 95px left & right padding
+*/
 @utility container {
   width: 100%;
   margin-inline: auto;
@@ -97,3 +110,7 @@ body {
     padding-right: 95px;
   }
 }
+
+/* Sections Custom Styles */
+@import "./components/styles/Section.css";
+

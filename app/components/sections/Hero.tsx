@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+import "../styles/Section.css";
+
 export interface HeroSlide {
   id: number;
   headline: string;
@@ -92,7 +94,7 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <section
-      className={`relative w-full h-screen min-h-[100vh] flex items-center overflow-hidden ${className}`}
+      className={`hero-section ${className || ""}`}
     >
       {/* 100vh Full Width Background Video */}
       <video
@@ -102,48 +104,44 @@ const Hero: React.FC<HeroProps> = ({
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover -z-10"
+        className="hero-video"
       >
         <source src="/video/blogtech-banner-video.webm" type="video/webm" />
         Your browser does not support HTML5 video.
       </video>
 
       {/* Subtle soft gradient on left side to ensure high-contrast readability */}
-      <div className="absolute inset-y-0 left-0 w-full md:w-3/5 bg-gradient-to-r from-black/25 via-black/10 to-transparent pointer-events-none -z-10" />
+      <div className="hero-overlay" />
 
       {/* Hero Left Content Container */}
-      <div className="relative z-10 container pt-16 md:pt-20">
-        <div className="max-w-xl lg:max-w-2xl flex flex-col items-start text-left">
+      <div className="hero-content-wrapper container custom-container">
+        <div className="hero-text-block">
           
           {/* Animated Headline & Caption */}
           <div
-            className={`transition-all duration-300 transform ${
-              isTransitioning
-                ? "opacity-0 -translate-y-2"
-                : "opacity-100 translate-y-0"
+            className={`hero-slide-content ${
+              isTransitioning ? "is-transitioning" : ""
             }`}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-bold tracking-tight text-neutral-900 leading-[1.12] drop-shadow-xs">
+            <h1 className="hero-headline">
               {currentSlide.headline}
             </h1>
 
-            <p className="mt-4 md:mt-5 text-base sm:text-lg md:text-xl font-desc text-neutral-700 md:text-neutral-800 leading-relaxed max-w-lg">
+            <p className="hero-caption">
               {currentSlide.caption}
             </p>
           </div>
 
           {/* Slide Indicator Bar & Navigation */}
-          <div className="mt-8 md:mt-10 flex items-center gap-2">
+          <div className="hero-indicators">
             {heroSlides.map((slide, idx) => {
               const isActive = idx === currentIdx;
               return (
                 <button
                   key={slide.id}
                   onClick={() => handleSelectSlide(idx)}
-                  className={`group relative h-1.5 rounded-full transition-all duration-300 ${
-                    isActive
-                      ? "w-8 md:w-10 bg-[#A44B03]"
-                      : "w-2.5 md:w-3 bg-neutral-400/60 hover:bg-neutral-600"
+                  className={`hero-indicator-btn ${
+                    isActive ? "is-active" : ""
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 >
