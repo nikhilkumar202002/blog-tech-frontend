@@ -8,6 +8,7 @@ import OurServices from "./components/sections/OurServices";
 import Platform from "./components/sections/Platform";
 import Techcarousel from "./components/sections/Techcarousel";
 import CEOMessage from "./components/sections/CEOMessage";
+import Faq from "./components/sections/Faq";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <OurServices />
         <Techcarousel />
         <CEOMessage />
+        <Faq />
 
       </Frame>
     </div>
