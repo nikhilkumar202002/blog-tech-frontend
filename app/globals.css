@@ -41,3 +41,59 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Responsive Container Utility: 20px mobile, 50px iPad (768px+), 95px desktop (1024px+) */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (min-width: 768px) {
+    padding-inline: 50px;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 95px;
+  }
+}
+
+@utility custom-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (min-width: 768px) {
+    padding-inline: 50px;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 95px;
+  }
+}
+
+.container,
+.site-container,
+.custom-container,
+.container-padding {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 768px) {
+  .container,
+  .site-container,
+  .custom-container,
+  .container-padding {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container,
+  .site-container,
+  .custom-container,
+  .container-padding {
+    padding-left: 95px;
+    padding-right: 95px;
+  }
+}

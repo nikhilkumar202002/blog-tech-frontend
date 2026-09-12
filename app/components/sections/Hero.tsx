@@ -112,7 +112,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-y-0 left-0 w-full md:w-3/5 bg-gradient-to-r from-black/25 via-black/10 to-transparent pointer-events-none -z-10" />
 
       {/* Hero Left Content Container */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pt-16 md:pt-20">
+      <div className="relative z-10 container pt-16 md:pt-20">
         <div className="max-w-xl lg:max-w-2xl flex flex-col items-start text-left">
           
           {/* Animated Headline & Caption */}
