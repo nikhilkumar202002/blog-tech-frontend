@@ -74,6 +74,7 @@ const Service: React.FC = () => {
     const track = trackRef.current;
     if (!section || !track) return;
 
+    const wrapper = section.querySelector(".service-sticky-wrapper") as HTMLElement;
     const scrollParent = section.closest(".overflow-y-auto") as HTMLElement | null;
     if (!scrollParent) return;
     scrollParentRef.current = scrollParent;
@@ -98,8 +99,11 @@ const Service: React.FC = () => {
     const measure = () => {
       const distance = Math.max(0, track.scrollWidth - track.clientWidth);
       section.style.setProperty("--service-viewport-height", `${scrollParent.clientHeight}px`);
-      section.style.setProperty("--service-scroll-distance", `${distance}px`);
-      section.classList.toggle("is-pinned", pinMedia.matches && distance > 0);
+      const topPadding = Number.parseFloat(window.getComputedStyle(wrapper).paddingTop);
+      const pinned = pinMedia.matches && distance > 0 &&
+        scrollParent.clientHeight >= track.offsetHeight + topPadding;
+      section.style.height = pinned ? `${scrollParent.clientHeight + distance}px` : "";
+      section.classList.toggle("is-pinned", pinned);
       scheduleSync();
     };
 
@@ -183,7 +187,11 @@ const Service: React.FC = () => {
               if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
               event.preventDefault();
               const direction = event.key === "ArrowRight" ? 1 : -1;
-              const distance = 440 * direction;
+              const [firstCard, secondCard] = Array.from(event.currentTarget.children) as HTMLElement[];
+              const step = firstCard && secondCard
+                ? secondCard.offsetLeft - firstCard.offsetLeft
+                : event.currentTarget.clientWidth;
+              const distance = step * direction;
               if (sectionRef.current?.classList.contains("is-pinned") && scrollParentRef.current) {
                 scrollParentRef.current.scrollBy({ top: distance, behavior: "smooth" });
               } else {
