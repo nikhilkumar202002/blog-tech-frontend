@@ -3,6 +3,7 @@ import Frame from "./components/common/Frame";
 import Header from "./components/common/Header";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
+import Service from "./components/sections/Service";
 
 export default function Home() {
   return (
@@ -11,7 +12,9 @@ export default function Home() {
       <Frame contentClassName="p-0">
         <Hero />
         <About />
+        <Service />
       </Frame>
     </div>
   );
 }
+
