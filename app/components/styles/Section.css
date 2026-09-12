@@ -1012,7 +1012,7 @@
 }
 
 /* ==========================================================================
-   Our Services Section Styles (4 Grid Cards with 150px Padding)
+   Our Services Section Styles
    ========================================================================== */
 
 .our-services-section {
@@ -1068,26 +1068,42 @@
 }
 
 .our-services-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.our-services-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.our-services-grid.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+  user-select: none;
+}
+
+.our-services-grid:focus-visible {
+  outline: 2px solid #c05803;
+  outline-offset: 4px;
 }
 
 @media (min-width: 640px) {
   .our-services-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .our-services-grid {
-    grid-template-columns: repeat(4, 1fr);
     gap: 1.75rem;
   }
 }
 
 .our-service-card {
+  flex: 0 0 100%;
+  min-width: 0;
   background-color: #f3f3f2;
   border-radius: 1.75rem;
   padding: 3.25rem 2rem 2.75rem 2rem;
@@ -1095,7 +1111,20 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  scroll-snap-align: start;
   transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+@media (min-width: 640px) {
+  .our-service-card {
+    flex-basis: calc((100% - 1.75rem) / 2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .our-service-card {
+    flex-basis: calc((100% - 5.25rem) / 4);
+  }
 }
 
 .our-service-card:hover {
@@ -1149,13 +1178,32 @@
 .our-services-dot {
   width: 0.5rem;
   height: 0.5rem;
+  padding: 0;
+  border: 0;
   border-radius: 9999px;
   background-color: #e5e5e5;
   transition: all 220ms ease;
+  cursor: pointer;
 }
 
 .our-services-dot.active {
   background-color: #c05803;
   width: 0.625rem;
   height: 0.625rem;
+}
+
+.our-services-dot:focus-visible {
+  outline: 2px solid #c05803;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .our-services-grid {
+    scroll-behavior: auto;
+  }
+
+  .our-service-card,
+  .our-services-dot {
+    transition: none;
+  }
 }
