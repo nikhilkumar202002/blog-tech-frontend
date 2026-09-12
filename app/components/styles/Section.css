@@ -1228,7 +1228,8 @@
   text-align: center;
 }
 
-.tech-carousel-title-accent {
+.tech-carousel-title-accent,
+.faq-title-accent {
   color: #c05803;
   font-family: var(--font-cormorant-garamond), serif;
   font-size: 1.1em;
@@ -1506,7 +1507,7 @@
 
 .faq-content {
   width: 100%;
-  max-width: 40rem;
+  max-width: 60rem;
   margin-inline: auto;
 }
 
@@ -1567,7 +1568,7 @@
 .faq-question button {
   display: flex;
   width: 100%;
-  min-height: 3.125rem;
+  height: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;

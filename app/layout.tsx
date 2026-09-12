@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, Inter } from "next/font/google";
+import Frame from "./components/common/Frame";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -30,7 +33,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${dmSans.variable} ${inter.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#f8f8f8]">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#f8f8f8]">
+        <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
+          <Header position="fixed" />
+          <Frame contentClassName="p-0">
+            {children}
+            <Footer />
+          </Frame>
+        </div>
+      </body>
     </html>
   );
 }

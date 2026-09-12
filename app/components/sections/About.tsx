@@ -72,7 +72,7 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
   }, []);
 
   return (
-    <section ref={sectionRef} className={`about-section ${className || ""}`}>
+    <section ref={sectionRef} className={`about-section ${className || ""}`} id="about">
       <div className="about-container">
         <div className="about-content">
           {/* Eyebrow Subtitle */}

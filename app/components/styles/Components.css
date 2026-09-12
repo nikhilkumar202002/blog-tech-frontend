@@ -1,0 +1,169 @@
+/* Shared site footer */
+.site-footer {
+  width: 100%;
+  flex-shrink: 0;
+  background: #fdfdfd;
+  color: #171717;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.site-footer-container {
+  width: 100%;
+  padding-inline: clamp(20px, 3.8vw, 60px);
+}
+
+.site-footer-main {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) repeat(3, minmax(0, 1fr));
+  padding-top: 40px;
+  padding-bottom: 36px;
+}
+
+.site-footer-brand > a {
+  display: inline-block;
+  line-height: 0;
+}
+
+.site-footer-logo {
+  display: block;
+  width: 120px;
+  height: auto;
+}
+
+.site-footer-brand p {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.site-footer-column h2 {
+  margin: 5px 0 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.site-footer-column ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer-column a {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.site-footer-column li {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.site-footer a:hover {
+  color: #a5531b;
+}
+
+.site-footer a:focus-visible {
+  outline: 2px solid #a5531b;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.site-footer-contact {
+  display: grid;
+  grid-template-columns: 24% 38% 38%;
+  scroll-margin-top: 6rem;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.site-footer-contact-cell {
+  display: flex;
+  min-height: 78px;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.site-footer-phones,
+.site-footer-email {
+  border-right: 1px solid #e6e6e6;
+}
+
+.site-footer-phones {
+  padding-left: clamp(20px, 3.8vw, 60px);
+}
+
+.site-footer-email {
+  align-items: center;
+}
+
+.site-footer-address {
+  padding-right: clamp(20px, 3.8vw, 60px);
+  padding-left: clamp(24px, 9vw, 88px);
+  font-style: normal;
+  font-size: 11px;
+}
+
+.site-footer-bottom {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 6px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+@media (max-width: 639px) {
+  .site-footer-main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    padding-block: 40px;
+  }
+
+  .site-footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer-contact {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer-contact-cell {
+    min-height: 60px;
+    padding: 16px 20px;
+    border-right: 0;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .site-footer-email {
+    align-items: flex-start;
+  }
+
+  .site-footer-address {
+    border-bottom: 0;
+  }
+
+  .site-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer a {
+    transition: none;
+  }
+}

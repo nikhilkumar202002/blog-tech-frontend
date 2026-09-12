@@ -1,6 +1,3 @@
-import React from "react";
-import Frame from "./components/common/Frame";
-import Header from "./components/common/Header";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
 import Service from "./components/sections/Service";
@@ -12,19 +9,15 @@ import Faq from "./components/sections/Faq";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
-      <Header position="fixed" />
-      <Frame contentClassName="p-0">
-        <Hero />
-        <About />
-        <Service />
-        <Platform />
-        <OurServices />
-        <Techcarousel />
-        <CEOMessage />
-        <Faq />
-
-      </Frame>
-    </div>
+    <>
+      <Hero />
+      <About />
+      <Service />
+      <Platform />
+      <OurServices />
+      <Techcarousel />
+      <CEOMessage />
+      <Faq />
+    </>
   );
 }
