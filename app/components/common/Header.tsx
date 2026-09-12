@@ -26,9 +26,9 @@ export const BlogtecLogo: React.FC<{ className?: string }> = ({ className = "" }
       <Image
         src="/MAIN-LOGO.png"
         alt="Blogtec Software Logo"
-        width={160}
-        height={40}
-        className="h-7 md:h-8.5 w-auto object-contain"
+        width={100}
+        height={38}
+        className="h-6 md:h-7 w-auto object-contain"
         priority
       />
     </Link>
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={containerClasses}>
-      <div className="relative w-full h-[62px] md:h-[70px]">
+      <div className="relative w-full h-[62px] md:h-[80px]">
         {/* Left: Logo situated exactly inside the frame's top-left tab (like TechwareLab) */}
         <div className="absolute left-2  top-2.5  pointer-events-auto flex items-center">
           <BlogtecLogo />
