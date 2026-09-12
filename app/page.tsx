@@ -4,6 +4,7 @@ import Header from "./components/common/Header";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
 import Service from "./components/sections/Service";
+import OurServices from "./components/sections/OurServices";
 import Platform from "./components/sections/Platform";
 
 export default function Home() {
@@ -15,6 +16,8 @@ export default function Home() {
         <About />
         <Service />
         <Platform />
+        <OurServices />
+
       </Frame>
     </div>
   );
