@@ -2,12 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import {
-  FiBarChart2,
-  FiDatabase,
-  FiHeadphones,
-  FiMonitor,
-  FiShoppingCart,
-} from "react-icons/fi";
+  PiChartLineUpDuotone,
+  PiCodeBlockDuotone,
+  PiDatabaseDuotone,
+  PiDiamondDuotone,
+  PiHeadsetDuotone,
+} from "react-icons/pi";
 import "../styles/Section.css";
 
 export interface ServiceDetail {
@@ -23,35 +23,35 @@ const SERVICES_DATA: ServiceDetail[] = [
     title: "Jewellery ERP Solutions",
     description:
       "Industry-focused ERP software designed around the unique needs of jewellery businesses to help streamline operations.",
-    icon: <FiShoppingCart className="our-service-icon" />,
+    icon: <PiDiamondDuotone className="our-service-icon" aria-hidden="true" />,
   },
   {
     id: "maintenance-support",
     title: "Maintenance & Support",
     description:
       "Continuous technical support and software maintenance to keep your systems reliable and running smoothly.",
-    icon: <FiHeadphones className="our-service-icon" />,
+    icon: <PiHeadsetDuotone className="our-service-icon" aria-hidden="true" />,
   },
   {
     id: "custom-software",
     title: "Custom Software Solutions",
     description:
       "Tailored features, workflows, and functionalities designed to match specific business processes.",
-    icon: <FiMonitor className="our-service-icon" />,
+    icon: <PiCodeBlockDuotone className="our-service-icon" aria-hidden="true" />,
   },
   {
     id: "data-management",
     title: "Data & System Management",
     description:
       "Secure database management, data migration, and system optimization for reliable performance.",
-    icon: <FiDatabase className="our-service-icon" />,
+    icon: <PiDatabaseDuotone className="our-service-icon" aria-hidden="true" />,
   },
   {
     id: "business-reporting",
     title: "Business Analytics & Reporting",
     description:
       "Clear reports on sales, inventory, and customer trends to help jewellery businesses make informed decisions.",
-    icon: <FiBarChart2 className="our-service-icon" />,
+    icon: <PiChartLineUpDuotone className="our-service-icon" aria-hidden="true" />,
   },
 ];
 

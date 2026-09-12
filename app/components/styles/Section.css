@@ -446,27 +446,22 @@
 }
 
 /* ==========================================================================
-   Service Section Styles (Techwarelab-style Mouse Wheel Horizontal Scroll)
+   Service Section Styles
    ========================================================================== */
 
 .service-section {
   position: relative;
   z-index: 20;
   width: 100%;
-  height: 220vh;
   background-color: #ffffff;
 }
 
-@media (min-width: 768px) {
-  .service-section {
-    height: 250vh;
-  }
+.service-section.is-pinned {
+  height: calc(var(--service-viewport-height) + var(--service-scroll-distance));
 }
 
 .service-sticky-wrapper {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -474,8 +469,15 @@
   align-items: center;
   overflow: hidden;
   background-color: #ffffff;
-  padding-top: 70px;
+  padding-block: 70px;
   box-sizing: border-box;
+}
+
+.service-section.is-pinned .service-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: var(--service-viewport-height);
+  padding-bottom: 0;
 }
 
 .service-container {
@@ -564,10 +566,20 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.service-section.is-pinned .service-scroll-track {
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+}
+
 .service-scroll-track.is-dragging {
   cursor: grabbing;
   scroll-snap-type: none;
   scroll-behavior: auto;
+}
+
+.service-scroll-track:focus-visible {
+  outline: 2px solid #c05803;
+  outline-offset: -2px;
 }
 
 @media (min-width: 768px) {

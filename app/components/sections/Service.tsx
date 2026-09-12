@@ -59,143 +59,137 @@ const PRODUCTS: ServiceItem[] = [
 const Service: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const scrollParentRef = useRef<HTMLElement | null>(null);
+  const dragStartRef = useRef<{
+    pointerId: number;
+    x: number;
+    scrollTop: number;
+    scrollLeft: number;
+    pinned: boolean;
+  } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const startXRef = useRef(0);
-  const startScrollLeftRef = useRef(0);
 
-  // Techwarelab-style Mouse Drag (Click & Drag to Scroll)
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!trackRef.current) return;
-    setIsDragging(true);
-    startXRef.current = e.pageX - trackRef.current.offsetLeft;
-    startScrollLeftRef.current = trackRef.current.scrollLeft;
-  };
-
-  const handleMouseLeaveOrUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !trackRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - trackRef.current.offsetLeft;
-    const walk = (x - startXRef.current) * 1.5;
-    trackRef.current.scrollLeft = startScrollLeftRef.current - walk;
-  };
-
-  // Techwarelab-style Smooth Wheel Scroll & Page Scroll Progress Sync
   useEffect(() => {
-    const track = trackRef.current;
     const section = sectionRef.current;
-    if (!track || !section) return;
+    const track = trackRef.current;
+    if (!section || !track) return;
 
-    let targetScroll = track.scrollLeft;
-    let currentScroll = track.scrollLeft;
-    let animId: number | null = null;
-    let isWheelActive = false;
-    let wheelTimer: NodeJS.Timeout | null = null;
+    const scrollParent = section.closest(".overflow-y-auto") as HTMLElement | null;
+    if (!scrollParent) return;
+    scrollParentRef.current = scrollParent;
 
-    const animate = () => {
-      const diff = targetScroll - currentScroll;
-      if (Math.abs(diff) > 0.3) {
-        currentScroll += diff * 0.14;
-        track.scrollLeft = currentScroll;
-        animId = requestAnimationFrame(animate);
-      } else {
-        currentScroll = targetScroll;
-        track.scrollLeft = targetScroll;
-        animId = null;
-      }
+    const pinMedia = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    let frame = 0;
+
+    const syncTrack = () => {
+      frame = 0;
+      if (!section.classList.contains("is-pinned")) return;
+
+      const sectionTop = section.getBoundingClientRect().top;
+      const parentTop = scrollParent.getBoundingClientRect().top;
+      const distance = track.scrollWidth - track.clientWidth;
+      track.scrollLeft = Math.max(0, Math.min(distance, parentTop - sectionTop));
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        targetScroll = track.scrollLeft;
-        currentScroll = track.scrollLeft;
-        return;
-      }
-
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if (maxScroll <= 0) return;
-
-      const atLeft = track.scrollLeft <= 2;
-      const atRight = track.scrollLeft >= maxScroll - 2;
-
-      if ((e.deltaY > 0 && !atRight) || (e.deltaY < 0 && !atLeft)) {
-        e.preventDefault();
-
-        isWheelActive = true;
-        if (wheelTimer) clearTimeout(wheelTimer);
-        wheelTimer = setTimeout(() => {
-          isWheelActive = false;
-        }, 350);
-
-        const step = Math.sign(e.deltaY) * Math.min(Math.abs(e.deltaY), 90);
-        targetScroll = Math.min(Math.max(0, targetScroll + step * 1.15), maxScroll);
-
-        if (!animId) {
-          animId = requestAnimationFrame(animate);
-        }
-      }
+    const scheduleSync = () => {
+      if (!frame) frame = window.requestAnimationFrame(syncTrack);
     };
 
-    const scrollParent = track.closest(".overflow-y-auto") || window;
-
-    const handleParentScroll = () => {
-      if (isWheelActive || isDragging || !sectionRef.current || !trackRef.current)
-        return;
-      const sectionEl = sectionRef.current;
-      const trackEl = trackRef.current;
-
-      const sectionRect = sectionEl.getBoundingClientRect();
-      const parentRect =
-        scrollParent === window
-          ? { top: 0, height: window.innerHeight }
-          : (scrollParent as HTMLElement).getBoundingClientRect();
-
-      const relativeTop = sectionRect.top - parentRect.top;
-      const stickyDistance = sectionRect.height - parentRect.height;
-
-      if (stickyDistance <= 0) return;
-
-      const scrolled = -relativeTop;
-      const rawProgress = scrolled / stickyDistance;
-      // 5% deadzone at start and end for clean card anchoring with full left padding
-      const progress = Math.max(0, Math.min(1, (rawProgress - 0.05) / 0.9));
-
-      const maxScroll = trackEl.scrollWidth - trackEl.clientWidth;
-      if (maxScroll > 0) {
-        targetScroll = progress * maxScroll;
-        currentScroll += (targetScroll - currentScroll) * 0.15;
-        trackEl.scrollLeft = currentScroll;
-      }
+    const measure = () => {
+      const distance = Math.max(0, track.scrollWidth - track.clientWidth);
+      section.style.setProperty("--service-viewport-height", `${scrollParent.clientHeight}px`);
+      section.style.setProperty("--service-scroll-distance", `${distance}px`);
+      section.classList.toggle("is-pinned", pinMedia.matches && distance > 0);
+      scheduleSync();
     };
 
-    track.addEventListener("wheel", handleWheel, { passive: false });
-    scrollParent.addEventListener("scroll", handleParentScroll, { passive: true });
+    const handleHorizontalWheel = (event: WheelEvent) => {
+      if (!section.classList.contains("is-pinned") || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+
+      event.preventDefault();
+      scrollParent.scrollTop += event.deltaX;
+    };
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(scrollParent);
+    resizeObserver.observe(track);
+    measure();
+
+    pinMedia.addEventListener("change", measure);
+    scrollParent.addEventListener("scroll", scheduleSync, { passive: true });
+    track.addEventListener("wheel", handleHorizontalWheel, { passive: false });
 
     return () => {
-      track.removeEventListener("wheel", handleWheel);
-      scrollParent.removeEventListener("scroll", handleParentScroll);
-      if (animId) cancelAnimationFrame(animId);
-      if (wheelTimer) clearTimeout(wheelTimer);
+      resizeObserver.disconnect();
+      pinMedia.removeEventListener("change", measure);
+      scrollParent.removeEventListener("scroll", scheduleSync);
+      track.removeEventListener("wheel", handleHorizontalWheel);
+      if (frame) window.cancelAnimationFrame(frame);
+      scrollParentRef.current = null;
     };
-  }, [isDragging]);
+  }, []);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse" || event.button !== 0 ||
+        (event.target as HTMLElement).closest("button, a")) return;
+
+    const scrollParent = scrollParentRef.current;
+    dragStartRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      scrollTop: scrollParent?.scrollTop ?? 0,
+      scrollLeft: event.currentTarget.scrollLeft,
+      pinned: !!sectionRef.current?.classList.contains("is-pinned"),
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsDragging(true);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const start = dragStartRef.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+
+    const offset = (event.clientX - start.x) * 1.5;
+    if (start.pinned && scrollParentRef.current) {
+      scrollParentRef.current.scrollTop = start.scrollTop - offset;
+    } else {
+      event.currentTarget.scrollLeft = start.scrollLeft - offset;
+    }
+  };
+
+  const handlePointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStartRef.current?.pointerId !== event.pointerId) return;
+    dragStartRef.current = null;
+    setIsDragging(false);
+  };
 
   return (
     <section ref={sectionRef} className="service-section" id="services">
       <div className="service-sticky-wrapper">
         <div className="service-container">
-          {/* Techwarelab-style Mouse Drag & Wheel Horizontal Scroll Track */}
           <div
             ref={trackRef}
             className={`service-scroll-track no-scrollbar ${
               isDragging ? "is-dragging" : ""
             }`}
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeaveOrUp}
-            onMouseUp={handleMouseLeaveOrUp}
-            onMouseMove={handleMouseMove}
+            role="region"
+            aria-label="Blogtec products"
+            tabIndex={0}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerEnd}
+            onPointerCancel={handlePointerEnd}
+            onKeyDown={(event) => {
+              if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+              event.preventDefault();
+              const direction = event.key === "ArrowRight" ? 1 : -1;
+              const distance = 440 * direction;
+              if (sectionRef.current?.classList.contains("is-pinned") && scrollParentRef.current) {
+                scrollParentRef.current.scrollBy({ top: distance, behavior: "smooth" });
+              } else {
+                event.currentTarget.scrollBy({ left: distance, behavior: "smooth" });
+              }
+            }}
           >
             {/* Left Intro Card */}
             <div className="service-card service-intro-card">
