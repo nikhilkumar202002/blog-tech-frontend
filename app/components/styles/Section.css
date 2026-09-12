@@ -1207,3 +1207,120 @@
     transition: none;
   }
 }
+
+/* Technology logo carousel */
+.tech-carousel-section {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 6rem 0 6.5rem;
+}
+
+.tech-carousel-title {
+  margin: 0 20px 1.75rem;
+  color: #171717;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(2rem, 3vw, 2.375rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.tech-carousel-title-accent {
+  color: #c05803;
+  font-family: var(--font-cormorant-garamond), serif;
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.tech-carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tech-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: tech-carousel-scroll 28s linear infinite;
+}
+
+.tech-carousel-viewport:hover .tech-carousel-track {
+  animation-play-state: paused;
+}
+
+.tech-carousel-group {
+  --tech-logo-gap: clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--tech-logo-gap);
+  padding-right: var(--tech-logo-gap);
+}
+
+.tech-carousel-logo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+}
+
+.tech-carousel-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tech-carousel-logo--java {
+  width: 2.375rem;
+}
+
+.tech-carousel-logo--react-native {
+  width: 8.5rem;
+}
+
+.tech-carousel-logo--spring-boot {
+  width: 9.125rem;
+}
+
+.tech-carousel-logo--postgresql {
+  width: 11rem;
+}
+
+.tech-carousel-logo--hibernate {
+  width: 11.875rem;
+}
+
+.tech-carousel-logo--maven {
+  width: 8rem;
+}
+
+@keyframes tech-carousel-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 639px) {
+  .tech-carousel-section {
+    padding: 5rem 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-carousel-viewport {
+    overflow-x: auto;
+  }
+
+  .tech-carousel-track {
+    animation: none;
+  }
+
+  .tech-carousel-group[aria-hidden="true"] {
+    display: none;
+  }
+}

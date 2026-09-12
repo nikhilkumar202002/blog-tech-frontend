@@ -6,6 +6,7 @@ import About from "./components/sections/About";
 import Service from "./components/sections/Service";
 import OurServices from "./components/sections/OurServices";
 import Platform from "./components/sections/Platform";
+import Techcarousel from "./components/sections/Techcarousel";
 
 export default function Home() {
   return (
@@ -17,10 +18,10 @@ export default function Home() {
         <Service />
         <Platform />
         <OurServices />
+        <Techcarousel />
 
       </Frame>
     </div>
   );
 }
-
 
