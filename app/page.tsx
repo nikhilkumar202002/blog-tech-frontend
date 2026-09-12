@@ -2,6 +2,7 @@ import React from "react";
 import Frame from "./components/common/Frame";
 import Header from "./components/common/Header";
 import Hero from "./components/sections/Hero";
+import About from "./components/sections/About";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Header position="fixed" />
       <Frame contentClassName="p-0">
         <Hero />
+        <About />
       </Frame>
     </div>
   );
