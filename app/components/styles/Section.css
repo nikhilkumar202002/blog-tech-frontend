@@ -1211,13 +1211,14 @@
 /* Technology logo carousel */
 .tech-carousel-section {
   width: 100%;
+  flex-shrink: 0;
   overflow: hidden;
   background: #ffffff;
-  padding: 6rem 0 6.5rem;
+  padding: 0 0 6.5rem;
 }
 
 .tech-carousel-title {
-  margin: 0 20px 1.75rem;
+  margin: 0 0 1.75rem;
   color: #171717;
   font-family: var(--font-dm-sans), sans-serif;
   font-size: clamp(2rem, 3vw, 2.375rem);
@@ -1236,8 +1237,30 @@
 }
 
 .tech-carousel-viewport {
+  position: relative;
   width: 100%;
   overflow: hidden;
+}
+
+.tech-carousel-viewport::before,
+.tech-carousel-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: clamp(2rem, 7vw, 6rem);
+  pointer-events: none;
+}
+
+.tech-carousel-viewport::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff, transparent);
+}
+
+.tech-carousel-viewport::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff, transparent);
 }
 
 .tech-carousel-track {
@@ -1307,13 +1330,18 @@
 
 @media (max-width: 639px) {
   .tech-carousel-section {
-    padding: 5rem 0;
+    padding: 0 0 5rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tech-carousel-viewport {
     overflow-x: auto;
+  }
+
+  .tech-carousel-viewport::before,
+  .tech-carousel-viewport::after {
+    display: none;
   }
 
   .tech-carousel-track {
