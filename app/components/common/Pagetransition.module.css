@@ -1,0 +1,36 @@
+.stage {
+  min-height: 100dvh;
+  background: #fdfdfd;
+}
+
+.aperture {
+  min-height: 100dvh;
+  clip-path: ellipse(75% 75% at 50% 50%);
+}
+
+.aperture[data-phase="closing"] {
+  clip-path: ellipse(75% 0% at 50% 50%);
+  pointer-events: none;
+  transition: clip-path 440ms cubic-bezier(0.7, 0, 1, 0.35);
+}
+
+.aperture[data-phase="covered"] {
+  clip-path: ellipse(75% 0% at 50% 50%);
+  pointer-events: none;
+}
+
+.aperture[data-phase="opening"] {
+  clip-path: ellipse(75% 75% at 50% 50%);
+  pointer-events: none;
+  transition: clip-path 650ms cubic-bezier(0.15, 0.65, 0.25, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aperture,
+  .aperture[data-phase="closing"],
+  .aperture[data-phase="covered"],
+  .aperture[data-phase="opening"] {
+    clip-path: none;
+    transition: none;
+  }
+}
