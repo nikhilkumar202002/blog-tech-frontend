@@ -5,12 +5,10 @@ import CEOMessage from "../components/sections/CEOMessage";
 import Faq from "../components/sections/Faq";
 
 export default function AboutUsPage() {
-  return (
-    <main className="w-full">
-      <AboutpageBanner />
-      <About />
-      <CEOMessage />
-      <Faq />
-    </main>
-  );
+    return (
+        <main className="w-full">
+            <AboutpageBanner />
+
+        </main>
+    );
 }
