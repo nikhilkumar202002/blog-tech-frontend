@@ -1,0 +1,459 @@
+.page {
+  width: 100%;
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #ffffff 0%, #fbf8f4 60%, #f3e9df 100%);
+}
+
+.hero::after {
+  position: absolute;
+  top: -17rem;
+  right: -10rem;
+  width: 38rem;
+  height: 38rem;
+  border: 1px solid rgba(165, 83, 27, 0.13);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: 7rem clamp(1.25rem, 6vw, 6rem) clamp(4rem, 6vw, 6rem);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #645449;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.backLink svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  color: #a5531b;
+}
+
+.eyebrow {
+  margin: clamp(4rem, 7vw, 6rem) 0 1rem;
+  color: #a5531b;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: #171717;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(3.1rem, 7vw, 6.25rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1.04;
+}
+
+.title em {
+  color: #b25b20;
+  font-family: var(--font-cormorant-garamond), serif;
+  font-size: 1.08em;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.lead {
+  max-width: 43rem;
+  margin: 1.5rem 0 0;
+  color: #5d5752;
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 2.5rem 0 0;
+  color: #6d6259;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.8125rem;
+}
+
+.updatedDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #b25b20;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(14rem, 16rem) minmax(0, 1fr);
+  gap: clamp(3rem, 6vw, 6rem);
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: clamp(3.5rem, 6vw, 6rem) clamp(1.25rem, 6vw, 6rem) 5rem;
+}
+
+.sidebarInner {
+  position: sticky;
+  top: 6rem;
+}
+
+.sidebarTitle {
+  margin: 0 0 1.25rem;
+  color: #a5531b;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.contentsNav {
+  display: grid;
+}
+
+.contentsNav a {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  min-width: 0;
+  padding: 0.7rem 0.75rem;
+  border-left: 1px solid #e5ded7;
+  color: #4b4641;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.contentsNav a span {
+  flex: none;
+  color: #ad6a3d;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.contentsNav a:hover,
+.contentsNav a:focus-visible {
+  border-color: #a5531b;
+  color: #a5531b;
+}
+
+.sidebarContact {
+  margin-top: 2.5rem;
+  padding: 1.25rem;
+  border: 1px solid #efdfd2;
+  border-radius: 1rem;
+  background: #fcf7f2;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.sidebarContact p {
+  margin: 0 0 0.75rem;
+  color: #55463b;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.sidebarContact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #a5531b;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sidebarContact a svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+.article {
+  max-width: 52rem;
+  min-width: 0;
+}
+
+.policySection {
+  scroll-margin-top: 7rem;
+  padding-bottom: 2.75rem;
+  margin-bottom: 2.75rem;
+  border-bottom: 1px solid #ece7e2;
+}
+
+.policySection:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sectionHeading span {
+  flex: none;
+  color: #a5531b;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  color: #25201d;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.policySection p,
+.policySection li {
+  color: #58534f;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.policySection p {
+  margin: 0 0 1rem;
+}
+
+.policySection p:last-child {
+  margin-bottom: 0;
+}
+
+.policySection ul {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.policySection li::marker {
+  color: #a5531b;
+}
+
+.policySection strong {
+  color: #2a2521;
+  font-weight: 600;
+}
+
+.policySection a {
+  color: #a5531b;
+  overflow-wrap: anywhere;
+  text-decoration-color: #c9a488;
+  text-underline-offset: 0.2em;
+}
+
+.closing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.75rem 2rem;
+  max-width: 68rem;
+  margin: 0 auto 6rem;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border: 1px solid #ead9cc;
+  border-radius: 1.5rem;
+  background: #f8efe7;
+}
+
+.closing p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #a5531b;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.closing h2 {
+  max-width: 34rem;
+  margin: 0;
+  color: #27211d;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.closing a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.1rem;
+  border-radius: 0.75rem;
+  background: #a5531b;
+  color: #ffffff;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.closing a svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+}
+
+.closing a:hover,
+.closing a:focus-visible {
+  background: #884012;
+}
+
+.backLink:focus-visible,
+.contentsNav a:focus-visible,
+.sidebarContact a:focus-visible,
+.policySection a:focus-visible,
+.closing a:focus-visible {
+  outline: 2px solid #a5531b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .sidebarInner {
+    position: static;
+    padding: 1.5rem;
+    border: 1px solid #eee6de;
+    border-radius: 1rem;
+    background: #fffdfb;
+  }
+
+  .contentsNav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.5rem;
+  }
+
+  .sidebarContact {
+    margin-top: 1.5rem;
+  }
+
+  .article {
+    max-width: none;
+  }
+
+  .closing {
+    margin-inline: clamp(1.25rem, 6vw, 6rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .heroInner {
+    padding-top: 6rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .eyebrow {
+    margin-top: 3.5rem;
+  }
+
+  .title {
+    font-size: clamp(2.7rem, 12vw, 3.5rem);
+  }
+
+  .lead {
+    margin-top: 1.2rem;
+    font-size: 0.9375rem;
+  }
+
+  .updated {
+    margin-top: 2rem;
+  }
+
+  .content {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .sidebarInner {
+    padding: 1.25rem;
+  }
+
+  .contentsNav a {
+    gap: 0.5rem;
+    padding: 0.7rem 0.35rem;
+    font-size: 0.8125rem;
+  }
+
+  .policySection {
+    padding-bottom: 2.25rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .sectionHeading {
+    gap: 0.75rem;
+  }
+
+  .policySection p,
+  .policySection li {
+    font-size: 0.9375rem;
+  }
+
+  .closing {
+    grid-template-columns: 1fr;
+    margin-bottom: 4rem;
+  }
+
+  .closing p {
+    grid-column: auto;
+  }
+
+  .closing a {
+    justify-self: start;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backLink,
+  .contentsNav a,
+  .closing a {
+    transition: none;
+  }
+}
