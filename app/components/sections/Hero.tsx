@@ -107,7 +107,7 @@ const Hero: React.FC<HeroProps> = ({
   const currentSlide = heroSlides[currentIdx];
 
   return (
-    <section className={`hero-section ${className || ""}`}>
+    <section className={`hero-section ${className || ""}`} id="home">
       {/* 100vh Full Width Background Video */}
       <video
         ref={videoRef}

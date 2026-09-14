@@ -48,7 +48,7 @@ const technologies = [
 
 export default function Techcarousel() {
   return (
-    <section className="tech-carousel-section" aria-labelledby="tech-carousel-title">
+    <section className="tech-carousel-section" id="technology" aria-labelledby="tech-carousel-title">
       <div className="site-container">
         <h2 className="tech-carousel-title" id="tech-carousel-title">
           Our <span className="tech-carousel-title-accent">Technology</span> Stack

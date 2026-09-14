@@ -38,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Preloader />
         <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
           <Header position="fixed" />
-          <Frame contentClassName="p-0">
+          <Frame id="site-frame" contentClassName="p-0">
             {children}
             <Footer />
           </Frame>

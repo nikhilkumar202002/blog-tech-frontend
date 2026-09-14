@@ -2,6 +2,13 @@
    Hero Section Styles (Matching Reference Design)
    ========================================================================== */
 
+#about,
+#services,
+#our-services,
+#technology {
+  scroll-margin-top: 5.5rem;
+}
+
 .hero-section {
   position: relative;
   width: 100%;

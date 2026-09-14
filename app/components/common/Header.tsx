@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,17 +12,20 @@ export interface HeaderProps {
 }
 
 const navItems = [
-  { label: "Home", href: "#", hasDropdown: false },
-  { label: "About Us", href: "#", hasDropdown: false },
-  { label: "Products", href: "#", hasDropdown: true },
-  { label: "Services", href: "#", hasDropdown: true },
-  { label: "Technology", href: "#", hasDropdown: false },
-  { label: "Contact Us", href: "#", hasDropdown: false },
+  { label: "Home", href: "/#home", hasDropdown: false },
+  { label: "About Us", href: "/#about", hasDropdown: false },
+  { label: "Products", href: "/#services", hasDropdown: true },
+  { label: "Services", href: "/#our-services", hasDropdown: true },
+  { label: "Technology", href: "/#technology", hasDropdown: false },
+  { label: "Contact Us", href: "/#footer-contact", hasDropdown: false },
 ];
 
-export const BlogtecLogo: React.FC<{ className?: string }> = ({ className = "" }) => {
+export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }> = ({
+  className = "",
+  onClick,
+}) => {
   return (
-    <Link href="/" className={`inline-flex items-center select-none ${className}`}>
+    <Link href="/" onClick={onClick} className={`inline-flex items-center select-none ${className}`}>
       <Image
         src="/MAIN-LOGO.png"
         alt="Blogtec Software Logo"
@@ -43,6 +46,58 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [active, setActive] = useState(activeItem);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const menuDialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const frame = document.getElementById("site-frame");
+    const previousInert = frame?.inert ?? false;
+    const previousOverflow = document.body.style.overflow;
+    if (frame) frame.inert = true;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+        requestAnimationFrame(() => menuButtonRef.current?.focus());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const focusable = menuDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])',
+      );
+      if (!focusable?.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    desktop.addEventListener("change", closeOnDesktop);
+
+    return () => {
+      if (frame) frame.inert = previousInert;
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [mobileMenuOpen]);
 
   const isFixed = fixed !== undefined ? fixed : position === "fixed";
 
@@ -52,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={containerClasses}>
-      <div className="relative w-full h-[62px] md:h-[80px]">
+      <div className="relative w-full h-[62px] md:h-[80px]" inert={mobileMenuOpen} aria-hidden={mobileMenuOpen}>
         {/* Left: Logo situated exactly inside the frame's top-left tab (like TechwareLab) */}
         <div className="absolute left-2  top-2.5  pointer-events-auto flex items-center">
           <BlogtecLogo />
@@ -92,65 +147,89 @@ const Header: React.FC<HeaderProps> = ({
             })}
           </nav>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile menu trigger */}
           <div className="pointer-events-auto flex md:hidden">
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-[#f1f1f1] text-neutral-800 border border-black/[0.06] hover:bg-neutral-200 transition-colors"
-              aria-label="Toggle menu"
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-site-menu"
+              className="flex h-11 items-center gap-2.5 rounded-full border border-[#e5ded6] bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#44352b] shadow-sm transition-colors hover:bg-[#faf6f1] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
-                {mobileMenuOpen ? (
-                  <path d="M18 6L6 18M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <span>Menu</span>
+              <span className="flex w-4 flex-col items-end gap-1" aria-hidden="true">
+                <span className="h-[1.5px] w-4 rounded-full bg-current" />
+                <span className="h-[1.5px] w-2.5 rounded-full bg-current" />
+              </span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Full-screen mobile menu */}
       {mobileMenuOpen && (
-        <div className="pointer-events-auto md:hidden mx-4 mt-2 p-3 bg-white/95 backdrop-blur-lg rounded-2xl shadow-lg border border-neutral-200/80 flex flex-col gap-1 animate-in fade-in slide-in-from-top-2 duration-150">
-          {navItems.map((item) => {
-            const isActive = active === item.label;
-            return (
+        <div
+          ref={menuDialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="pointer-events-auto fixed inset-0 z-10 overflow-y-auto bg-[#fbf9f6] md:hidden"
+        >
+          <div className="mx-auto flex min-h-dvh max-w-2xl flex-col px-6 pb-7 pt-6 sm:px-10">
+            <div className="flex items-center justify-between">
+              <BlogtecLogo onClick={() => setMobileMenuOpen(false)} />
               <button
-                key={item.label}
+                ref={closeButtonRef}
+                type="button"
                 onClick={() => {
-                  setActive(item.label);
                   setMobileMenuOpen(false);
+                  requestAnimationFrame(() => menuButtonRef.current?.focus());
                 }}
-                className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-xl text-left transition-colors ${isActive
-                  ? "bg-[#A44B03] text-white"
-                  : "text-neutral-800 hover:bg-neutral-100"
-                  }`}
+                aria-label="Close menu"
+                className="grid h-11 w-11 place-items-center rounded-full border border-[#e5ded6] bg-white text-[#44352b] shadow-sm transition-colors hover:bg-[#faf0e6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
               >
-                <span>{item.label}</span>
-                {item.hasDropdown && (
-                  <svg
-                    className="w-4 h-4 opacity-70"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                )}
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
+                  <path d="M5 5l14 14M19 5L5 19" />
+                </svg>
               </button>
-            );
-          })}
+            </div>
+
+            <div className="my-auto py-10">
+              <p className="mb-5 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#A44B03]">
+                Explore Blogtec
+              </p>
+              <nav id="mobile-site-menu" aria-label="Mobile navigation">
+                {navItems.map((item, index) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => {
+                      setActive(item.label);
+                      setMobileMenuOpen(false);
+                    }}
+                    aria-current={active === item.label ? "location" : undefined}
+                    className="group flex min-h-14 items-center gap-4 border-b border-[#e5ded6] py-3 text-[#211d1a] transition-colors hover:text-[#A44B03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
+                  >
+                    <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#A44B03]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[clamp(1.75rem,7.5vw,3rem)] font-medium leading-[1.08] tracking-[-0.04em]">
+                      {item.label}
+                    </span>
+                    <svg className="h-5 w-5 flex-none text-[#A44B03] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            <p className="border-t border-[#e5ded6] pt-5 font-[var(--font-inter)] text-xs leading-relaxed text-[#70675f]">
+              Technology built around the jewellery business.
+            </p>
+          </div>
         </div>
       )}
     </header>
