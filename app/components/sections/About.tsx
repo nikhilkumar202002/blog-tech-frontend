@@ -81,7 +81,12 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
           {/* Headline with Serif Italic Accent */}
           <h2 className="about-headline">
             Built on{" "}
-            <span className="about-headline-accent">Trust. Driven </span>
+            <span
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="about-headline-accent italic text-[#A44B03]"
+            >
+              Trust. Driven{" "}
+            </span>
             by Experience.
           </h2>
 

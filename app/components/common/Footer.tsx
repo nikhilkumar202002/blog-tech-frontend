@@ -16,10 +16,10 @@ const footerColumns = [
   {
     title: "Company",
     links: [
-      { label: "About", href: "/#about" },
+      { label: "About", href: "/about-us" },
       { label: "Our Experience", href: "/#founder-story" },
       { label: "Our Approach", href: "/#platform" },
-      { label: "Contact", href: "/#footer-contact" },
+      { label: "Contact", href: "/contact-us" },
     ],
   },
   {
