@@ -17,7 +17,7 @@ const navItems = [
   { label: "Products", href: "/#services", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
-  { label: "Contact Us", href: "/#footer-contact", hasDropdown: false },
+  { label: "Contact Us", href: "/contact-us", hasDropdown: false },
 ];
 
 export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }> = ({
@@ -119,8 +119,9 @@ const Header: React.FC<HeaderProps> = ({
             {navItems.map((item) => {
               const isActive = active === item.label;
               return (
-                <button
+                <Link
                   key={item.label}
+                  href={item.href}
                   onClick={() => setActive(item.label)}
                   className={`flex items-center gap-1 text-sm font-medium transition-all duration-150 ${isActive
                     ? "bg-[#A44B03] text-white px-4 py-1.5 rounded-lg shadow-xs"
@@ -142,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({
                       <polyline points="4 6 8 10 12 6" />
                     </svg>
                   )}
-                </button>
+                </Link>
               );
             })}
           </nav>
