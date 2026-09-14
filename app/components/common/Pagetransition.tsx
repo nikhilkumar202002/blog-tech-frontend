@@ -6,8 +6,8 @@ import styles from "./Pagetransition.module.css";
 
 type Phase = "idle" | "closing" | "covered" | "opening";
 
-const CLOSE_MS = 440;
-const OPEN_MS = 650;
+const CLOSE_MS = 700;
+const OPEN_MS = 950;
 const NAVIGATION_TIMEOUT_MS = 4000;
 
 export default function Pagetransition({ children }: { children: ReactNode }) {

@@ -15,12 +15,37 @@ export default function Preloader() {
   const finish = useCallback(() => {
     if (exitingRef.current) return;
 
+    try {
+      sessionStorage.setItem("has_seen_preloader", "true");
+    } catch {
+      // Ignore storage errors
+    }
+
     exitingRef.current = true;
     setExiting(true);
     exitTimerRef.current = setTimeout(() => setVisible(false), FADE_DURATION_MS);
   }, []);
 
   useEffect(() => {
+    const isReload =
+      typeof window !== "undefined" &&
+      (performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming)?.type === "reload";
+
+    const hasSeenPreloader =
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("has_seen_preloader") === "true";
+
+    if (isReload || hasSeenPreloader) {
+      setVisible(false);
+      return;
+    }
+
+    try {
+      sessionStorage.setItem("has_seen_preloader", "true");
+    } catch {
+      // Ignore storage errors
+    }
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const reducedMotionTimer = setTimeout(() => setVisible(false), 0);
       return () => clearTimeout(reducedMotionTimer);
@@ -48,25 +73,46 @@ export default function Preloader() {
   if (!visible) return null;
 
   return (
-    <div
-      role="status"
-      aria-label="Loading website"
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] transition-opacity duration-[350ms] motion-reduce:hidden ${
-        exiting ? "pointer-events-none opacity-0" : "opacity-100"
-      }`}
-    >
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        preload="auto"
-        onEnded={finish}
-        onError={finish}
-        aria-hidden="true"
-        className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var isReload = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload';
+                var hasSeen = sessionStorage.getItem('has_seen_preloader') === 'true';
+                if (isReload || hasSeen) {
+                  var style = document.createElement('style');
+                  style.innerHTML = '#preloader-root { display: none !important; }';
+                  document.head.appendChild(style);
+                }
+              } catch(e) {}
+            })();
+          `,
+        }}
+      />
+      <div
+        id="preloader-root"
+        role="status"
+        aria-label="Loading website"
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] transition-opacity duration-[350ms] motion-reduce:hidden ${
+          exiting ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
       >
-        <source src="/video/preloader.webm" type="video/webm" />
-      </video>
-    </div>
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={finish}
+          onError={finish}
+          aria-hidden="true"
+          className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
+        >
+          <source src="/video/preloader.webm" type="video/webm" />
+        </video>
+      </div>
+    </>
   );
 }
+
