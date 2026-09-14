@@ -34,19 +34,13 @@ export default function ContactPage() {
     <RippleBackground theme="light" className="min-h-screen py-12 md:py-20 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header Title Section */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#A44B03]/10 border border-[#A44B03]/25 text-[#A44B03] text-xs font-semibold uppercase tracking-widest mb-4 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-[#A44B03] animate-pulse" />
-            Get In Touch
-          </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-stone-900 tracking-tight font-[var(--font-cormorant-garamond)] mb-4">
-            Let&apos;s Build Something <span className="text-[#A44B03] italic">Extraordinary</span>
+        <div className="text-center max-w-4xl mx-auto mb-16 md:mb-20 pt-4 sm:pt-8">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-medium tracking-tight text-[#111111] font-[var(--font-dm-sans)] leading-[1.05] lowercase">
+            let&apos;s create<br />something great
           </h1>
 
-          <p className="text-stone-600 text-base sm:text-lg font-[var(--font-dm-sans)] font-normal leading-relaxed">
-            Have a question, an idea, or need custom technology solutions for your business? 
-            Move your cursor across the page to experience the interactive ripple effect and reach out below.
+          <p className="mt-6 sm:mt-8 text-sm sm:text-base md:text-lg text-neutral-600 font-[var(--font-dm-sans)] font-normal leading-relaxed max-w-2xl mx-auto lowercase">
+            we don&apos;t just build software, we create solutions that drive real results. from streamlining operations to boosting efficiency, our platform has empowered businesses across industries to achieve their goals.
           </p>
         </div>
 
