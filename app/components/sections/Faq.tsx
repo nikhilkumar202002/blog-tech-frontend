@@ -73,8 +73,8 @@ export default function Faq() {
             <span className="faq-eyebrow">FAQ</span>
             <h2 className="faq-title" id="faq-title">
               Everything You Need to Know
-              <br />
-              Before <span className="faq-title-accent">Getting Started.</span>
+              <br className="faq-title-break" />
+              {" "}Before <span className="faq-title-accent">Getting Started.</span>
             </h2>
             <p className="faq-intro">
               Have questions about Blogtec Jewellery ERP, implementation, or how it fits your business?
