@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PiArrowLeft, PiArrowUpRight } from "react-icons/pi";
-import styles from "./privacy-policy.module.css";
+import styles from "../components/styles/LegalPage.module.css";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Blogtec Software",

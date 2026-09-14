@@ -82,7 +82,8 @@ export default function Footer() {
       <div className="site-footer-container site-footer-bottom">
         <span>© {new Date().getFullYear()} Blogtec Software. All Rights Reserved.</span>
         <span className="site-footer-legal">
-          Terms &amp; Conditions <span aria-hidden="true">·</span>{" "}
+          <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>{" "}
+          <span aria-hidden="true">·</span>{" "}
           <Link href="/privacy-policy">Privacy Policy</Link>
         </span>
       </div>
