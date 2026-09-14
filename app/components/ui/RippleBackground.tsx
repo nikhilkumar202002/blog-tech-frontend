@@ -279,12 +279,14 @@ export default function RippleBackground({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full overflow-hidden ${className}`}
+      className={`relative w-full flex-shrink-0 ${className}`}
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none z-0"
-      />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full pointer-events-none"
+        />
+      </div>
       <div className="relative z-10">{children}</div>
     </div>
   );
