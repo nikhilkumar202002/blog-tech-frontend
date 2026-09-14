@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export interface HeaderProps {
   position?: "fixed" | "absolute";
@@ -13,7 +14,7 @@ export interface HeaderProps {
 
 const navItems = [
   { label: "Home", href: "/#home", hasDropdown: false },
-  { label: "About Us", href: "/#about", hasDropdown: false },
+  { label: "About Us", href: "/about-us", hasDropdown: false },
   { label: "Products", href: "/#services", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
@@ -44,8 +45,19 @@ const Header: React.FC<HeaderProps> = ({
   className = "",
   activeItem = "Home",
 }) => {
+  const pathname = usePathname();
   const [active, setActive] = useState(activeItem);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (pathname === "/about-us") {
+      setActive("About Us");
+    } else if (pathname === "/contact-us") {
+      setActive("Contact Us");
+    } else if (pathname === "/") {
+      setActive("Home");
+    }
+  }, [pathname]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const menuDialogRef = useRef<HTMLDivElement>(null);
