@@ -331,21 +331,14 @@
   z-index: 10;
   width: 100%;
   background-color: #ffffff;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 @media (min-width: 768px) {
   .about-section {
-    padding-top: 65px;
-    padding-bottom: 65px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .about-section {
-    padding-top: 75px;
-    padding-bottom: 75px;
+    padding-top: 150px;
+    padding-bottom: 150px;
   }
 }
 
@@ -477,8 +470,16 @@
   align-items: center;
   overflow: hidden;
   background-color: #ffffff;
-  padding-block: 70px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .service-sticky-wrapper {
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
 
 .service-section.is-pinned .service-sticky-wrapper {
@@ -858,7 +859,7 @@
   background-position: center bottom;
   background-size: cover;
   background-repeat: no-repeat;
-  padding-top: 70px;
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 
@@ -869,8 +870,8 @@
     background-image: url('/images/laptop-mockup-3.jpg');
     background-attachment: fixed;
     background-position: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 150px;
+    padding-bottom: 150px;
   }
 }
 
@@ -1050,11 +1051,18 @@
 
 .our-services-section {
   width: 100%;
-  padding-top: 150px;
-  padding-bottom: 150px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   background-color: #ffffff;
   position: relative;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .our-services-section {
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
 
 .our-services-header {
@@ -1246,7 +1254,15 @@
   flex-shrink: 0;
   overflow: hidden;
   background: #ffffff;
-  padding: 0 0 6.5rem;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+  .tech-carousel-section {
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
 
 .tech-carousel-title {
@@ -1362,11 +1378,7 @@
   }
 }
 
-@media (max-width: 639px) {
-  .tech-carousel-section {
-    padding: 0 0 5rem;
-  }
-}
+
 
 @media (prefers-reduced-motion: reduce) {
   .tech-carousel-viewport {
@@ -1392,8 +1404,16 @@
   position: relative;
   width: 100%;
   flex-shrink: 0;
-  padding: 4.25rem 0 150px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   background: linear-gradient(to bottom, #fafafa 0 58%, #ffffff 58% 100%);
+}
+
+@media (min-width: 768px) {
+  .ceo-message-section {
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
 
 .ceo-message-top,

@@ -84,10 +84,17 @@ const OurServices: React.FC = () => {
   const [activeId, setActiveId] = useState<string>("jewellery-erp");
   const [mobileActiveIndex, setMobileActiveIndex] = useState<number>(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const dragStartRef = useRef<{
+    pointerId: number;
+    startX: number;
+    scrollLeft: number;
+    isMoved: boolean;
+  } | null>(null);
 
   const handleMobileScroll = () => {
     const el = carouselRef.current;
-    if (!el) return;
+    if (!el || isDragging) return;
     const cardWidth = el.firstElementChild?.clientWidth || 280;
     const index = Math.round(el.scrollLeft / (cardWidth + 16));
     setMobileActiveIndex(Math.max(0, Math.min(SERVICES_DATA.length - 1, index)));
@@ -104,8 +111,36 @@ const OurServices: React.FC = () => {
     setMobileActiveIndex(index);
   };
 
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).closest("a, button")) return;
+
+    dragStartRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      scrollLeft: carouselRef.current?.scrollLeft || 0,
+      isMoved: false,
+    };
+    setIsDragging(true);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const start = dragStartRef.current;
+    if (!start || !carouselRef.current) return;
+
+    const diffX = e.clientX - start.startX;
+    if (Math.abs(diffX) > 4) {
+      start.isMoved = true;
+      carouselRef.current.scrollLeft = start.scrollLeft - diffX;
+    }
+  };
+
+  const handlePointerUp = () => {
+    dragStartRef.current = null;
+    setIsDragging(false);
+  };
+
   return (
-    <section className="our-services-section relative z-10 w-full py-16 sm:py-24 bg-[#faf9f6] block" id="our-services">
+    <section className="our-services-section relative z-10 w-full py-[60px] md:py-[150px] bg-[#faf9f6] block" id="our-services">
       <div className="site-container w-full">
         
         {/* Section Header */}
@@ -130,7 +165,14 @@ const OurServices: React.FC = () => {
         <div
           ref={carouselRef}
           onScroll={handleMobileScroll}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px]"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          className={`flex overflow-x-auto gap-4 w-full select-none touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px] ${
+            isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab md:cursor-default"
+          }`}
         >
           {SERVICES_DATA.map((item, idx) => {
             const isActive = activeId === item.id;
@@ -140,6 +182,7 @@ const OurServices: React.FC = () => {
                 key={item.id}
                 onMouseEnter={() => setActiveId(item.id)}
                 onClick={() => {
+                  if (dragStartRef.current?.isMoved) return;
                   setActiveId(item.id);
                   scrollToMobileSlide(idx);
                 }}
