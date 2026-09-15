@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import "../styles/Components.css";
 
 const footerColumns = [
@@ -35,11 +38,42 @@ const footerColumns = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === "/") {
+      if (pathname === "/") {
+        e.preventDefault();
+        const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+        if (scroller) {
+          scroller.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+      return;
+    }
+
+    if (href.includes("#")) {
+      const [path, hash] = href.split("#");
+      const targetPath = path || "/";
+
+      if (pathname === targetPath || (pathname === "" && targetPath === "/")) {
+        const element = document.getElementById(hash);
+        if (element) {
+          e.preventDefault();
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${hash}`);
+        }
+      }
+    }
+  };
+
   return (
     <footer className="site-footer">
       <div className="site-footer-container site-footer-main">
         <div className="site-footer-brand">
-          <Link href="/" aria-label="Blogtec Software home">
+          <Link href="/" prefetch={true} onClick={(e) => handleLinkClick(e, "/")} aria-label="Blogtec Software home">
             <Image
               src="/MAIN-LOGO.png"
               alt="Blogtec Software"
@@ -57,7 +91,13 @@ export default function Footer() {
             <ul>
               {column.links.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link
+                    href={link.href}
+                    prefetch={true}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -82,9 +122,9 @@ export default function Footer() {
       <div className="site-footer-container site-footer-bottom">
         <span>© {new Date().getFullYear()} Blogtec Software. All Rights Reserved.</span>
         <span className="site-footer-legal">
-          <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>{" "}
+          <Link href="/terms-and-conditions" prefetch={true}>Terms &amp; Conditions</Link>{" "}
           <span aria-hidden="true">·</span>{" "}
-          <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/privacy-policy" prefetch={true}>Privacy Policy</Link>
         </span>
       </div>
     </footer>

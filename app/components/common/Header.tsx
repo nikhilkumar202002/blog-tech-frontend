@@ -26,7 +26,7 @@ export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }>
   onClick,
 }) => {
   return (
-    <Link href="/" onClick={onClick} className={`inline-flex items-center select-none ${className}`}>
+    <Link href="/" prefetch={true} onClick={onClick} className={`inline-flex items-center select-none ${className}`}>
       <Image
         src="/MAIN-LOGO.png"
         alt="Blogtec Software Logo"
@@ -111,6 +111,43 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, [mobileMenuOpen]);
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: { label: string; href: string }
+  ) => {
+    setActive(item.label);
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+
+    if (item.href === "/") {
+      if (pathname === "/") {
+        e.preventDefault();
+        const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+        if (scroller) {
+          scroller.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+      return;
+    }
+
+    if (item.href.includes("#")) {
+      const [path, hash] = item.href.split("#");
+      const targetPath = path || "/";
+
+      if (pathname === targetPath || (pathname === "" && targetPath === "/")) {
+        const element = document.getElementById(hash);
+        if (element) {
+          e.preventDefault();
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${hash}`);
+        }
+      }
+    }
+  };
+
   const isFixed = fixed !== undefined ? fixed : position === "fixed";
 
   const containerClasses = isFixed
@@ -134,7 +171,8 @@ const Header: React.FC<HeaderProps> = ({
                 <Link
                   key={item.label}
                   href={item.href}
-                  onClick={() => setActive(item.label)}
+                  prefetch={true}
+                  onClick={(e) => handleNavClick(e, item)}
                   className={`flex items-center gap-1 text-sm font-medium transition-all duration-150 ${isActive
                     ? "bg-[#A44B03] text-white px-4 py-1.5 rounded-lg shadow-xs"
                     : "text-neutral-700 hover:text-neutral-950 hover:bg-neutral-200/50 px-3.5 py-1.5 rounded-lg"
@@ -218,10 +256,8 @@ const Header: React.FC<HeaderProps> = ({
                   <Link
                     key={item.label}
                     href={item.href}
-                    onClick={() => {
-                      setActive(item.label);
-                      setMobileMenuOpen(false);
-                    }}
+                    prefetch={true}
+                    onClick={(e) => handleNavClick(e, item)}
                     aria-current={active === item.label ? "location" : undefined}
                     className="group flex min-h-14 items-center gap-4 border-b border-[#e5ded6] py-3 text-[#211d1a] transition-colors hover:text-[#A44B03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
                   >
