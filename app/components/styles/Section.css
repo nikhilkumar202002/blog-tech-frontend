@@ -331,14 +331,14 @@
   z-index: 10;
   width: 100%;
   background-color: #ffffff;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 0px;
 }
 
 @media (min-width: 768px) {
   .about-section {
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 0px;
   }
 }
 
@@ -470,15 +470,15 @@
   align-items: center;
   overflow: hidden;
   background-color: #ffffff;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .service-sticky-wrapper {
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 0px;
   }
 }
 
@@ -859,8 +859,8 @@
   background-position: center bottom;
   background-size: cover;
   background-repeat: no-repeat;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 0px;
 }
 
 @media (min-width: 768px) {
@@ -871,7 +871,7 @@
     background-attachment: fixed;
     background-position: center;
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 0px;
   }
 }
 
@@ -1051,8 +1051,8 @@
 
 .our-services-section {
   width: 100%;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 0px;
   background-color: #ffffff;
   position: relative;
   z-index: 10;
@@ -1061,7 +1061,7 @@
 @media (min-width: 768px) {
   .our-services-section {
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 0px;
   }
 }
 
@@ -1254,8 +1254,8 @@
   flex-shrink: 0;
   overflow: hidden;
   background: #ffffff;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 @media (min-width: 768px) {
@@ -1404,15 +1404,15 @@
   position: relative;
   width: 100%;
   flex-shrink: 0;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 80px;
+  padding-bottom: 0px;
   background: linear-gradient(to bottom, #fafafa 0 58%, #ffffff 58% 100%);
 }
 
 @media (min-width: 768px) {
   .ceo-message-section {
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 0px;
   }
 }
 
@@ -1523,7 +1523,8 @@
 
 @media (max-width: 767px) {
   .ceo-message-section {
-    padding: 3.5rem 0 150px;
+    padding-top: 80px;
+    padding-bottom: 0px;
     background: linear-gradient(to bottom, #fafafa 0 46%, #ffffff 46% 100%);
   }
 
@@ -1546,7 +1547,6 @@
     font-size: 0.875rem;
     line-height: 1.5;
   }
-
 }
 
 /* FAQ */
@@ -1554,8 +1554,16 @@
   width: 100%;
   flex-shrink: 0;
   scroll-margin-top: 5.5rem;
-  padding: 0 0 150px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .faq-section {
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 }
 
 .faq-content {

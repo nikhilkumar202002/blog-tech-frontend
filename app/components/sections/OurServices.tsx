@@ -140,7 +140,7 @@ const OurServices: React.FC = () => {
   };
 
   return (
-    <section className="our-services-section relative z-10 w-full py-[60px] md:py-[150px] bg-[#faf9f6] block" id="our-services">
+    <section className="our-services-section relative z-10 w-full pt-[80px] pb-0 md:pt-[150px] md:pb-0 bg-[#faf9f6] block" id="our-services">
       <div className="site-container w-full">
         
         {/* Section Header */}
