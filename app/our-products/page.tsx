@@ -5,13 +5,13 @@ import OurServices from "../components/sections/OurServices";
 import Faq from "../components/sections/Faq";
 
 export default function OurProductsPage() {
-  return (
-    <main className="w-full">
-      <ProductpageBanner />
-      <ProductcardSection />
-      <OurServices />
-      <Faq />
-    </main>
-  );
+    return (
+        <main className="w-full">
+            <ProductpageBanner />
+            <ProductcardSection />
+            <OurServices />
+            <Faq />
+        </main>
+    );
 }
 
