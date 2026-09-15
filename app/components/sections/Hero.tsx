@@ -118,7 +118,15 @@ const Hero: React.FC<HeroProps> = ({
         preload="auto"
         className="hero-video"
       >
-        <source src="/video/blogtech-banner-video.webm" type="video/webm" />
+        <source
+          src="/video/blogtech-banner-video-mobile.mp4"
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
+        <source
+          src="/video/blogtech-banner-video.webm"
+          type="video/webm"
+        />
         Your browser does not support HTML5 video.
       </video>
 
@@ -130,9 +138,8 @@ const Hero: React.FC<HeroProps> = ({
         <div className="hero-text-block">
           {/* Animated Headline & Caption */}
           <div
-            className={`hero-slide-content ${
-              isTransitioning ? "is-transitioning" : ""
-            }`}
+            className={`hero-slide-content ${isTransitioning ? "is-transitioning" : ""
+              }`}
           >
             <h1 className="hero-headline">
               <span className="hero-headline-primary">

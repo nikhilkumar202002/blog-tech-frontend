@@ -13,7 +13,7 @@ export interface HeaderProps {
 }
 
 const navItems = [
-  { label: "Home", href: "/#home", hasDropdown: false },
+  { label: "Home", href: "/", hasDropdown: false },
   { label: "About Us", href: "/about-us", hasDropdown: false },
   { label: "Products", href: "/#services", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },

@@ -1,260 +1,245 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import {
-  PiChartLineUpDuotone,
-  PiCodeBlockDuotone,
-  PiDatabaseDuotone,
-  PiDiamondDuotone,
-  PiHeadsetDuotone,
-} from "react-icons/pi";
+import React, { useState, useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { FiArrowUpRight, FiArrowRight, FiChevronRight } from "react-icons/fi";
 import "../styles/Section.css";
 
 export interface ServiceDetail {
   id: string;
   title: string;
+  subtitle: string;
+  badge?: string;
+  tag?: string;
   description: string;
-  icon: React.ReactNode;
+  imageUrl: string;
+  link: string;
 }
 
 const SERVICES_DATA: ServiceDetail[] = [
   {
     id: "jewellery-erp",
     title: "Jewellery ERP Solutions",
+    subtitle: "Enterprise Operations",
+    badge: "ERP Software",
+    tag: "JewelleryTech",
     description:
-      "Industry-focused ERP software designed around the unique needs of jewellery businesses to help streamline operations.",
-    icon: <PiDiamondDuotone className="our-service-icon" aria-hidden="true" />,
+      "Industry-focused ERP software designed around the unique needs of jewellery businesses to streamline inventory, manufacturing, and POS operations.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1000&auto=format&fit=crop",
+    link: "/contact-us",
   },
   {
     id: "maintenance-support",
     title: "Maintenance & Support",
+    subtitle: "24/7 Technical Care",
+    badge: "Support Services",
+    tag: "System Care",
     description:
-      "Continuous technical support and software maintenance to keep your systems reliable and running smoothly.",
-    icon: <PiHeadsetDuotone className="our-service-icon" aria-hidden="true" />,
+      "Continuous technical support, security updates, and software maintenance to keep your business systems reliable and operating smoothly.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=1000&auto=format&fit=crop",
+    link: "/contact-us",
   },
   {
     id: "custom-software",
     title: "Custom Software Solutions",
+    subtitle: "Tailored Development",
+    badge: "Custom Dev",
+    tag: "Workflows",
     description:
-      "Tailored features, workflows, and functionalities designed to match specific business processes.",
-    icon: <PiCodeBlockDuotone className="our-service-icon" aria-hidden="true" />,
+      "Tailored features, custom modules, and specialized workflows engineered specifically to match your company's operational requirements.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop",
+    link: "/contact-us",
   },
   {
     id: "data-management",
     title: "Data & System Management",
+    subtitle: "Cloud Infrastructure",
+    badge: "Data Systems",
+    tag: "Security",
     description:
-      "Secure database management, data migration, and system optimization for reliable performance.",
-    icon: <PiDatabaseDuotone className="our-service-icon" aria-hidden="true" />,
+      "Secure database architecture, seamless data migration, and high-performance system optimization for enterprise reliability.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop",
+    link: "/contact-us",
   },
   {
     id: "business-reporting",
-    title: "Business Analytics & Reporting",
+    title: "Business Analytics & BI",
+    subtitle: "Intelligence & Growth",
+    badge: "BI Analytics",
+    tag: "Insights",
     description:
-      "Clear reports on sales, inventory, and customer trends to help jewellery businesses make informed decisions.",
-    icon: <PiChartLineUpDuotone className="our-service-icon" aria-hidden="true" />,
+      "Real-time analytics, inventory forecasting, and comprehensive sales reports to empower smart decision-making in the jewellery industry.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+    link: "/contact-us",
   },
 ];
 
-function getCarouselStep(carousel: HTMLDivElement) {
-  const firstCard = carousel.children[0] as HTMLElement | undefined;
-  const secondCard = carousel.children[1] as HTMLElement | undefined;
-  return firstCard && secondCard
-    ? secondCard.offsetLeft - firstCard.offsetLeft
-    : carousel.clientWidth;
-}
-
-function getLastSlide(carousel: HTMLDivElement) {
-  const step = getCarouselStep(carousel);
-  return step > 0
-    ? Math.max(0, Math.round((carousel.scrollWidth - carousel.clientWidth) / step))
-    : 0;
-}
-
 const OurServices: React.FC = () => {
+  const [activeId, setActiveId] = useState<string>("jewellery-erp");
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number>(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const dragStartRef = useRef<{ pointerId: number; x: number; scrollLeft: number } | null>(null);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [lastSlide, setLastSlide] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isTouching, setIsTouching] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const scrollToSlide = (index: number) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
+  const handleMobileScroll = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const cardWidth = el.firstElementChild?.clientWidth || 280;
+    const index = Math.round(el.scrollLeft / (cardWidth + 16));
+    setMobileActiveIndex(Math.max(0, Math.min(SERVICES_DATA.length - 1, index)));
+  };
 
-    const slide = Math.max(0, Math.min(index, getLastSlide(carousel)));
-    carousel.scrollTo({
-      left: slide * getCarouselStep(carousel),
-      behavior: prefersReducedMotion ? "instant" : "smooth",
+  const scrollToMobileSlide = (index: number) => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const cardWidth = el.firstElementChild?.clientWidth || 280;
+    el.scrollTo({
+      left: index * (cardWidth + 16),
+      behavior: "smooth",
     });
-    setActiveSlide(slide);
-  };
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const updateSlides = () => {
-      const last = getLastSlide(carousel);
-      const step = getCarouselStep(carousel);
-      setLastSlide(last);
-      setActiveSlide(step > 0 ? Math.min(last, Math.round(carousel.scrollLeft / step)) : 0);
-    };
-
-    updateSlides();
-    const resizeObserver = new ResizeObserver(updateSlides);
-    resizeObserver.observe(carousel);
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
-    updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
-    return () => mediaQuery.removeEventListener("change", updatePreference);
-  }, []);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.25 },
-    );
-    observer.observe(carousel);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (lastSlide === 0 || !isInView || isHovered || isFocused || isDragging || isTouching || prefersReducedMotion) {
-      return;
-    }
-
-    const interval = window.setInterval(() => {
-      const carousel = carouselRef.current;
-      if (!carousel || document.hidden) return;
-
-      const step = getCarouselStep(carousel);
-      const current = step > 0 ? Math.round(carousel.scrollLeft / step) : 0;
-      const next = current >= getLastSlide(carousel) ? 0 : current + 1;
-      carousel.scrollTo({ left: next * step, behavior: "smooth" });
-      setActiveSlide(next);
-    }, 4000);
-
-    return () => window.clearInterval(interval);
-  }, [lastSlide, isInView, isHovered, isFocused, isDragging, isTouching, prefersReducedMotion]);
-
-  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse") {
-      setIsTouching(true);
-      return;
-    }
-    if (event.button !== 0) return;
-
-    dragStartRef.current = {
-      pointerId: event.pointerId,
-      x: event.clientX,
-      scrollLeft: event.currentTarget.scrollLeft,
-    };
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-  };
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    const dragStart = dragStartRef.current;
-    if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-
-    event.currentTarget.scrollLeft = dragStart.scrollLeft - (event.clientX - dragStart.x);
-  };
-
-  const handlePointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse") {
-      setIsTouching(false);
-      return;
-    }
-
-    if (dragStartRef.current?.pointerId !== event.pointerId) return;
-    dragStartRef.current = null;
-    setIsDragging(false);
-    const carousel = event.currentTarget;
-    const step = getCarouselStep(carousel);
-    const nearest = step > 0 ? Math.round(carousel.scrollLeft / step) : 0;
-    window.requestAnimationFrame(() => scrollToSlide(nearest));
+    setMobileActiveIndex(index);
   };
 
   return (
-    <section className="our-services-section" id="our-services">
-      <div className="site-container">
+    <section className="our-services-section relative z-10 w-full py-16 sm:py-24 bg-[#faf9f6] block" id="our-services">
+      <div className="site-container w-full">
+        
         {/* Section Header */}
-        <div className="our-services-header">
-          <span className="our-services-subtitle">Our Services</span>
-          <h2 className="our-services-headline">
-            Comprehensive <span className="our-services-accent">Services</span>
-            <br />
-            <span className="our-services-accent">Tailored</span> For You
+        <div className="flex flex-col items-center text-center mb-10 md:mb-14">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.15] max-w-3xl">
+            Comprehensive{" "}
+            <span
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="italic text-[#A44B03]"
+            >
+              Services
+            </span>{" "}
+            Tailored For You
           </h2>
+          
+          <p className="mt-4 text-base sm:text-lg text-neutral-600 font-[var(--font-dm-sans)] max-w-xl">
+            Empowering jewellery businesses with end-to-end software solutions and dedicated support.
+          </p>
         </div>
 
+        {/* Card Container: Mobile Swipe Carousel (< md) vs Desktop Accordion (>= md) */}
         <div
-          className="our-services-carousel"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onFocusCapture={() => setIsFocused(true)}
-          onBlurCapture={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setIsFocused(false);
-          }}
+          ref={carouselRef}
+          onScroll={handleMobileScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px]"
         >
-          <div
-            ref={carouselRef}
-            className={`our-services-grid${isDragging ? " is-dragging" : ""}`}
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Our services"
-            tabIndex={0}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerEnd}
-            onPointerCancel={handlePointerEnd}
-            onScroll={(event) => {
-              const carousel = event.currentTarget;
-              const step = getCarouselStep(carousel);
-              setActiveSlide(step > 0 ? Math.min(getLastSlide(carousel), Math.round(carousel.scrollLeft / step)) : 0);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-                event.preventDefault();
-                scrollToSlide(activeSlide + (event.key === "ArrowRight" ? 1 : -1));
-              }
-            }}
-          >
-            {SERVICES_DATA.map((item) => (
-              <div key={item.id} className="our-service-card">
-                <div className="our-service-icon-badge">{item.icon}</div>
-                <h3 className="our-service-card-title">{item.title}</h3>
-                <p className="our-service-card-desc">{item.description}</p>
-              </div>
-            ))}
-          </div>
+          {SERVICES_DATA.map((item, idx) => {
+            const isActive = activeId === item.id;
 
-          <div className="our-services-dots" aria-label="Service carousel navigation">
-            {Array.from({ length: lastSlide + 1 }, (_, index) => (
-              <button
-                key={index}
-                type="button"
-                className={`our-services-dot${index === activeSlide ? " active" : ""}`}
-                aria-label={`Go to service slide ${index + 1}`}
-                aria-current={index === activeSlide ? "true" : undefined}
-                onClick={() => scrollToSlide(index)}
-              />
-            ))}
-          </div>
+            return (
+              <div
+                key={item.id}
+                onMouseEnter={() => setActiveId(item.id)}
+                onClick={() => {
+                  setActiveId(item.id);
+                  scrollToMobileSlide(idx);
+                }}
+                className={`relative group rounded-[28px] sm:rounded-[32px] overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col justify-between p-6 sm:p-8 shrink-0 snap-center w-[85vw] sm:w-[340px] h-[440px] md:w-auto md:h-full ${
+                  isActive
+                    ? "md:flex-[3.2] bg-neutral-900 shadow-none md:shadow-2xl md:ring-1 md:ring-black/10"
+                    : "md:flex-[1] bg-neutral-800 hover:md:flex-[1.2]"
+                }`}
+              >
+                {/* Background Image */}
+                <Image
+                  src={item.imageUrl}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 85vw, (max-width: 1200px) 50vw, 33vw"
+                  className={`object-cover transition-transform duration-1000 ease-out ${
+                    isActive ? "scale-105" : "scale-100 group-hover:scale-105 opacity-80"
+                  }`}
+                  priority={idx === 0}
+                />
+
+                {/* Dark Gradient Overlay */}
+                <div
+                  className={`absolute inset-0 transition-opacity duration-500 bg-gradient-to-t from-black/90 via-black/40 to-black/30 ${
+                    isActive ? "opacity-90" : "opacity-85 md:opacity-80 group-hover:opacity-75"
+                  }`}
+                />
+
+                {/* Top Row: Arrow Button */}
+                <div className="relative z-10 flex items-start justify-end w-full">
+                  <div
+                    className={`flex-shrink-0 grid place-items-center rounded-full transition-all duration-500 ${
+                      isActive
+                        ? "w-11 h-11 bg-[#A44B03] text-white shadow-none md:shadow-lg scale-100"
+                        : "w-10 h-10 bg-white/20 backdrop-blur-md border border-white/30 text-white group-hover:bg-white group-hover:text-black scale-95"
+                    }`}
+                  >
+                    {isActive ? (
+                      <FiArrowRight className="w-5 h-5" />
+                    ) : (
+                      <FiArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom Row: Content & CTA */}
+                <div className="relative z-10 w-full mt-auto pt-8">
+                  <h3
+                    className={`font-medium font-[var(--font-dm-sans)] text-white tracking-tight leading-tight transition-all duration-500 ${
+                      isActive
+                        ? "text-2xl sm:text-3xl lg:text-4xl mb-3"
+                        : "text-2xl sm:text-2xl md:text-xl lg:text-2xl mb-3 md:mb-2"
+                    }`}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className={`text-sm sm:text-base text-neutral-200/90 font-[var(--font-dm-sans)] leading-relaxed transition-all duration-500 max-w-xl ${
+                      isActive
+                        ? "opacity-100 max-h-32 mb-6"
+                        : "opacity-100 md:opacity-0 max-h-32 md:max-h-0 overflow-hidden mb-5 md:mb-0"
+                    }`}
+                  >
+                    {item.description}
+                  </p>
+
+                  <Link
+                    href={item.link}
+                    className={`inline-flex items-center justify-between gap-3 w-full sm:w-auto px-5 py-3 rounded-full bg-white text-neutral-900 font-semibold text-xs uppercase tracking-wider shadow-none md:shadow-xl transition-all duration-300 hover:bg-[#A44B03] hover:text-white group/btn ${
+                      isActive ? "opacity-100 translate-y-0" : "opacity-100 md:opacity-75"
+                    }`}
+                  >
+                    <span>Explore Service</span>
+                    <span className="w-6 h-6 rounded-full bg-neutral-100 group-hover/btn:bg-white/20 grid place-items-center text-neutral-900 group-hover/btn:text-white transition-colors">
+                      <FiChevronRight className="w-3.5 h-3.5" />
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Mobile Navigation Dots */}
+        <div className="flex md:hidden items-center justify-center gap-2 mt-6">
+          {SERVICES_DATA.map((item, idx) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToMobileSlide(idx)}
+              aria-label={`Go to service slide ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                mobileActiveIndex === idx
+                  ? "w-6 bg-[#A44B03]"
+                  : "w-2 bg-neutral-300 hover:bg-neutral-400"
+              }`}
+            />
+          ))}
+        </div>
+
       </div>
     </section>
   );
