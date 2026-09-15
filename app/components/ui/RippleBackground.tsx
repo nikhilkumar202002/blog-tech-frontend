@@ -23,7 +23,7 @@ interface GridPoint {
 export interface RippleBackgroundProps {
   className?: string;
   children?: React.ReactNode;
-  theme?: "dark" | "light";
+  theme?: "dark" | "light" | "white";
 }
 
 const RIPPLE_COLORS_DARK = [
@@ -160,13 +160,16 @@ export default function RippleBackground({
       time += 0.02;
       ctx.clearRect(0, 0, width, height);
 
-      // Render dark/light background base
+      // Render dark/light/white background base
       if (theme === "dark") {
         const bgGrad = ctx.createLinearGradient(0, 0, width, height);
         bgGrad.addColorStop(0, "#0c0a09");
         bgGrad.addColorStop(0.5, "#151210");
         bgGrad.addColorStop(1, "#090807");
         ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, width, height);
+      } else if (theme === "white") {
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, width, height);
       } else {
         const bgGrad = ctx.createLinearGradient(0, 0, width, height);

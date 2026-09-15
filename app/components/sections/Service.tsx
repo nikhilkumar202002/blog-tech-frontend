@@ -236,7 +236,7 @@ const Service: React.FC = () => {
 
             {/* Product Cards */}
             {PRODUCTS.map((product) => (
-              <div key={product.id} className="service-card service-product-card">
+              <div key={product.id} id={product.id} className="service-card service-product-card">
                 <div className="service-card-image-wrapper">
                   <img
                     src={product.image}

@@ -15,10 +15,72 @@ export interface HeaderProps {
 const navItems = [
   { label: "Home", href: "/", hasDropdown: false },
   { label: "About Us", href: "/about-us", hasDropdown: false },
-  { label: "Products", href: "/#services", hasDropdown: true },
+  { label: "Products", href: "/our-products", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
   { label: "Contact Us", href: "/contact-us", hasDropdown: false },
+];
+
+export interface DropdownItem {
+  label: string;
+  href: string;
+  description: string;
+}
+
+const PRODUCTS_DROPDOWN: DropdownItem[] = [
+  {
+    label: "AURIX",
+    href: "/our-products#aurix",
+    description: "Jewellery ERP & POS Management Solution",
+  },
+  {
+    label: "Scheme Mobile App",
+    href: "/our-products#scheme-app",
+    description: "Customer Savings & Installment Tracking",
+  },
+  {
+    label: "Jewel Connect",
+    href: "/our-products#jewel-connect",
+    description: "Digital Catalogue & Barcode Stock Availability",
+  },
+  {
+    label: "Employee & Payroll",
+    href: "/our-products#employee-payroll",
+    description: "Staff Attendance, Salary & HR Management",
+  },
+  {
+    label: "Aurown",
+    href: "/our-products#aurown",
+    description: "Business Operations & Executive Dashboard",
+  },
+];
+
+const SERVICES_DROPDOWN: DropdownItem[] = [
+  {
+    label: "Jewellery ERP Solutions",
+    href: "/#our-services",
+    description: "Enterprise Operations for Jewellery Stores",
+  },
+  {
+    label: "Support & Maintenance",
+    href: "/#our-services",
+    description: "24/7 Technical Care & System Updates",
+  },
+  {
+    label: "Custom Software",
+    href: "/#our-services",
+    description: "Tailored Development & Workflows",
+  },
+  {
+    label: "Data & System Management",
+    href: "/#our-services",
+    description: "Cloud Infrastructure & Data Migration",
+  },
+  {
+    label: "Mobile & Digital Solutions",
+    href: "/#platform",
+    description: "Apps for Store Owners, Employees & Clients",
+  },
 ];
 
 export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }> = ({
@@ -48,16 +110,21 @@ const Header: React.FC<HeaderProps> = ({
   const pathname = usePathname();
   const [active, setActive] = useState(activeItem);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<"Products" | "Services" | null>(null);
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (pathname === "/about-us") {
       setActive("About Us");
     } else if (pathname === "/contact-us") {
       setActive("Contact Us");
+    } else if (pathname === "/our-products") {
+      setActive("Products");
     } else if (pathname === "/") {
       setActive("Home");
     }
   }, [pathname]);
+
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const menuDialogRef = useRef<HTMLDivElement>(null);
@@ -111,17 +178,47 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, [mobileMenuOpen]);
 
+  const handleMouseEnter = (label: string, hasDropdown?: boolean) => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    if (hasDropdown && (label === "Products" || label === "Services")) {
+      setOpenDropdown(label as "Products" | "Services");
+    } else {
+      setOpenDropdown(null);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 180);
+  };
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     item: { label: string; href: string }
   ) => {
     setActive(item.label);
+    setOpenDropdown(null);
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
 
     if (item.href === "/") {
       if (pathname === "/") {
+        e.preventDefault();
+        const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+        if (scroller) {
+          scroller.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+      return;
+    }
+
+    if (item.href === "/our-products") {
+      if (pathname === "/our-products") {
         e.preventDefault();
         const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
         if (scroller) {
@@ -148,6 +245,32 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const handleSubItemClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    parentLabel: string
+  ) => {
+    setActive(parentLabel);
+    setOpenDropdown(null);
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+
+    if (href.includes("#")) {
+      const [path, hash] = href.split("#");
+      const targetPath = path || "/";
+
+      if (pathname === targetPath || (pathname === "" && targetPath === "/")) {
+        const element = document.getElementById(hash);
+        if (element) {
+          e.preventDefault();
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${hash}`);
+        }
+      }
+    }
+  };
+
   const isFixed = fixed !== undefined ? fixed : position === "fixed";
 
   const containerClasses = isFixed
@@ -157,43 +280,102 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className={containerClasses}>
       <div className="relative w-full h-[62px] md:h-[80px]" inert={mobileMenuOpen} aria-hidden={mobileMenuOpen}>
-        {/* Left: Logo situated exactly inside the frame's top-left tab (like TechwareLab) */}
-        <div className="absolute left-2  top-2.5  pointer-events-auto flex items-center">
+        {/* Left: Logo situated inside top-left frame tab */}
+        <div className="absolute left-2 top-2.5 pointer-events-auto flex items-center">
           <BlogtecLogo />
         </div>
 
-        {/* Right: Floating Pill Navigation Bar */}
+        {/* Right: Floating Navigation Bar */}
         <div className="absolute right-6 md:right-8 top-2 md:top-2.5 pointer-events-auto flex items-center">
           <nav className="hidden md:flex items-center bg-[#f1f1f1]/90 backdrop-blur-md px-2 py-1.5 rounded-2xl shadow-xs border border-black/[0.04]">
             {navItems.map((item) => {
               const isActive = active === item.label;
+              const isDropdownOpen = openDropdown === item.label;
+              const dropdownList = item.label === "Products" ? PRODUCTS_DROPDOWN : item.label === "Services" ? SERVICES_DROPDOWN : null;
+
               return (
-                <Link
+                <div
                   key={item.label}
-                  href={item.href}
-                  prefetch={true}
-                  onClick={(e) => handleNavClick(e, item)}
-                  className={`flex items-center gap-1 text-sm font-medium transition-all duration-150 ${isActive
-                    ? "bg-[#A44B03] text-white px-4 py-1.5 rounded-lg shadow-xs"
-                    : "text-neutral-700 hover:text-neutral-950 hover:bg-neutral-200/50 px-3.5 py-1.5 rounded-lg"
-                    }`}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(item.label, item.hasDropdown)}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <span>{item.label}</span>
-                  {item.hasDropdown && (
-                    <svg
-                      className={`w-3.5 h-3.5 transition-transform ${isActive ? "text-white/90" : "text-neutral-500"
-                        }`}
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                  <Link
+                    href={item.href}
+                    prefetch={true}
+                    onClick={(e) => handleNavClick(e, item)}
+                    className={`flex items-center gap-1.5 text-sm font-medium transition-all duration-150 ${isActive
+                      ? "bg-[#A44B03] text-white px-4 py-1.5 rounded-lg shadow-xs"
+                      : "text-neutral-700 hover:text-neutral-950 hover:bg-neutral-200/50 px-3.5 py-1.5 rounded-lg"
+                      }`}
+                  >
+                    <span>{item.label}</span>
+                    {item.hasDropdown && (
+                      <svg
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""} ${isActive ? "text-white/90" : "text-neutral-500"
+                          }`}
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="4 6 8 10 12 6" />
+                      </svg>
+                    )}
+                  </Link>
+
+                  {/* Desktop Floating Dropdown Menu */}
+                  {item.hasDropdown && dropdownList && isDropdownOpen && (
+                    <div
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-80 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      onMouseEnter={() => handleMouseEnter(item.label, true)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      <polyline points="4 6 8 10 12 6" />
-                    </svg>
+                      <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-2.5 space-y-1">
+                        <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#A44B03] font-[var(--font-inter)] border-b border-stone-100 mb-1">
+                          Blogtec {item.label}
+                        </div>
+                        {dropdownList.map((sub) => (
+                          <Link
+                            key={sub.label}
+                            href={sub.href}
+                            prefetch={true}
+                            onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
+                            className="group/item flex flex-col p-2.5 rounded-xl hover:bg-[#A44B03]/[0.06] transition-colors"
+                          >
+                            <div className="flex items-center justify-between text-xs font-semibold text-stone-900 group-hover/item:text-[#A44B03]">
+                              <span>{sub.label}</span>
+                              <svg className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#A44B03]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                              </svg>
+                            </div>
+                            <span className="text-[11px] text-stone-500 font-normal leading-snug mt-0.5">
+                              {sub.description}
+                            </span>
+                          </Link>
+                        ))}
+
+                        {item.label === "Products" && (
+                          <div className="pt-2 mt-1 border-t border-stone-100">
+                            <Link
+                              href="/our-products"
+                              prefetch={true}
+                              onClick={(e) => handleSubItemClick(e, "/our-products", "Products")}
+                              className="flex items-center justify-between px-2.5 py-2 text-xs font-semibold text-[#A44B03] hover:bg-[#A44B03]/[0.08] rounded-xl transition-colors"
+                            >
+                              <span>Explore All Products</span>
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M5 12h14m-6-6 6 6-6 6" />
+                              </svg>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   )}
-                </Link>
+                </div>
               );
             })}
           </nav>
@@ -247,31 +429,52 @@ const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
 
-            <div className="my-auto py-10">
-              <p className="mb-5 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#A44B03]">
+            <div className="my-auto py-8">
+              <p className="mb-4 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#A44B03]">
                 Explore Blogtec
               </p>
-              <nav id="mobile-site-menu" aria-label="Mobile navigation">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    prefetch={true}
-                    onClick={(e) => handleNavClick(e, item)}
-                    aria-current={active === item.label ? "location" : undefined}
-                    className="group flex min-h-14 items-center gap-4 border-b border-[#e5ded6] py-3 text-[#211d1a] transition-colors hover:text-[#A44B03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
-                  >
-                    <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#A44B03]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[clamp(1.75rem,7.5vw,3rem)] font-medium leading-[1.08] tracking-[-0.04em]">
-                      {item.label}
-                    </span>
-                    <svg className="h-5 w-5 flex-none text-[#A44B03] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M5 12h14m-6-6 6 6-6 6" />
-                    </svg>
-                  </Link>
-                ))}
+              <nav id="mobile-site-menu" aria-label="Mobile navigation" className="space-y-1">
+                {navItems.map((item, index) => {
+                  const dropdownList = item.label === "Products" ? PRODUCTS_DROPDOWN : item.label === "Services" ? SERVICES_DROPDOWN : null;
+                  return (
+                    <div key={item.label} className="border-b border-[#e5ded6] py-2">
+                      <Link
+                        href={item.href}
+                        prefetch={true}
+                        onClick={(e) => handleNavClick(e, item)}
+                        aria-current={active === item.label ? "location" : undefined}
+                        className="group flex min-h-12 items-center gap-4 text-[#211d1a] transition-colors hover:text-[#A44B03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
+                      >
+                        <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#A44B03]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[clamp(1.5rem,6.5vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.04em]">
+                          {item.label}
+                        </span>
+                        <svg className="h-5 w-5 flex-none text-[#A44B03] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M5 12h14m-6-6 6 6-6 6" />
+                        </svg>
+                      </Link>
+
+                      {/* Mobile Sub-Links List */}
+                      {dropdownList && (
+                        <div className="pl-10 pr-2 pt-1 pb-2 space-y-2">
+                          {dropdownList.map((sub) => (
+                            <Link
+                              key={sub.label}
+                              href={sub.href}
+                              prefetch={true}
+                              onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
+                              className="block py-1 text-xs font-medium text-stone-600 hover:text-[#A44B03] transition-colors"
+                            >
+                              • {sub.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </nav>
             </div>
 
@@ -286,3 +489,4 @@ const Header: React.FC<HeaderProps> = ({
 };
 
 export default Header;
+
