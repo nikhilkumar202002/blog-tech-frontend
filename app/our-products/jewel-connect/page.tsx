@@ -1,5 +1,6 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
+import JewelappFeatures from "@/app/components/sections/JewelappFeatures";
 
 export default function JewelConnectPage() {
   return (
@@ -13,6 +14,7 @@ export default function JewelConnectPage() {
         buttonText="Request a Demo"
         buttonLink="/contact-us?product=jewel-connect"
       />
+      <JewelappFeatures />
     </main>
   );
 }
