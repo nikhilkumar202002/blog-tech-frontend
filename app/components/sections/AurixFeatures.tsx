@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import {
   FiShoppingCart,
   FiFileText,
@@ -187,33 +185,6 @@ const featureData: FeatureGroup[] = [
 ];
 
 export default function AurixFeatures() {
-  // Sidebar Form State
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    showroomName: "",
-    message: "",
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1000);
-  };
-
   return (
     <section className="w-full py-16 sm:py-24 bg-gradient-to-b from-stone-50 via-white to-stone-50 text-stone-900 flex-shrink-0">
       <div className="site-container">
@@ -236,229 +207,52 @@ export default function AurixFeatures() {
           </div>
         </div>
 
-        {/* 2-Column Grid: Left Side Feature Cards + Right Side Sticky Sidebar Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-
-          {/* LEFT SIDE CONTENT: Clean Feature Cards by Category (7 or 8 Columns) */}
-          <div className="lg:col-span-7 xl:col-span-8 space-y-12 sm:space-y-14">
-            {featureData.map((group, index) => (
-              <div
-                key={group.id}
-                className={`space-y-6 ${index !== featureData.length - 1 ? "pb-12 border-b border-stone-200/70" : ""
-                  }`}
-              >
-                {/* Category Header (Clean Text Title without Badge) */}
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-stone-900 font-[var(--font-dm-sans)] tracking-tight">
-                    {group.category}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-stone-500 font-normal mt-1">
-                    {group.description}
-                  </p>
-                </div>
-
-                {/* Techwarelab Jobwyz Style Feature Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 pt-1">
-                  {group.items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="p-6 sm:p-7 rounded-[26px] bg-[#f8f9f8] hover:bg-white border border-stone-200/80 shadow-2xs hover:shadow-xl hover:shadow-stone-200/50 hover:border-[#A44B03]/40 transition-all duration-300 group flex flex-col justify-between"
-                    >
-                      <div>
-                        {/* Top Card Row: Title + Icon Badge */}
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                          <h4 className="text-base sm:text-lg font-semibold text-stone-900 group-hover:text-[#A44B03] transition-colors font-[var(--font-dm-sans)] leading-snug">
-                            {item.title}
-                          </h4>
-                          <div className="w-10 h-10 rounded-2xl bg-[#A44B03]/10 text-[#A44B03] border border-[#A44B03]/15 flex items-center justify-center group-hover:bg-[#A44B03] group-hover:text-white transition-all duration-300 flex-shrink-0">
-                            {item.icon}
-                          </div>
-                        </div>
-
-                        {/* Description */}
-                        <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-normal">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* RIGHT SIDE SIDEBAR: Sticky Lead/Demo CTA Form (5 or 4 Columns) */}
-          <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-28 space-y-6">
-            <div className="bg-white/90 backdrop-blur-xl border border-stone-200/80 rounded-3xl p-6 sm:p-8 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40">
-
-              {/* Subtle Ambient Glow Accent */}
-              <div className="absolute -top-16 -right-16 w-36 h-36 bg-[#A44B03]/10 rounded-full blur-2xl pointer-events-none" />
-
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2.5 bg-[#A44B03]/10 text-[#A44B03] rounded-xl border border-[#A44B03]/20">
-                  <HiSparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-stone-900 font-[var(--font-dm-sans)]">
-                    See AURIX In Action
-                  </h3>
-                </div>
-              </div>
-
-              <p className="text-stone-500 text-xs sm:text-sm mb-6 leading-relaxed">
-                Book a personalized demo tailored for your jewellery showroom.
-              </p>
-
-              {isSubmitted ? (
-                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center my-4">
-                  <FiCheckCircle className="w-12 h-12 text-emerald-600 mx-auto mb-3" />
-                  <h4 className="text-lg font-bold text-stone-900 mb-1">Demo Request Received!</h4>
-                  <p className="text-stone-600 text-xs mb-4">
-                    Our team will contact you shortly to schedule your personalized AURIX walkthrough.
-                  </p>
-                  <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="px-5 py-2 rounded-xl bg-[#A44B03] text-white text-xs font-semibold hover:bg-[#8b3f02] transition-colors"
-                  >
-                    Submit Another Inquiry
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="aurix-name" className="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="aurix-name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleFormChange}
-                      placeholder="e.g. Rajesh Verma"
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-xs sm:text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="aurix-phone" className="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      id="aurix-phone"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleFormChange}
-                      placeholder="+91 79944 55922"
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-xs sm:text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="aurix-showroom" className="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
-                      Showroom / Business Name
-                    </label>
-                    <input
-                      type="text"
-                      id="aurix-showroom"
-                      name="showroomName"
-                      value={formData.showroomName}
-                      onChange={handleFormChange}
-                      placeholder="e.g. Royal Jewellers"
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-xs sm:text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="aurix-email" className="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="aurix-email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleFormChange}
-                      placeholder="you@showroom.com"
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-xs sm:text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="aurix-message" className="block text-[11px] font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
-                      Specific Requirements (Optional)
-                    </label>
-                    <textarea
-                      id="aurix-message"
-                      name="message"
-                      rows={3}
-                      value={formData.message}
-                      onChange={handleFormChange}
-                      placeholder="Tell us about your showroom size or software needs..."
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-xs sm:text-sm resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3 px-4 rounded-xl bg-[#A44B03] hover:bg-[#8b3f02] text-white font-medium text-xs sm:text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-[#A44B03]/25 disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Processing Demo Request...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Book Showroom Demo</span>
-                        <FiSend className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-
-              {/* Direct Reach Badge inside Sidebar */}
-              <div className="mt-6 pt-5 border-t border-stone-100 flex flex-col gap-2">
-                <span className="text-[11px] uppercase tracking-wider text-stone-400 font-medium">Or reach us directly:</span>
-                <div className="flex items-center justify-between text-xs font-medium text-stone-700">
-                  <a
-                    href="tel:7994455922"
-                    className="flex items-center gap-1.5 hover:text-[#A44B03] transition-colors"
-                  >
-                    <FiPhone className="w-3.5 h-3.5 text-[#A44B03]" />
-                    <span>7994455922</span>
-                  </a>
-                  <a
-                    href="mailto:blogtecsoftware@gmail.com"
-                    className="flex items-center gap-1.5 hover:text-[#A44B03] transition-colors truncate max-w-[170px]"
-                  >
-                    <FiMail className="w-3.5 h-3.5 text-[#A44B03]" />
-                    <span className="truncate">blogtecsoftware@gmail.com</span>
-                  </a>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Quick Trust Indicator Card */}
-            <div className="bg-stone-900 text-white rounded-3xl p-6 flex items-center gap-4">
-              <div className="p-3 bg-white/10 rounded-2xl text-[#A44B03]">
-                <FiShield className="w-6 h-6" />
-              </div>
+        {/* Full Width Feature Cards by Category */}
+        <div className="w-full space-y-14 sm:space-y-16">
+          {featureData.map((group, index) => (
+            <div
+              key={group.id}
+              className={`space-y-6 ${index !== featureData.length - 1 ? "pb-14 border-b border-stone-200/70" : ""
+                }`}
+            >
+              {/* Category Header */}
               <div>
-                <h4 className="text-sm font-semibold font-[var(--font-dm-sans)]">Trusted Jewellery ERP</h4>
-                <p className="text-xs text-stone-400 mt-0.5">Customized for retail showrooms, wholesalers, &amp; manufacturers.</p>
+                <h3 className="text-2xl sm:text-3xl font-semibold text-stone-900 font-[var(--font-dm-sans)] tracking-tight">
+                  {group.category}
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-500 font-normal mt-1 max-w-2xl">
+                  {group.description}
+                </p>
+              </div>
+
+              {/* Techwarelab Jobwyz Style Feature Cards Grid (3 Columns on Desktop) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-1">
+                {group.items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-6 sm:p-7 rounded-[26px] bg-[#f8f9f8] hover:bg-white border border-stone-200/80 shadow-2xs hover:shadow-xl hover:shadow-stone-200/50 hover:border-[#A44B03]/40 transition-all duration-300 group flex flex-col justify-between"
+                  >
+                    <div>
+                      {/* Top Card Row: Title + Icon Badge */}
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <h4 className="text-base sm:text-lg font-semibold text-stone-900 group-hover:text-[#A44B03] transition-colors font-[var(--font-dm-sans)] leading-snug">
+                          {item.title}
+                        </h4>
+                        <div className="w-10 h-10 rounded-2xl bg-[#A44B03]/10 text-[#A44B03] border border-[#A44B03]/15 flex items-center justify-center group-hover:bg-[#A44B03] group-hover:text-white transition-all duration-300 flex-shrink-0">
+                          {item.icon}
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-normal">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-
-          </div>
-
+          ))}
         </div>
 
         {/* BOTTOM CALL-TO-ACTION (CTA) SECTION */}

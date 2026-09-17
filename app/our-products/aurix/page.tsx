@@ -1,6 +1,6 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
-import AurixIntro from "@/app/components/sections/AurixIntro";
+import AurixUIShowcase from "@/app/components/sections/AurixUIShowcase";
 import AurixFeatures from "@/app/components/sections/AurixFeatures";
 
 export default function AurixPage() {
@@ -8,14 +8,14 @@ export default function AurixPage() {
     <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="/products/aurix/product-aurix.webp"
-        titlePrefix="Meet "
-        titleHighlight="AURIX."
-        subtitle="Built for the way jewellery businesses work."
-        description="A comprehensive jewellery management solution designed to bring sales, inventory, billing, customers, accounts, schemes and business reporting together in one organized system. AURIX helps jewellery businesses simplify everyday operations, improve visibility and maintain better control over their business."
-        buttonText="Book an AURIX Demo"
-        buttonLink="/contact-us?product=aurix"
+        titlePrefix={"Total Control.\nOne "}
+        titleHighlight="Jewellery Business."
+        subtitle="Your Business. At Your Fingertips."
+        description="AURIX is a comprehensive jewellery management solution built to streamline day-to-day operations, from inventory and billing to customer management, accounting, and business reporting."
+        buttonText="Call Now"
+        buttonLink="tel:7994455922"
       />
-      <AurixIntro />
+      <AurixUIShowcase />
       <AurixFeatures />
     </main>
   );

@@ -50,19 +50,39 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
 
       {/* Main Content Container inside Global Class Container (site-container) */}
       <div className="site-container relative z-10 w-full py-20 pt-28">
-        <div className="max-w-xl">
+        <div className="max-w-2xl lg:max-w-3xl">
           {/* Main Title with Serif Gold Accent */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.08] mb-3 drop-shadow-md">
-            {titlePrefix}
-            {titleHighlight && (
-              <span
-                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-                className="italic font-normal text-[#E5B574] drop-shadow-sm ml-1.5"
-              >
-                {titleHighlight}
-              </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.08] mb-3 drop-shadow-md">
+            {titlePrefix.includes("\n") ? (
+              <>
+                <span className="block">{titlePrefix.split("\n")[0]}</span>
+                <span className="block whitespace-nowrap mt-1">
+                  {titlePrefix.split("\n")[1]}
+                  {titleHighlight && (
+                    <span
+                      style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                      className="italic font-normal text-[#E5B574] drop-shadow-sm ml-1.5"
+                    >
+                      {titleHighlight}
+                    </span>
+                  )}
+                  {titleSuffix}
+                </span>
+              </>
+            ) : (
+              <>
+                {titlePrefix}
+                {titleHighlight && (
+                  <span
+                    style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                    className="italic font-normal text-[#E5B574] drop-shadow-sm ml-1.5"
+                  >
+                    {titleHighlight}
+                  </span>
+                )}
+                {titleSuffix}
+              </>
             )}
-            {titleSuffix}
           </h1>
 
           {/* Subtitle */}
