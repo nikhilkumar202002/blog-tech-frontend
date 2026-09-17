@@ -32,12 +32,12 @@ const AurixIntro: React.FC<AurixIntroProps> = ({
       <div className="site-container max-w-6xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         
         {/* Main Headline with Inline Pill Image Capsules - Exact 3 Line Layout */}
-        <div className="flex flex-col items-center justify-center space-y-2 sm:space-y-3 font-normal tracking-tight text-[#171717] font-[var(--font-dm-sans)] mb-8 sm:mb-12">
+        <div className="flex flex-col items-center justify-center space-y-1 sm:space-y-1.5 font-normal tracking-tight text-[#171717] font-[var(--font-dm-sans)] mb-8 sm:mb-12">
           
           {/* Line 1: Jewellery Business [Capsule 1] Is */}
-          <div className="flex items-center justify-center flex-wrap gap-x-3 sm:gap-x-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
+          <div className="flex items-center justify-center flex-wrap gap-x-3 sm:gap-x-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] sm:leading-[1.05]">
             <span>{headingLine1}</span>
-            <span className="relative inline-flex items-center justify-center rounded-full overflow-hidden border border-stone-200/90 shadow-sm h-8 sm:h-11 md:h-14 lg:h-16 w-20 sm:w-28 md:w-36 lg:w-40 flex-shrink-0 transition-transform duration-500 hover:scale-105 my-1">
+            <span className="relative inline-flex items-center justify-center rounded-full overflow-hidden border border-stone-200/90 shadow-sm h-8 sm:h-11 md:h-14 lg:h-16 w-20 sm:w-28 md:w-36 lg:w-40 flex-shrink-0 transition-transform duration-500 hover:scale-105">
               <img
                 src={capsuleImage1}
                 alt="Jewellery Showcase 1"
@@ -48,9 +48,9 @@ const AurixIntro: React.FC<AurixIntroProps> = ({
           </div>
 
           {/* Line 2: Complex. [Capsule 2] AURIX Makes */}
-          <div className="flex items-center justify-center flex-wrap gap-x-3 sm:gap-x-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
+          <div className="flex items-center justify-center flex-wrap gap-x-3 sm:gap-x-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] sm:leading-[1.05]">
             <span>{headingLine2Start}</span>
-            <span className="relative inline-flex items-center justify-center rounded-full overflow-hidden border border-stone-200/90 shadow-sm h-8 sm:h-11 md:h-14 lg:h-16 w-20 sm:w-28 md:w-36 lg:w-40 flex-shrink-0 transition-transform duration-500 hover:scale-105 my-1">
+            <span className="relative inline-flex items-center justify-center rounded-full overflow-hidden border border-stone-200/90 shadow-sm h-8 sm:h-11 md:h-14 lg:h-16 w-20 sm:w-28 md:w-36 lg:w-40 flex-shrink-0 transition-transform duration-500 hover:scale-105">
               <img
                 src={capsuleImage2}
                 alt="Jewellery Showcase 2"
@@ -61,7 +61,7 @@ const AurixIntro: React.FC<AurixIntroProps> = ({
           </div>
 
           {/* Line 3: It Organized. */}
-          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
+          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] sm:leading-[1.05]">
             <span>{headingLine3}</span>
           </div>
 

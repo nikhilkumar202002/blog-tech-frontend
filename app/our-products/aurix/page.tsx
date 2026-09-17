@@ -1,6 +1,7 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
 import AurixIntro from "@/app/components/sections/AurixIntro";
+import AurixFeatures from "@/app/components/sections/AurixFeatures";
 
 export default function AurixPage() {
   return (
@@ -15,6 +16,8 @@ export default function AurixPage() {
         buttonLink="/contact-us?product=aurix"
       />
       <AurixIntro />
+      <AurixFeatures />
     </main>
   );
 }
+
