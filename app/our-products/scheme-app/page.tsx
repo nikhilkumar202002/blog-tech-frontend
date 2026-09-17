@@ -3,7 +3,7 @@ import ProductBanner from "@/app/components/common/ProductBanner";
 
 export default function SchemeAppPage() {
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="/products/scheme-app.jpg"
         titlePrefix="Experience "

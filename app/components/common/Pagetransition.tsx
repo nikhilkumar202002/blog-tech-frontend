@@ -124,13 +124,12 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       />
 
       {/* Main Page Content */}
-      <div className="w-full min-h-full">
+      <div className="w-full flex-1 flex-shrink-0">
         {children}
       </div>
     </>
   );
 }
-
 
 
 

@@ -3,7 +3,7 @@ import ProductBanner from "@/app/components/common/ProductBanner";
 
 export default function AurownPage() {
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1800&q=80"
         titlePrefix="Meet "

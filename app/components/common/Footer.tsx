@@ -70,7 +70,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="site-footer">
+    <footer className="site-footer w-full flex-shrink-0">
       <div className="site-footer-container site-footer-main">
         <div className="site-footer-brand">
           <Link href="/" prefetch={true} onClick={(e) => handleLinkClick(e, "/")} aria-label="Blogtec Software home">

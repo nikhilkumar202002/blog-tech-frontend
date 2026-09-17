@@ -4,7 +4,7 @@ import AurixIntro from "@/app/components/sections/AurixIntro";
 
 export default function AurixPage() {
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="/products/aurix/product-aurix.webp"
         titlePrefix="Meet "

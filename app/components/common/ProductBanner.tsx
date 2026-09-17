@@ -33,7 +33,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
 
   return (
     <section
-      className={`relative w-full h-screen min-h-[100dvh] flex items-center overflow-hidden bg-stone-950 ${className}`}
+      className={`relative w-full min-h-[85vh] md:min-h-[90vh] py-20 md:py-28 flex items-center overflow-hidden bg-stone-950 flex-shrink-0 ${className}`}
     >
       {/* Background Banner Image (Standard Scrolling) */}
       {activeImage && (

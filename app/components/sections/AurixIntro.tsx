@@ -28,7 +28,7 @@ const AurixIntro: React.FC<AurixIntroProps> = ({
   className = "",
 }) => {
   return (
-    <section className={`w-full py-20 sm:py-28 md:py-36 bg-white text-stone-900 ${className}`}>
+    <section className={`w-full py-20 sm:py-28 md:py-36 bg-white text-stone-900 flex-shrink-0 ${className}`}>
       <div className="site-container max-w-6xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         
         {/* Main Headline with Inline Pill Image Capsules - Exact 3 Line Layout */}
