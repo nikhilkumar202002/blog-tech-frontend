@@ -49,7 +49,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
         <motion.div
           initial={{ scale: 1.08, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0 w-full overflow-hidden"
         >
           {/* Desktop Banner Image */}
@@ -82,7 +82,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.08] mb-3 drop-shadow-md"
           >
             {titlePrefix.includes("\n") ? (
@@ -122,7 +122,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <motion.h2
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="text-lg sm:text-xl md:text-2xl font-medium text-stone-100 font-[var(--font-dm-sans)] mb-5 leading-snug drop-shadow-sm"
             >
               {subtitle}
@@ -134,7 +134,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="hidden sm:block space-y-3 mb-8 sm:mb-10 max-w-lg"
             >
               {description.split("\n\n").map((paragraph, idx) => (
@@ -151,9 +151,9 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           {/* CTA Button with Circle Expansion Animation */}
           {buttonText && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center"
             >
               <Link

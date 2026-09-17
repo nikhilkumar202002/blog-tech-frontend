@@ -52,11 +52,11 @@ export default function AurixUIShowcase() {
       <div className="site-container relative z-10">
         
         {/* Alternating Feature Rows */}
-        <div className="space-y-20 sm:space-y-28 md:space-y-36">
+        <div className="space-y-12 sm:space-y-28 md:space-y-36">
           {uiScreenRows.map((row) => (
             <div
               key={row.id}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 lg:gap-16 items-center"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-14 lg:gap-16 items-center"
             >
               
               {/* IMAGE COLUMN (Real Mockup Image with Framer Motion Reveal) */}
@@ -94,7 +94,7 @@ export default function AurixUIShowcase() {
                 <div className="max-w-xl">
                   
                   {/* Two-Line Styled Heading with Italic Gold Serif Highlights */}
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.12] mb-4">
+                  <h3 className="text-2xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.12] mb-3 sm:mb-4">
                     {row.titlePart1 && <span>{row.titlePart1}</span>}
                     {row.titleHighlight1 && (
                       <span

@@ -103,7 +103,7 @@ const supportServices = [
 export default function AurixFeatures() {
   return (
     <>
-      <section className="w-full pb-20 sm:pb-28 md:pb-36 bg-white text-stone-900 flex-shrink-0">
+      <section className="w-full pb-16 sm:pb-28 md:pb-36 bg-white text-stone-900 flex-shrink-0">
         {/* Global CSS App Container Class */}
         <div className="site-container relative z-10">
           
@@ -113,21 +113,21 @@ export default function AurixFeatures() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center max-w-3xl mx-auto mb-14 sm:mb-20"
+            className="text-center max-w-3xl mx-auto mb-10 sm:mb-20"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-tight">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-tight">
               Comprehensive
             </h2>
             <p
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-              className="text-4xl sm:text-5xl md:text-6xl italic font-normal text-[#A44B03] mt-1"
+              className="text-3xl sm:text-5xl md:text-6xl italic font-normal text-[#A44B03] mt-1"
             >
               Business Modules
             </p>
           </motion.div>
 
           {/* 2x2 Modules Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
             {businessModules.map((module, idx) => (
               <motion.div
                 key={module.id}
@@ -135,16 +135,16 @@ export default function AurixFeatures() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#f5f5f5] rounded-[28px] sm:rounded-[32px] p-8 sm:p-10 md:p-12 flex flex-col justify-start"
+                className="bg-[#f5f5f5] rounded-[24px] sm:rounded-[32px] p-5 sm:p-10 md:p-12 flex flex-col justify-start"
               >
                 {/* Module Card Title with Orange/Gold Bullet */}
-                <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight font-[var(--font-dm-sans)] mb-6 flex items-start gap-2">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-stone-900 tracking-tight font-[var(--font-dm-sans)] mb-4 sm:mb-6 flex items-start gap-2.5">
                   <span className="text-[#A44B03] font-bold select-none leading-none mt-0.5">•</span>
                   <span>{module.title}</span>
                 </h3>
 
                 {/* Sub-items list */}
-                <div className="space-y-4 text-stone-600 text-sm sm:text-base leading-relaxed font-[var(--font-dm-sans)] font-normal">
+                <div className="space-y-3.5 sm:space-y-4 text-stone-600 text-sm sm:text-base leading-relaxed font-[var(--font-dm-sans)] font-normal">
                   {module.items.map((item, itemIdx) => (
                     <p key={itemIdx}>
                       <span className="font-semibold text-stone-800 mr-1.5">
@@ -159,7 +159,7 @@ export default function AurixFeatures() {
           </div>
 
           {/* Built on Reliable, Enterprise-Grade Architecture Section */}
-          <div className="mt-24 sm:mt-32 md:mt-40 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="mt-16 sm:mt-32 md:mt-40 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Column - Heading */}
             <motion.div
@@ -169,7 +169,7 @@ export default function AurixFeatures() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-5"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.15]">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.18]">
                 Built on Reliable,
                 <br />
                 Enterprise–Grade
@@ -183,8 +183,8 @@ export default function AurixFeatures() {
               </h2>
             </motion.div>
 
-            {/* Right Column - Tech Stack Logos Grid (3 columns x 2 rows) */}
-            <div className="lg:col-span-7 grid grid-cols-3 gap-y-10 gap-x-6 sm:gap-x-12 items-center justify-items-center">
+            {/* Right Column - Tech Stack Logos Grid (2 cols mobile, 3 cols sm+) */}
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-y-6 sm:gap-y-10 gap-x-4 sm:gap-x-12 items-center justify-items-center">
               {techLogos.map((tech, idx) => (
                 <motion.div
                   key={tech.name}
@@ -197,7 +197,7 @@ export default function AurixFeatures() {
                   <img
                     src={tech.src}
                     alt={tech.name}
-                    className={`w-auto object-contain max-w-[130px] sm:max-w-[180px] ${tech.height}`}
+                    className={`w-auto object-contain max-w-[110px] sm:max-w-[180px] ${tech.height}`}
                   />
                 </motion.div>
               ))}
@@ -206,7 +206,7 @@ export default function AurixFeatures() {
           </div>
 
           {/* Comprehensive Support for Every Stage Section */}
-          <div className="mt-24 sm:mt-32 md:mt-40">
+          <div className="mt-16 sm:mt-32 md:mt-40">
             
             {/* Section Heading */}
             <motion.div
@@ -214,12 +214,12 @@ export default function AurixFeatures() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="text-center max-w-3xl mx-auto mb-14 sm:mb-20"
+              className="text-center max-w-3xl mx-auto mb-10 sm:mb-20"
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-tight">
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-tight">
                 Comprehensive
               </h2>
-              <p className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] mt-1">
+              <p className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] mt-1">
                 <span
                   style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
                   className="italic font-normal text-[#A44B03] mr-2"
@@ -231,7 +231,7 @@ export default function AurixFeatures() {
             </motion.div>
 
             {/* 3 Support Items Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
               {supportServices.map((service, idx) => (
                 <motion.div
                   key={service.id}
@@ -239,15 +239,15 @@ export default function AurixFeatures() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6, delay: idx * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col items-center text-center px-4 py-6"
+                  className="flex flex-col items-center text-center px-3 sm:px-4 py-4 sm:py-6"
                 >
                   {/* Icon Box Container with Gradient */}
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#d46b19] via-[#A44B03] to-[#803801] shadow-md shadow-[#A44B03]/20 flex items-center justify-center mb-6 flex-shrink-0">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#d46b19] via-[#A44B03] to-[#803801] shadow-md shadow-[#A44B03]/20 flex items-center justify-center mb-4 sm:mb-6 flex-shrink-0">
                     {service.icon}
                   </div>
 
                   {/* Card Title */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight font-[var(--font-dm-sans)] mb-3">
+                  <h3 className="text-lg sm:text-2xl font-bold text-stone-900 tracking-tight font-[var(--font-dm-sans)] mb-2 sm:mb-3">
                     {service.title}
                   </h3>
 
@@ -265,9 +265,9 @@ export default function AurixFeatures() {
       </section>
 
       {/* Turning Ideas into Digital Solutions Section - ONLY this section has #F9F9F9 background */}
-      <section className="w-full py-20 sm:py-28 md:py-36 bg-[#F9F9F9] text-stone-900 flex-shrink-0">
+      <section className="w-full py-16 sm:py-28 md:py-36 bg-[#F9F9F9] text-stone-900 flex-shrink-0">
         <div className="site-container relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start justify-between">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start justify-between">
             
             {/* Left Column - Large Headline */}
             <motion.div
@@ -277,7 +277,7 @@ export default function AurixFeatures() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-7"
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.08]">
+              <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.1]">
                 Turning Ideas
                 <br />
                 into{" "}
@@ -298,7 +298,7 @@ export default function AurixFeatures() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-5 flex flex-col items-start lg:items-end text-left lg:text-right space-y-8 lg:pt-2"
+              className="lg:col-span-5 flex flex-col items-start lg:items-end text-left lg:text-right space-y-6 sm:space-y-8 lg:pt-2"
             >
               
               {/* Description Text */}
@@ -309,16 +309,16 @@ export default function AurixFeatures() {
               </p>
 
               {/* Direct Contact Numbers & Email */}
-              <div className="space-y-1.5 font-[var(--font-dm-sans)] font-medium text-stone-900 text-base sm:text-lg tracking-tight">
-                <p>
+              <div className="space-y-2 font-[var(--font-dm-sans)] font-medium text-stone-900 text-base sm:text-lg tracking-tight">
+                <div className="flex flex-col sm:flex-row items-start lg:items-end sm:items-center gap-1 sm:gap-2">
                   <a href="tel:7994455922" className="hover:text-[#A44B03] transition-colors">
                     +91 79944 55922
                   </a>
-                  <span className="mx-2 text-stone-400">/</span>
+                  <span className="hidden sm:inline text-stone-400">/</span>
                   <a href="tel:04844539025" className="hover:text-[#A44B03] transition-colors">
                     0484 4539025
                   </a>
-                </p>
+                </div>
                 <p>
                   <a href="mailto:blogtecsoftware@gmail.com" className="hover:text-[#A44B03] transition-colors">
                     blogtecsoftware@gmail.com
