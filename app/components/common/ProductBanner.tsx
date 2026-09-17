@@ -87,8 +87,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           >
             {titlePrefix.includes("\n") ? (
               <>
-                <span className="block">{titlePrefix.split("\n")[0]}</span>
-                <span className="block whitespace-nowrap mt-1">
+                <span className="block sm:whitespace-nowrap">{titlePrefix.split("\n")[0]}</span>
+                <span className="block sm:whitespace-nowrap mt-1">
                   {titlePrefix.split("\n")[1]}
                   {titleHighlight && (
                     <span
