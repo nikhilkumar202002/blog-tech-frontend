@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const FADE_DURATION_MS = 350;
-const MAX_WAIT_MS = 15_000;
+const PRELOADER_DURATION_MS = 5_000;
 
 export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -14,48 +14,22 @@ export default function Preloader() {
 
   const finish = useCallback(() => {
     if (exitingRef.current) return;
-
-    try {
-      sessionStorage.setItem("has_seen_preloader", "true");
-    } catch {
-      // Ignore storage errors
-    }
-
     exitingRef.current = true;
     setExiting(true);
     exitTimerRef.current = setTimeout(() => setVisible(false), FADE_DURATION_MS);
   }, []);
 
   useEffect(() => {
-    const isReload =
-      typeof window !== "undefined" &&
-      (performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming)?.type === "reload";
-
-    const hasSeenPreloader =
-      typeof window !== "undefined" &&
-      sessionStorage.getItem("has_seen_preloader") === "true";
-
-    if (isReload || hasSeenPreloader) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(false);
       return;
     }
 
-    try {
-      sessionStorage.setItem("has_seen_preloader", "true");
-    } catch {
-      // Ignore storage errors
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const reducedMotionTimer = setTimeout(() => setVisible(false), 0);
-      return () => clearTimeout(reducedMotionTimer);
-    }
-
-    const fallbackTimer = setTimeout(finish, MAX_WAIT_MS);
+    const preloaderTimer = setTimeout(finish, PRELOADER_DURATION_MS);
     videoRef.current?.play().catch(finish);
 
     return () => {
-      clearTimeout(fallbackTimer);
+      clearTimeout(preloaderTimer);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
     };
   }, [finish]);
@@ -73,46 +47,28 @@ export default function Preloader() {
   if (!visible) return null;
 
   return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              try {
-                var isReload = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload';
-                var hasSeen = sessionStorage.getItem('has_seen_preloader') === 'true';
-                if (isReload || hasSeen) {
-                  var style = document.createElement('style');
-                  style.innerHTML = '#preloader-root { display: none !important; }';
-                  document.head.appendChild(style);
-                }
-              } catch(e) {}
-            })();
-          `,
-        }}
-      />
-      <div
-        id="preloader-root"
-        role="status"
-        aria-label="Loading website"
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] transition-opacity duration-[350ms] motion-reduce:hidden ${
-          exiting ? "pointer-events-none opacity-0" : "opacity-100"
-        }`}
+    <div
+      id="preloader-root"
+      role="status"
+      aria-label="Loading website"
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] transition-opacity duration-[350ms] motion-reduce:hidden ${
+        exiting ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
+    >
+      <video
+        ref={videoRef}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        onError={finish}
+        aria-hidden="true"
+        className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
       >
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="auto"
-          onEnded={finish}
-          onError={finish}
-          aria-hidden="true"
-          className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
-        >
-          <source src="/video/preloader.webm" type="video/webm" />
-        </video>
-      </div>
-    </>
+        <source src="/video/preloader.webm" type="video/webm" />
+      </video>
+    </div>
   );
 }
+
 

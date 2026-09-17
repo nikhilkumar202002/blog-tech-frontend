@@ -10,18 +10,14 @@ export default function Pagetransition({ children }: { children: React.ReactNode
   const [phase, setPhase] = useState<"idle" | "closing" | "opening">("idle");
   const isNavigatingRef = useRef(false);
 
-  // Handle route change when navigation completes or on back/forward
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
 
-    // New page has mounted: trigger opening phase
     setPhase("opening");
     isNavigatingRef.current = false;
-
-    // Reset scroll position
     const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
     const hash = typeof window !== "undefined" && window.location.hash
       ? decodeURIComponent(window.location.hash.slice(1))
@@ -47,7 +43,6 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  // Intercept internal link clicks to close shutters BEFORE changing route
   useEffect(() => {
     const handleLinkClick = (e: MouseEvent) => {
       if (isNavigatingRef.current) return;
