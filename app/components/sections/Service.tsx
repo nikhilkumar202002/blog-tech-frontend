@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import "../styles/Section.css";
 
 export interface ServiceItem {
@@ -215,8 +216,8 @@ const Service: React.FC = () => {
                   Owners And Customers, Blogtec Provides Specialized Solutions For
                   Different Aspects Of The Jewellery Business.
                 </p>
-                <button className="service-cta-btn">
-                  <span>View All Products</span>
+                <Link href="/our-products/aurix" className="service-cta-btn">
+                  <span>Explore Products</span>
                   <svg
                     className="service-cta-icon"
                     fill="none"
@@ -230,13 +231,18 @@ const Service: React.FC = () => {
                       d="M7 17L17 7M17 7H7M17 7V17"
                     />
                   </svg>
-                </button>
+                </Link>
               </div>
             </div>
 
             {/* Product Cards */}
             {PRODUCTS.map((product) => (
-              <div key={product.id} id={product.id} className="service-card service-product-card">
+              <Link
+                key={product.id}
+                id={product.id}
+                href={`/our-products/${product.id}`}
+                className="service-card service-product-card group cursor-pointer block text-inherit no-underline"
+              >
                 <div className="service-card-image-wrapper">
                   <img
                     src={product.image}
@@ -250,7 +256,7 @@ const Service: React.FC = () => {
                   <h3 className="service-product-title">{product.title}</h3>
                   <p className="service-product-description">{product.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

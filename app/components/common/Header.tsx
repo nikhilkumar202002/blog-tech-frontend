@@ -15,7 +15,7 @@ export interface HeaderProps {
 const navItems = [
   { label: "Home", href: "/", hasDropdown: false },
   { label: "About Us", href: "/about-us", hasDropdown: false },
-  { label: "Products", href: "/our-products", hasDropdown: true },
+  { label: "Products", href: "/our-products/aurix", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
   { label: "Contact Us", href: "/contact-us", hasDropdown: false },
@@ -30,27 +30,27 @@ export interface DropdownItem {
 const PRODUCTS_DROPDOWN: DropdownItem[] = [
   {
     label: "AURIX",
-    href: "/our-products#aurix",
+    href: "/our-products/aurix",
     description: "Jewellery ERP & POS Management Solution",
   },
   {
     label: "Scheme Mobile App",
-    href: "/our-products#scheme-app",
+    href: "/our-products/scheme-app",
     description: "Customer Savings & Installment Tracking",
   },
   {
     label: "Jewel Connect",
-    href: "/our-products#jewel-connect",
+    href: "/our-products/jewel-connect",
     description: "Digital Catalogue & Barcode Stock Availability",
   },
   {
     label: "Employee & Payroll",
-    href: "/our-products#employee-payroll",
+    href: "/our-products/employee-payroll",
     description: "Staff Attendance, Salary & HR Management",
   },
   {
     label: "Aurown",
-    href: "/our-products#aurown",
+    href: "/our-products/aurown",
     description: "Business Operations & Executive Dashboard",
   },
 ];
@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({
       setActive("About Us");
     } else if (pathname === "/contact-us") {
       setActive("Contact Us");
-    } else if (pathname === "/our-products") {
+    } else if (pathname.startsWith("/our-products")) {
       setActive("Products");
     } else if (pathname === "/") {
       setActive("Home");
@@ -217,8 +217,8 @@ const Header: React.FC<HeaderProps> = ({
       return;
     }
 
-    if (item.href === "/our-products") {
-      if (pathname === "/our-products") {
+    if (item.href.startsWith("/our-products")) {
+      if (pathname === item.href) {
         e.preventDefault();
         const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
         if (scroller) {
@@ -356,22 +356,6 @@ const Header: React.FC<HeaderProps> = ({
                             </span>
                           </Link>
                         ))}
-
-                        {item.label === "Products" && (
-                          <div className="pt-2 mt-1 border-t border-stone-100">
-                            <Link
-                              href="/our-products"
-                              prefetch={true}
-                              onClick={(e) => handleSubItemClick(e, "/our-products", "Products")}
-                              className="flex items-center justify-between px-2.5 py-2 text-xs font-semibold text-[#A44B03] hover:bg-[#A44B03]/[0.08] rounded-xl transition-colors"
-                            >
-                              <span>Explore All Products</span>
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M5 12h14m-6-6 6 6-6 6" />
-                              </svg>
-                            </Link>
-                          </div>
-                        )}
                       </div>
                     </div>
                   )}

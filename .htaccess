@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Let Next.js exported route folders resolve to their index.html files.
+Options -MultiViews
+DirectoryIndex index.html
+
+# Keep existing files and directories, including _next assets, untouched.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Support clean URLs when Apache does not apply DirectoryIndex automatically.
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.+?)/?$ $1/index.html [L]
+
+# Serve the exported home page for the root URL.
+RewriteRule ^$ index.html [L]
