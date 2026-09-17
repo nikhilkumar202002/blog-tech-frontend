@@ -8,6 +8,7 @@ export default function AurixPage() {
     <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="/products/aurix/product-aurix.webp"
+        mobileBgImage="/products/aurix/aurx-mobile-banner.webp"
         titlePrefix={"Total Control.\nOne "}
         titleHighlight="Jewellery Business."
         subtitle="Your Business. At Your Fingertips."

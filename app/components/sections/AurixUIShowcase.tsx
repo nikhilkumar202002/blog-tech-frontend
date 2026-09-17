@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiMaximize2 } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const uiScreenRows = [
   {
@@ -59,8 +59,12 @@ export default function AurixUIShowcase() {
               className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 lg:gap-16 items-center"
             >
               
-              {/* IMAGE COLUMN (Real Mockup Image from Folder - No Custom Frame) */}
-              <div
+              {/* IMAGE COLUMN (Real Mockup Image with Framer Motion Reveal) */}
+              <motion.div
+                initial={{ opacity: 0, y: 30, x: row.imageFirst ? -30 : 30 }}
+                whileInView={{ opacity: 1, y: 0, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className={`lg:col-span-6 xl:col-span-7 flex justify-center ${
                   row.imageFirst ? "order-1" : "order-1 lg:order-2"
                 }`}
@@ -75,10 +79,14 @@ export default function AurixUIShowcase() {
                     className="w-full h-auto object-contain max-h-[520px] drop-shadow-xl"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              {/* TEXT CONTENT COLUMN */}
-              <div
+              {/* TEXT CONTENT COLUMN (Framer Motion Reveal) */}
+              <motion.div
+                initial={{ opacity: 0, y: 30, x: row.imageFirst ? 30 : -30 }}
+                whileInView={{ opacity: 1, y: 0, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className={`lg:col-span-6 xl:col-span-5 ${
                   row.imageFirst ? "order-2" : "order-2 lg:order-1"
                 }`}
@@ -118,7 +126,7 @@ export default function AurixUIShowcase() {
                   </p>
 
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           ))}
@@ -126,27 +134,39 @@ export default function AurixUIShowcase() {
 
       </div>
 
-      {/* High Resolution Lightbox Zoom Modal */}
-      {zoomedImage && (
-        <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-          onClick={() => setZoomedImage(null)}
-        >
-          <div className="relative max-w-7xl w-full max-h-[92vh] overflow-auto bg-white border border-stone-200 rounded-2xl p-2 shadow-2xl">
-            <button
-              onClick={() => setZoomedImage(null)}
-              className="absolute top-4 right-4 z-20 px-4 py-2 rounded-xl bg-stone-900/90 text-white text-xs font-semibold border border-stone-700 hover:bg-stone-900 transition-all shadow-md"
+      {/* High Resolution Lightbox Zoom Modal with Framer Motion AnimatePresence */}
+      <AnimatePresence>
+        {zoomedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+            onClick={() => setZoomedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative max-w-7xl w-full max-h-[92vh] overflow-auto bg-white border border-stone-200 rounded-2xl p-2 shadow-2xl"
             >
-              Close Preview [ESC]
-            </button>
-            <img
-              src={zoomedImage}
-              alt="Full Software UI Preview"
-              className="w-full h-auto object-contain rounded-xl"
-            />
-          </div>
-        </div>
-      )}
+              <button
+                onClick={() => setZoomedImage(null)}
+                className="absolute top-4 right-4 z-20 px-4 py-2 rounded-xl bg-stone-900/90 text-white text-xs font-semibold border border-stone-700 hover:bg-stone-900 transition-all shadow-md"
+              >
+                Close Preview [ESC]
+              </button>
+              <img
+                src={zoomedImage}
+                alt="Full Software UI Preview"
+                className="w-full h-auto object-contain rounded-xl"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
