@@ -34,14 +34,14 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
     description: "Jewellery ERP & POS Management Solution",
   },
   {
-    label: "Scheme Mobile App",
-    href: "/our-products/scheme-app",
-    description: "Customer Savings & Installment Tracking",
-  },
-  {
     label: "Jewel Connect",
     href: "/our-products/jewel-connect",
     description: "Digital Catalogue & Barcode Stock Availability",
+  },
+  {
+    label: "Scheme Mobile App",
+    href: "/our-products/scheme-app",
+    description: "Customer Savings & Installment Tracking",
   },
   {
     label: "Employee & Payroll",
@@ -60,6 +60,11 @@ const SERVICES_DROPDOWN: DropdownItem[] = [
     label: "Jewellery ERP Solutions",
     href: "/#our-services",
     description: "Enterprise Operations for Jewellery Stores",
+  },
+  {
+    label: "Jewel Connect Platform",
+    href: "/our-products/jewel-connect",
+    description: "Digital Catalogue & Barcode Stock Availability",
   },
   {
     label: "Support & Maintenance",
@@ -329,33 +334,35 @@ const Header: React.FC<HeaderProps> = ({
                   {/* Desktop Floating Dropdown Menu */}
                   {item.hasDropdown && dropdownList && isDropdownOpen && (
                     <div
-                      className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-80 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-[560px] z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                       onMouseEnter={() => handleMouseEnter(item.label, true)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-2.5 space-y-1">
-                        <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#A44B03] font-[var(--font-inter)] border-b border-stone-100 mb-1">
+                      <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-3">
+                        <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#A44B03] font-[var(--font-inter)] border-b border-stone-100 mb-2">
                           Blogtec {item.label}
                         </div>
-                        {dropdownList.map((sub) => (
-                          <Link
-                            key={sub.label}
-                            href={sub.href}
-                            prefetch={true}
-                            onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
-                            className="group/item flex flex-col p-2.5 rounded-xl hover:bg-[#A44B03]/[0.06] transition-colors"
-                          >
-                            <div className="flex items-center justify-between text-xs font-semibold text-stone-900 group-hover/item:text-[#A44B03]">
-                              <span>{sub.label}</span>
-                              <svg className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#A44B03]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                              </svg>
-                            </div>
-                            <span className="text-[11px] text-stone-500 font-normal leading-snug mt-0.5">
-                              {sub.description}
-                            </span>
-                          </Link>
-                        ))}
+                        <div className="grid grid-cols-2 gap-1.5">
+                          {dropdownList.map((sub) => (
+                            <Link
+                              key={sub.label}
+                              href={sub.href}
+                              prefetch={true}
+                              onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
+                              className="group/item flex flex-col p-2.5 rounded-xl hover:bg-[#A44B03]/[0.06] transition-colors"
+                            >
+                              <div className="flex items-center justify-between text-xs font-semibold text-stone-900 group-hover/item:text-[#A44B03]">
+                                <span>{sub.label}</span>
+                                <svg className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#A44B03]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
+                              </div>
+                              <span className="text-[11px] text-stone-500 font-normal leading-snug mt-0.5">
+                                {sub.description}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
