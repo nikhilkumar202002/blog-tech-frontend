@@ -15,7 +15,7 @@ export interface HeaderProps {
 const navItems = [
   { label: "Home", href: "/", hasDropdown: false },
   { label: "About Us", href: "/about-us", hasDropdown: false },
-  { label: "Products", href: "/our-products/aurix", hasDropdown: true },
+  { label: "Products", href: "#", hasDropdown: true },
   { label: "Services", href: "/#our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
   { label: "Contact Us", href: "/contact-us", hasDropdown: false },
@@ -223,8 +223,15 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    item: { label: string; href: string }
+    item: { label: string; href: string; hasDropdown?: boolean }
   ) => {
+    if (item.label === "Products" || item.href === "#") {
+      e.preventDefault();
+      setActive(item.label);
+      setOpenDropdown((prev) => (prev === item.label ? null : (item.label as "Products" | "Services")));
+      return;
+    }
+
     setActive(item.label);
     setOpenDropdown(null);
     if (mobileMenuOpen) {
@@ -233,19 +240,6 @@ const Header: React.FC<HeaderProps> = ({
 
     if (item.href === "/") {
       if (pathname === "/") {
-        e.preventDefault();
-        const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
-        if (scroller) {
-          scroller.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      }
-      return;
-    }
-
-    if (item.href.startsWith("/our-products")) {
-      if (pathname === item.href) {
         e.preventDefault();
         const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
         if (scroller) {

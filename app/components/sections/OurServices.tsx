@@ -172,7 +172,7 @@ const OurServices: React.FC = () => {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           onPointerLeave={handlePointerUp}
-          className={`flex overflow-x-auto gap-4 w-full select-none touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px] ${
+          className={`flex overflow-x-auto gap-4 w-full select-none touch-pan-x touch-pan-y [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px] ${
             isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab md:cursor-default"
           }`}
         >

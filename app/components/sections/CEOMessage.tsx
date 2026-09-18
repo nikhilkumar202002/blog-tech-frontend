@@ -31,12 +31,7 @@ export default function CEOMessage() {
             className="ceo-message-copy"
           >
             <p className="ceo-message-description">
-              Blogtec Software was founded in 2007 by Prajesh Raj CA with a clear
-              vision: to develop reliable, efficient and industry-focused software
-              solutions specifically for the jewellery business. Over the years,
-              our close association with jewellery businesses has helped us
-              understand the challenges they face every day — from managing stock
-              and billing to accounting, schemes and business reporting.
+              I founded Blogtec Software in 2007 with a clear vision: to develop reliable, efficient, and industry-focused software solutions specifically for the jewellery business. Over the years, our close association with jewellery businesses has given us a deep understanding of the challenges they face every day—from managing stock and billing to accounting, schemes, and business reporting
             </p>
 
             <div className="ceo-message-signoff">
