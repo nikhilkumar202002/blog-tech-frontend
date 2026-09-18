@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Button from "../common/Button";
 import "../styles/Section.css";
 
 export interface HeroSlide {
@@ -233,10 +234,9 @@ const Hero: React.FC<HeroProps> = ({
             transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
             className="hero-actions-row"
           >
-            <motion.a
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+            <Button
               href={currentSlide.ctaLink || "#services"}
+              textKey={currentSlide.id}
               onClick={(e) => {
                 const target =
                   document.getElementById("services") ||
@@ -246,44 +246,9 @@ const Hero: React.FC<HeroProps> = ({
                   target.scrollIntoView({ behavior: "smooth" });
                 }
               }}
-              className="group relative inline-flex items-center justify-between h-14 min-w-[250px] sm:min-w-[270px] pl-6 pr-16 bg-white text-stone-900 font-semibold text-base shadow-xl border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300"
             >
-              {/* Layer 0: Expanding Theme Background Fill */}
-              <div className="absolute right-1 top-[4px] bottom-[4px] w-12 group-hover:w-[calc(100%-8px)] bg-[#A44B03] rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm" />
-
-              {/* Layer 1: Left-aligned Text Content */}
-              <span className="relative z-10 transition-colors duration-500 group-hover:text-white font-[var(--font-dm-sans)] pr-2">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={currentSlide.id}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.25 }}
-                    className="inline-block"
-                  >
-                    {currentSlide.ctaText || "Explore Our Solutions"}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-
-              {/* Layer 2: Right-aligned Arrow Icon (Perfectly Centered in Pill Box) */}
-              <div className="absolute right-1 top-[4px] bottom-[4px] w-12 z-10 flex items-center justify-center text-white pointer-events-none">
-                <svg
-                  className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5L19.5 10.5M19.5 10.5L13.5 16.5M19.5 10.5H4.5"
-                  />
-                </svg>
-              </div>
-            </motion.a>
+              {currentSlide.ctaText || "Explore Our Solutions"}
+            </Button>
           </motion.div>
         </div>
       </div>
