@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 export default function CEOMessage() {
@@ -6,15 +9,27 @@ export default function CEOMessage() {
     <section className="ceo-message-section" id="founder-story" aria-labelledby="ceo-message-title">
       <div className="site-container">
         <div className="ceo-message-top">
-          <div className="ceo-message-intro">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+            className="ceo-message-intro"
+          >
             <span className="ceo-message-eyebrow">The Story Behind Blogtec</span>
             <h2 className="ceo-message-title" id="ceo-message-title">
               Built From a Clear Understanding of the{" "}
               <span className="ceo-message-title-accent">Jewellery Business.</span>
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="ceo-message-copy">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.215, 0.61, 0.355, 1] }}
+            className="ceo-message-copy"
+          >
             <p className="ceo-message-description">
               Blogtec Software was founded in 2007 by Prajesh Raj CA with a clear
               vision: to develop reliable, efficient and industry-focused software
@@ -34,10 +49,16 @@ export default function CEOMessage() {
               <strong>Prajesh Raj CA</strong>
               <span>Founder</span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="ceo-message-bottom">
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+          className="ceo-message-bottom"
+        >
           <div className="ceo-message-photo">
             <Image
               src="/images/founder-story-illustration.png"
@@ -50,8 +71,9 @@ export default function CEOMessage() {
           <blockquote className="ceo-message-quote">
             “Technology Built Around the Jewellery Business.”
           </blockquote>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+

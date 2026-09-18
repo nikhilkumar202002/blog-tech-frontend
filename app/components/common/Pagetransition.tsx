@@ -11,36 +11,49 @@ export default function Pagetransition({ children }: { children: React.ReactNode
   const isNavigatingRef = useRef(false);
 
   useEffect(() => {
+    const handleScrollTarget = () => {
+      const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+      const hash = typeof window !== "undefined" && window.location.hash
+        ? decodeURIComponent(window.location.hash.slice(1))
+        : "";
+
+      if (hash) {
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+      }
+
+      if (scroller) {
+        scroller.scrollTop = 0;
+      } else if (typeof window !== "undefined") {
+        window.scrollTo(0, 0);
+      }
+    };
+
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      const hash = typeof window !== "undefined" ? window.location.hash : "";
+      if (hash) {
+        setTimeout(handleScrollTarget, 150);
+      }
       return;
     }
 
     setPhase("opening");
     isNavigatingRef.current = false;
-    const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
-    const hash = typeof window !== "undefined" && window.location.hash
-      ? decodeURIComponent(window.location.hash.slice(1))
-      : "";
 
-    if (hash) {
-      const target = document.getElementById(hash);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      } else if (scroller) {
-        scroller.scrollTop = 0;
-      }
-    } else if (scroller) {
-      scroller.scrollTop = 0;
-    } else if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
+    const scrollTimer = setTimeout(handleScrollTarget, 150);
 
     const timer = setTimeout(() => {
       setPhase("idle");
     }, 400);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(scrollTimer);
+      clearTimeout(timer);
+    };
   }, [pathname]);
 
   useEffect(() => {

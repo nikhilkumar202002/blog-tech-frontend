@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 const questions = [
@@ -69,7 +70,13 @@ export default function Faq() {
     <section className="faq-section" id="faq" aria-labelledby="faq-title">
       <div className="site-container">
         <div className="faq-content">
-          <div className="faq-header">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+            className="faq-header"
+          >
             <span className="faq-eyebrow">FAQ</span>
             <h2 className="faq-title" id="faq-title">
               Everything You Need to Know
@@ -80,7 +87,7 @@ export default function Faq() {
               Have questions about Blogtec Jewellery ERP, implementation, or how it fits your business?
               <br className="faq-intro-break" /> Here are some of the questions jewellery businesses ask us most often.
             </p>
-          </div>
+          </motion.div>
 
           <div className="faq-list">
             {questions.map((item, index) => {
@@ -89,7 +96,14 @@ export default function Faq() {
               const answerId = `faq-answer-${index + 1}`;
 
               return (
-                <div className={`faq-item${isOpen ? " is-open" : ""}`} key={item.question}>
+                <motion.div
+                  key={item.question}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
+                  className={`faq-item${isOpen ? " is-open" : ""}`}
+                >
                   <h3 className="faq-question">
                     <button
                       type="button"
@@ -115,7 +129,7 @@ export default function Faq() {
                   >
                     <p>{item.answer}</p>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -124,3 +138,4 @@ export default function Faq() {
     </section>
   );
 }
+

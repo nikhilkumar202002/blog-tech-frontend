@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { motion } from 'framer-motion';
 import '../styles/Section.css';
 
 export interface PlatformProps {
@@ -12,7 +15,13 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
       <div className="platform-overlay" />
 
       <div className="platform-container">
-        <div className="platform-content">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
+          className="platform-content"
+        >
           <h2 className="platform-headline">
             One Platform. A Better View of Your Business.
           </h2>
@@ -27,14 +36,25 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
           </p>
 
           <div className="platform-actions">
-            <a href="#platform-explore" className="platform-cta-btn">
+            <a
+              href="#our-services"
+              onClick={(e) => {
+                const target = document.getElementById("our-services");
+                if (target) {
+                  e.preventDefault();
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="platform-cta-btn"
+            >
               Explore the Platform
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
-export default Platform;
+export default Platform;
+

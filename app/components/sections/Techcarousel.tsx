@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 const technologies = [
@@ -50,11 +53,24 @@ export default function Techcarousel() {
   return (
     <section className="tech-carousel-section" id="technology" aria-labelledby="tech-carousel-title">
       <div className="site-container">
-        <h2 className="tech-carousel-title" id="tech-carousel-title">
+        <motion.h2
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+          className="tech-carousel-title"
+          id="tech-carousel-title"
+        >
           Our <span className="tech-carousel-title-accent">Technology</span> Stack
-        </h2>
+        </motion.h2>
 
-        <div className="tech-carousel-viewport">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.215, 0.61, 0.355, 1] }}
+          className="tech-carousel-viewport"
+        >
           <div className="tech-carousel-track">
             {[0, 1].map((copy) => (
               <div
@@ -79,8 +95,9 @@ export default function Techcarousel() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+

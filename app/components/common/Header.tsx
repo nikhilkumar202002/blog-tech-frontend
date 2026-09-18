@@ -92,8 +92,23 @@ export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }>
   className = "",
   onClick,
 }) => {
+  const pathname = usePathname();
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) onClick();
+    if (pathname === "/") {
+      e.preventDefault();
+      const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+      if (scroller) {
+        scroller.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  };
+
   return (
-    <Link href="/" prefetch={true} onClick={onClick} className={`inline-flex items-center select-none ${className}`}>
+    <Link href="/" prefetch={true} onClick={handleLogoClick} className={`inline-flex items-center select-none ${className}`}>
       <Image
         src="/MAIN-LOGO.png"
         alt="Blogtec Software Logo"
@@ -126,7 +141,14 @@ const Header: React.FC<HeaderProps> = ({
     } else if (pathname.startsWith("/our-products")) {
       setActive("Products");
     } else if (pathname === "/") {
-      setActive("Home");
+      const hash = typeof window !== "undefined" ? window.location.hash : "";
+      if (hash === "#our-services") {
+        setActive("Services");
+      } else if (hash === "#technology") {
+        setActive("Technology");
+      } else {
+        setActive("Home");
+      }
     }
   }, [pathname]);
 

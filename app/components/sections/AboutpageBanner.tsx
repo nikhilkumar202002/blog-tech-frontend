@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 export interface AboutpageBannerProps {
     className?: string;
@@ -27,9 +28,12 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
                     {/* Left Side: Heading Content */}
-                    <div className="lg:col-span-6 flex flex-col justify-center text-left">
-
-
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+                        className="lg:col-span-6 flex flex-col justify-center text-left"
+                    >
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.1] mb-4">
                             Built on Trust.
                             <br />
@@ -45,10 +49,15 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
                         <p className="text-base sm:text-lg text-neutral-600 font-[var(--font-dm-sans)] font-normal leading-relaxed max-w-xl">
                             For nearly two decades, Blogtec Software has provided reliable, industry-focused software solutions tailored specifically for the jewellery business.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    {/* Right Side: Direct Video Blended with Background (No Inner Box) */}
-                    <div className="lg:col-span-6 flex items-center justify-center lg:justify-end relative">
+                    {/* Right Side: Direct Video Blended with Background */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.9, delay: 0.35, ease: [0.215, 0.61, 0.355, 1] }}
+                        className="lg:col-span-6 flex items-center justify-center lg:justify-end relative"
+                    >
                         <video
                             ref={videoRef}
                             autoPlay
@@ -62,7 +71,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
                             <source src="/video/preloader.webm" type="video/webm" />
                             Your browser does not support HTML5 video.
                         </video>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
@@ -71,3 +80,4 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
 };
 
 export default AboutpageBanner;
+

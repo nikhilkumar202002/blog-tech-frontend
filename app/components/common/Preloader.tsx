@@ -57,15 +57,17 @@ export default function Preloader() {
     >
       <video
         ref={videoRef}
+        autoPlay
         muted
-        loop
         playsInline
         preload="auto"
+        onEnded={finish}
         onError={finish}
         aria-hidden="true"
         className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
       >
-        <source src="/video/preloader.webm" type="video/webm" />
+        <source src="/video/preloader.mp4" type="video/mp4" />
+        <source src="/video/blogtech-banner-video.webm" type="video/webm" />
       </video>
     </div>
   );

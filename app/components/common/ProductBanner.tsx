@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FiArrowUpRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 
@@ -53,20 +54,26 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           className="absolute inset-0 z-0 w-full overflow-hidden"
         >
           {/* Desktop Banner Image */}
-          <img
+          <Image
             src={activeImage}
             alt={titleHighlight || titlePrefix || "Product Showcase"}
-            className={`w-full h-full object-cover object-right transition-all duration-700 ${
+            fill
+            priority
+            sizes="100vw"
+            className={`object-cover object-right transition-all duration-700 ${
               activeMobileImage !== activeImage ? "hidden md:block" : "block"
             }`}
           />
 
           {/* Mobile Banner Image (Fits 520px height on mobile) */}
           {activeMobileImage !== activeImage && (
-            <img
+            <Image
               src={activeMobileImage}
               alt={titleHighlight || titlePrefix || "Product Showcase Mobile"}
-              className="w-full h-full object-cover object-center block md:hidden transition-all duration-700"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center block md:hidden transition-all duration-700"
             />
           )}
 

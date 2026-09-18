@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight, FiArrowRight, FiChevronRight } from "react-icons/fi";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 export interface ServiceDetail {
@@ -104,16 +105,12 @@ const OurServices: React.FC = () => {
     const el = carouselRef.current;
     if (!el) return;
     const cardWidth = el.firstElementChild?.clientWidth || 280;
-    el.scrollTo({
-      left: index * (cardWidth + 16),
-      behavior: "smooth",
-    });
+    el.scrollTo({ left: index * (cardWidth + 16), behavior: "smooth" });
     setMobileActiveIndex(index);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest("a, button")) return;
-
+    if (e.pointerType === "touch") return;
     dragStartRef.current = {
       pointerId: e.pointerId,
       startX: e.clientX,
@@ -125,8 +122,7 @@ const OurServices: React.FC = () => {
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const start = dragStartRef.current;
-    if (!start || !carouselRef.current) return;
-
+    if (!start || !carouselRef.current || start.pointerId !== e.pointerId) return;
     const diffX = e.clientX - start.startX;
     if (Math.abs(diffX) > 4) {
       start.isMoved = true;
@@ -144,7 +140,13 @@ const OurServices: React.FC = () => {
       <div className="site-container w-full">
         
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-10 md:mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center text-center mb-10 md:mb-14"
+        >
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.15] max-w-3xl">
             Comprehensive{" "}
             <span
@@ -159,7 +161,7 @@ const OurServices: React.FC = () => {
           <p className="mt-4 text-base sm:text-lg text-neutral-600 font-[var(--font-dm-sans)] max-w-xl">
             Empowering jewellery businesses with end-to-end software solutions and dedicated support.
           </p>
-        </div>
+        </motion.div>
 
         {/* Card Container: Mobile Swipe Carousel (< md) vs Desktop Accordion (>= md) */}
         <div
@@ -178,8 +180,12 @@ const OurServices: React.FC = () => {
             const isActive = activeId === item.id;
 
             return (
-              <div
+              <motion.div
                 key={item.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 onMouseEnter={() => setActiveId(item.id)}
                 onClick={() => {
                   if (dragStartRef.current?.isMoved) return;
@@ -262,7 +268,7 @@ const OurServices: React.FC = () => {
                     </span>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

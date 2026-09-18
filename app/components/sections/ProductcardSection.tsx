@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { FiArrowUpRight, FiArrowRight } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 export interface ProductItem {
     id: string;
@@ -79,7 +80,13 @@ const ProductcardSection: React.FC<ProductcardSectionProps> = ({ className = "" 
             <div className="site-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Section Header */}
-                <div className="text-center max-w-3xl mx-auto mb-14 md:mb-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+                    className="text-center max-w-3xl mx-auto mb-14 md:mb-20"
+                >
                     <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-[#A44B03] font-[var(--font-inter)] mb-3 block">
                         Our Software Products
                     </span>
@@ -93,14 +100,18 @@ const ProductcardSection: React.FC<ProductcardSectionProps> = ({ className = "" 
                             manage and grow your business.
                         </span>
                     </h2>
-                </div>
+                </motion.div>
 
                 {/* Product Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                    {PRODUCTS.map((product) => (
-                        <div
+                    {PRODUCTS.map((product, index) => (
+                        <motion.div
                             key={product.id}
                             id={product.id}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
                             className="group relative rounded-[28px] sm:rounded-[32px] overflow-hidden bg-stone-100 min-h-[460px] sm:min-h-[500px] flex flex-col justify-end shadow-sm hover:shadow-2xl transition-all duration-500 border border-stone-200/80"
                         >
                             {/* Product Background Image */}
@@ -163,7 +174,7 @@ const ProductcardSection: React.FC<ProductcardSectionProps> = ({ className = "" 
 
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

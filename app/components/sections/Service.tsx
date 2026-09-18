@@ -2,7 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
+
+const MotionLink = motion.create(Link);
 
 export interface ServiceItem {
   id: string;
@@ -201,7 +204,13 @@ const Service: React.FC = () => {
             }}
           >
             {/* Left Intro Card */}
-            <div className="service-card service-intro-card">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+              className="service-card service-intro-card"
+            >
               <div className="service-intro-top">
                 <h2 className="service-headline">
                   Your Business.
@@ -233,14 +242,18 @@ const Service: React.FC = () => {
                   </svg>
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
             {/* Product Cards */}
-            {PRODUCTS.map((product) => (
-              <Link
+            {PRODUCTS.map((product, idx) => (
+              <MotionLink
                 key={product.id}
                 id={product.id}
                 href={`/our-products/${product.id}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
                 className="service-card service-product-card group cursor-pointer block text-inherit no-underline"
               >
                 <div className="service-card-image-wrapper">
@@ -256,7 +269,7 @@ const Service: React.FC = () => {
                   <h3 className="service-product-title">{product.title}</h3>
                   <p className="service-product-description">{product.description}</p>
                 </div>
-              </Link>
+              </MotionLink>
             ))}
           </div>
         </div>
@@ -266,3 +279,4 @@ const Service: React.FC = () => {
 };
 
 export default Service;
+

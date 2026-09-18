@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FiArrowDown } from "react-icons/fi";
+import { motion } from "framer-motion";
 import RippleBackground from "../ui/RippleBackground";
 
 export interface ProductpageBannerProps {
@@ -42,7 +43,12 @@ const ProductpageBanner: React.FC<ProductpageBannerProps> = ({ className = "" })
                 <div className="w-full h-4" />
 
                 {/* Main Content Container */}
-                <div className="site-container relative z-10 w-full max-w-5xl mx-auto text-center flex flex-col items-center my-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 35 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.25, ease: [0.215, 0.61, 0.355, 1] }}
+                    className="site-container relative z-10 w-full max-w-5xl mx-auto text-center flex flex-col items-center my-auto"
+                >
 
                     {/* Heading */}
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[76px] font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.08] mb-6 max-w-4xl">
@@ -60,10 +66,15 @@ const ProductpageBanner: React.FC<ProductpageBannerProps> = ({ className = "" })
                         Explore Blogtec&apos;s suite of software solutions designed to simplify jewellery business operations, connect customers and teams, and give business owners better control over their business.
                     </p>
 
-                </div>
+                </motion.div>
 
                 {/* Rotating Circular Scroll Down Badge at Bottom */}
-                <div className="relative z-20 flex flex-col items-center mt-8">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="relative z-20 flex flex-col items-center mt-8"
+                >
                     <a
                         href="#products"
                         aria-label="Scroll down to products"
@@ -91,7 +102,7 @@ const ProductpageBanner: React.FC<ProductpageBannerProps> = ({ className = "" })
                             <FiArrowDown className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-y-1" />
                         </div>
                     </a>
-                </div>
+                </motion.div>
 
             </div>
         </RippleBackground>
@@ -99,3 +110,4 @@ const ProductpageBanner: React.FC<ProductpageBannerProps> = ({ className = "" })
 };
 
 export default ProductpageBanner;
+

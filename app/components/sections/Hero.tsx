@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "../styles/Section.css";
 
 export interface HeroSlide {
@@ -20,7 +21,7 @@ const heroSlides: HeroSlide[] = [
     caption:
       "We bring ideas to life through practical technology and simple, user-friendly design, built around the way you work.",
     ctaText: "Explore Our Solutions",
-    ctaLink: "#solutions",
+    ctaLink: "#services",
   },
   {
     id: 2,
@@ -29,7 +30,7 @@ const heroSlides: HeroSlide[] = [
     caption:
       "Powerful tools to keep your business connected, accessible, and within your control.",
     ctaText: "Explore Our Solutions",
-    ctaLink: "#solutions",
+    ctaLink: "#services",
   },
   {
     id: 3,
@@ -38,7 +39,7 @@ const heroSlides: HeroSlide[] = [
     caption:
       "We build technology around your business needs, helping you work smarter, stay connected, and create new opportunities for growth.",
     ctaText: "Explore Our Solutions",
-    ctaLink: "#solutions",
+    ctaLink: "#services",
   },
   {
     id: 4,
@@ -47,7 +48,7 @@ const heroSlides: HeroSlide[] = [
     caption:
       "Trusted relationships and a deep understanding of business shape the way we work, as we continue to evolve with your changing needs.",
     ctaText: "Explore Our Solutions",
-    ctaLink: "#solutions",
+    ctaLink: "#services",
   },
 ];
 
@@ -62,7 +63,6 @@ const Hero: React.FC<HeroProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Autoplay video initialization
   useEffect(() => {
@@ -78,31 +78,14 @@ const Hero: React.FC<HeroProps> = ({
     }
   }, []);
 
-  // Slide rotation logic with smooth transition
+  // Slide rotation logic
   useEffect(() => {
     const timer = setInterval(() => {
-      handleNextSlide();
+      setCurrentIdx((prev) => (prev + 1) % heroSlides.length);
     }, autoPlayInterval);
 
     return () => clearInterval(timer);
   }, [currentIdx, autoPlayInterval]);
-
-  const handleNextSlide = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentIdx((prev) => (prev + 1) % heroSlides.length);
-      setIsTransitioning(false);
-    }, 300);
-  };
-
-  const handleSelectSlide = (idx: number) => {
-    if (idx === currentIdx) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentIdx(idx);
-      setIsTransitioning(false);
-    }, 250);
-  };
 
   const currentSlide = heroSlides[currentIdx];
 
@@ -137,26 +120,44 @@ const Hero: React.FC<HeroProps> = ({
       <div className="hero-container">
         <div className="hero-text-block">
           {/* Animated Headline & Caption */}
-          <div
-            className={`hero-slide-content ${isTransitioning ? "is-transitioning" : ""
-              }`}
-          >
-            <h1 className="hero-headline">
-              <span className="hero-headline-primary">
-                {currentSlide.primaryTitle}
-              </span>
-              <span className="hero-headline-accent">
-                {currentSlide.accentTitle}
-              </span>
-            </h1>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="hero-slide-content"
+            >
+              <h1 className="hero-headline">
+                <span className="hero-headline-primary">
+                  {currentSlide.primaryTitle}
+                </span>
+                <span className="hero-headline-accent">
+                  {currentSlide.accentTitle}
+                </span>
+              </h1>
 
-            <p className="hero-caption">{currentSlide.caption}</p>
-          </div>
+              <p className="hero-caption">{currentSlide.caption}</p>
+            </motion.div>
+          </AnimatePresence>
 
           {/* Action Row: CTA Pill Button */}
-          <div className="hero-actions-row">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-actions-row"
+          >
             <a
-              href={currentSlide.ctaLink || "#solutions"}
+              href={currentSlide.ctaLink || "#services"}
+              onClick={(e) => {
+                const target = document.getElementById("services") || document.getElementById("our-services");
+                if (target) {
+                  e.preventDefault();
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
               className="hero-cta-btn"
             >
               <span>{currentSlide.ctaText || "Explore Our Solutions"}</span>
@@ -176,7 +177,7 @@ const Hero: React.FC<HeroProps> = ({
                 />
               </svg>
             </a>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 const DESCRIPTION_TEXT =
@@ -76,10 +77,24 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
       <div className="about-container">
         <div className="about-content">
           {/* Eyebrow Subtitle */}
-          <span className="about-subtitle">About Us</span>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="about-subtitle"
+          >
+            About Us
+          </motion.span>
 
           {/* Headline with Serif Italic Accent */}
-          <h2 className="about-headline">
+          <motion.h2
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="about-headline"
+          >
             Built on{" "}
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -88,7 +103,7 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
               Trust. Driven{" "}
             </span>
             by Experience.
-          </h2>
+          </motion.h2>
 
           {/* Scroll-Driven Letter-by-Letter Color Fill Description */}
           <p ref={textRef} className="about-description">
