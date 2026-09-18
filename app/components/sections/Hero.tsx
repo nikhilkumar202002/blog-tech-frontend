@@ -246,13 +246,13 @@ const Hero: React.FC<HeroProps> = ({
                   target.scrollIntoView({ behavior: "smooth" });
                 }
               }}
-              className="group relative inline-flex items-center justify-between h-14 min-w-[250px] sm:min-w-[270px] pl-6 pr-3 bg-white text-stone-900 font-semibold text-base shadow-xl border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300"
+              className="group relative inline-flex items-center justify-between h-14 min-w-[250px] sm:min-w-[270px] pl-6 pr-16 bg-white text-stone-900 font-semibold text-base shadow-xl border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300"
             >
               {/* Layer 0: Expanding Theme Background Fill */}
-              <div className="absolute right-1 top-[4px] bottom-[4px] w-11 group-hover:w-[calc(100%-8px)] bg-[#A44B03] rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm" />
+              <div className="absolute right-1 top-[4px] bottom-[4px] w-12 group-hover:w-[calc(100%-8px)] bg-[#A44B03] rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm" />
 
               {/* Layer 1: Left-aligned Text Content */}
-              <span className="relative z-10 transition-colors duration-500 group-hover:text-white font-[var(--font-dm-sans)] pr-4">
+              <span className="relative z-10 transition-colors duration-500 group-hover:text-white font-[var(--font-dm-sans)] pr-2">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={currentSlide.id}
@@ -267,8 +267,8 @@ const Hero: React.FC<HeroProps> = ({
                 </AnimatePresence>
               </span>
 
-              {/* Layer 2: Right-aligned Arrow Icon */}
-              <div className="relative z-10 flex items-center justify-center w-9 h-9 flex-shrink-0 text-white">
+              {/* Layer 2: Right-aligned Arrow Icon (Perfectly Centered in Pill Box) */}
+              <div className="absolute right-1 top-[4px] bottom-[4px] w-12 z-10 flex items-center justify-center text-white pointer-events-none">
                 <svg
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"

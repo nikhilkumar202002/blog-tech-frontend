@@ -95,14 +95,15 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="about-headline"
           >
-            Built on{" "}
+            Built on Experience.
+            <br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
               className="about-headline-accent italic text-[#A44B03]"
             >
-              Trust. Driven{" "}
-            </span>
-            by Experience.
+              Designed
+            </span>{" "}
+            for Your Success.
           </motion.h2>
 
           {/* Scroll-Driven Letter-by-Letter Color Fill Description */}
