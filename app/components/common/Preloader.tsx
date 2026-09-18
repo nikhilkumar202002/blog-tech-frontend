@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const FADE_DURATION_MS = 350;
-const PRELOADER_DURATION_MS = 5_000;
+const PRELOADER_DURATION_MS = 3_000;
 
 export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -23,6 +23,10 @@ export default function Preloader() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(false);
       return;
+    }
+
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 1.5;
     }
 
     const preloaderTimer = setTimeout(finish, PRELOADER_DURATION_MS);
@@ -61,6 +65,9 @@ export default function Preloader() {
         muted
         playsInline
         preload="auto"
+        onLoadedMetadata={(e) => {
+          e.currentTarget.playbackRate = 1.5;
+        }}
         onEnded={finish}
         onError={finish}
         aria-hidden="true"
