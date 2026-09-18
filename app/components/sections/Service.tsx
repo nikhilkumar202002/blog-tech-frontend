@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Button from "../common/Button";
 import "../styles/Section.css";
 
 const MotionLink = motion.create(Link);
@@ -213,10 +214,9 @@ const Service: React.FC = () => {
             >
               <div className="service-intro-top">
                 <h2 className="service-headline">
-                  Your Business.
+                  <span className="service-headline-accent">Built</span> for Jewellery.
                   <br />
-                  At Your{" "}
-                  <span className="service-headline-accent">Fingertips.</span>
+                  Ready for <span className="service-headline-accent">Growth.</span>
                 </h2>
               </div>
               <div className="service-intro-bottom">
@@ -225,22 +225,9 @@ const Service: React.FC = () => {
                   Owners And Customers, Blogtec Provides Specialized Solutions For
                   Different Aspects Of The Jewellery Business.
                 </p>
-                <Link href="/our-products/aurix" className="service-cta-btn">
-                  <span>Explore Products</span>
-                  <svg
-                    className="service-cta-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                    />
-                  </svg>
-                </Link>
+                <Button href="/our-products/aurix" pillColor="bg-[#c05803]">
+                  Explore Products
+                </Button>
               </div>
             </motion.div>
 

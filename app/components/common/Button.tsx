@@ -31,13 +31,13 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const content = text || children;
 
-  const baseClasses = `group relative inline-flex items-center justify-between h-14 min-w-[240px] sm:min-w-[260px] pl-6 pr-16 bg-white text-stone-900 font-semibold text-base shadow-xl border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
+  const baseClasses = `group relative inline-flex items-center justify-between h-14 min-w-[240px] sm:min-w-[260px] pl-6 pr-16 bg-white text-stone-900 font-semibold text-base border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
 
   const innerElements = (
     <>
       {/* Layer 0: Expanding Theme Background Fill */}
       <div
-        className={`absolute right-1 top-[4px] bottom-[4px] w-12 group-hover:w-[calc(100%-8px)] ${pillColor} rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm`}
+        className={`absolute right-1 top-[4px] bottom-[4px] w-12 group-hover:w-[calc(100%-8px)] ${pillColor} rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]`}
       />
 
       {/* Layer 1: Left-aligned Text Content */}

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import "../styles/Section.css";
 
 const DESCRIPTION_TEXT =
-  "Founded in 2007 by Prajesh Raj CA, Blogtec Software has a clear vision to develop reliable, efficient, and industry-focused software solutions specifically for the jewellery business. For nearly two decades, we have been dedicated to understanding the unique challenges of the industry to provide dependable software and responsive support.";
+  "Our specialized software solutions are designed to simplify jewellery business operations, improve efficiency, and give you better control over every aspect of your business. We bring different aspects of your business together into one organized system, helping you reduce manual effort, improve access to information, and work smarter.";
 
 export interface AboutProps {
   className?: string;
@@ -84,7 +84,7 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
             transition={{ duration: 0.6 }}
             className="about-subtitle"
           >
-            About Us
+            Our Solutions
           </motion.span>
 
           {/* Headline with Serif Italic Accent */}
@@ -95,7 +95,7 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="about-headline"
           >
-            Built on Experience.
+            Practical Technology.
             <br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -103,7 +103,7 @@ const About: React.FC<AboutProps> = ({ className = "" }) => {
             >
               Designed
             </span>{" "}
-            for Your Success.
+            for Your Workflow.
           </motion.h2>
 
           {/* Scroll-Driven Letter-by-Letter Color Fill Description */}
