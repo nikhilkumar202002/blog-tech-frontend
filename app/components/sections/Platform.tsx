@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Button from '../common/Button';
 import '../styles/Section.css';
 
 export interface PlatformProps {
@@ -36,19 +37,21 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
           </p>
 
           <div className="platform-actions">
-            <a
+            <Button
               href="#our-services"
+              pillColor="bg-[#A44B03]"
               onClick={(e) => {
-                const target = document.getElementById("our-services");
+                const target =
+                  document.getElementById("our-services") ||
+                  document.getElementById("services");
                 if (target) {
                   e.preventDefault();
                   target.scrollIntoView({ behavior: "smooth" });
                 }
               }}
-              className="platform-cta-btn"
             >
               Explore the Platform
-            </a>
+            </Button>
           </div>
         </motion.div>
       </div>

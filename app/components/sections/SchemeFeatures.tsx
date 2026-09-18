@@ -83,10 +83,10 @@ export default function SchemeFeatures() {
               className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.12] mb-4">
-                Manage Jewellery Schemes,{" "}
+                <span className="block">Manage Jewellery Schemes,</span>
                 <span
                   style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-                  className="italic font-normal text-[#A44B03] block sm:inline mt-1 sm:mt-0"
+                  className="italic font-normal text-[#A44B03] block mt-1"
                 >
                   Anytime, Anywhere.
                 </span>

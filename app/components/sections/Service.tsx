@@ -46,8 +46,7 @@ const PRODUCTS: ServiceItem[] = [
     title: "EMPLOYEE & PAYROLL MANAGEMENT",
     description:
       "A Centralized System To Manage Employee Information, Attendance, Salary Processing, And Documentation Efficiently.",
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    image: "/products/enroll-payroll/enroll-management-system.webp",
     imageAlt: "Employee and Payroll Management System",
   },
   {
@@ -55,8 +54,7 @@ const PRODUCTS: ServiceItem[] = [
     title: "AUROWN",
     description:
       "An Application Designed Specifically For Jewellery Business Owners To Monitor And Track Business Operations, Sales, And Inventory From Anywhere.",
-    image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
+    image: "/products/aurown/aurown-app-mockup.webp",
     imageAlt: "AUROWN Business Owners Tracking App",
   },
 ];
