@@ -15,6 +15,7 @@ export interface ButtonProps {
   rel?: string;
   pillColor?: string;
   textKey?: string | number;
+  variant?: "default" | "transparent-white" | "transparent";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -28,10 +29,19 @@ const Button: React.FC<ButtonProps> = ({
   rel,
   pillColor = "bg-[#A44B03]",
   textKey,
+  variant = "default",
 }) => {
   const content = text || children;
 
-  const baseClasses = `group relative inline-flex items-center justify-between h-14 min-w-[240px] sm:min-w-[260px] pl-6 pr-16 bg-white text-stone-900 font-semibold text-base border border-black/5 rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
+  const variantStyles = {
+    default: "bg-white text-stone-900 border-black/5",
+    "transparent-white": "bg-transparent text-stone-900 border-white",
+    transparent: "bg-transparent text-stone-900 border-stone-300 hover:border-stone-400",
+  };
+
+  const selectedVariant = variantStyles[variant] || variantStyles.default;
+
+  const baseClasses = `group relative inline-flex items-center justify-between h-14 min-w-[240px] sm:min-w-[260px] pl-6 pr-16 ${selectedVariant} font-semibold text-base border rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
 
   const innerElements = (
     <>

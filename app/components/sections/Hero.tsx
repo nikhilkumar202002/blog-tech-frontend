@@ -237,6 +237,7 @@ const Hero: React.FC<HeroProps> = ({
             <Button
               href={currentSlide.ctaLink || "#services"}
               textKey={currentSlide.id}
+              variant="transparent-white"
               onClick={(e) => {
                 const target =
                   document.getElementById("services") ||
