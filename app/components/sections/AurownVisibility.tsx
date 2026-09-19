@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export interface AurownVisibilityProps {
@@ -9,17 +9,28 @@ export interface AurownVisibilityProps {
 
 const AurownVisibility: React.FC<AurownVisibilityProps> = ({ className = "" }) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
+  const [containerReady, setContainerReady] = useState(false);
+
+  useEffect(() => {
+    const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
+    if (scroller) {
+      containerRef.current = scroller;
+      setContainerReady(true);
+    }
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
+    container: containerReady && containerRef.current ? containerRef : undefined,
     offset: ["start end", "end start"],
   });
 
   // Opposite vertical movements on scroll:
-  // Left phone mockup moves UP as user scrolls down
-  const y1 = useTransform(scrollYProgress, [0, 1], ["50px", "-50px"]);
-  // Right phone mockup moves DOWN in opposite direction as user scrolls down
-  const y2 = useTransform(scrollYProgress, [0, 1], ["-50px", "50px"]);
+  // Left phone mockup moves UP as user scrolls down (-80px)
+  const y1 = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  // Right phone mockup moves DOWN in opposite direction as user scrolls down (+80px)
+  const y2 = useTransform(scrollYProgress, [0, 1], [-80, 80]);
 
   return (
     <section
@@ -35,34 +46,36 @@ const AurownVisibility: React.FC<AurownVisibilityProps> = ({ className = "" }) =
               
               {/* Left Phone Mockup (Moves UP on scroll) */}
               <motion.div
-                style={{ y: y1 }}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="w-1/2 relative drop-shadow-2xl z-10"
               >
-                <img
-                  src="/products/aurown/mobile-mockup-1.png"
-                  alt="Aurown Mobile App Mockup 1"
-                  className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
-                />
+                <motion.div style={{ y: y1 }}>
+                  <img
+                    src="/products/aurown/mobile-mockup-1.png"
+                    alt="Aurown Mobile App Mockup 1"
+                    className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
+                  />
+                </motion.div>
               </motion.div>
 
               {/* Right Phone Mockup (Moves DOWN on scroll in opposite direction) */}
               <motion.div
-                style={{ y: y2 }}
-                initial={{ opacity: 0, y: -40 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="w-1/2 relative drop-shadow-2xl z-20 mt-8 sm:mt-12"
               >
-                <img
-                  src="/products/aurown/mobile-mockup-2.png"
-                  alt="Aurown Mobile App Mockup 2"
-                  className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
-                />
+                <motion.div style={{ y: y2 }}>
+                  <img
+                    src="/products/aurown/mobile-mockup-2.png"
+                    alt="Aurown Mobile App Mockup 2"
+                    className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
+                  />
+                </motion.div>
               </motion.div>
 
             </div>
@@ -77,9 +90,9 @@ const AurownVisibility: React.FC<AurownVisibilityProps> = ({ className = "" }) =
             className="lg:col-span-6 flex flex-col justify-center text-left"
           >
             {/* Eyebrow */}
-            <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-[#B65A00] mb-3 font-[var(--font-dm-sans)]">
-              BUSINESS VISIBILITY
-            </span>
+            <p className="text-base sm:text-lg lg:text-xl font-normal capitalize tracking-[0] text-stone-400 mb-[6px] font-[var(--font-dm-sans)]">
+              Business Visibility
+            </p>
 
             {/* Headline */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.1] mb-6">

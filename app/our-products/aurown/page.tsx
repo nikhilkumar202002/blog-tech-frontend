@@ -1,6 +1,8 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
 import AurownVisibility from "@/app/components/sections/AurownVisibility";
+import AurownFeatures from "@/app/components/sections/AurownFeatures";
+import AurownAccess from "@/app/components/sections/AurownAccess";
 
 export default function AurownPage() {
   return (
@@ -16,6 +18,8 @@ export default function AurownPage() {
         buttonLink="/contact-us?product=aurown"
       />
       <AurownVisibility />
+      <AurownFeatures />
+      <AurownAccess />
     </main>
   );
 }
