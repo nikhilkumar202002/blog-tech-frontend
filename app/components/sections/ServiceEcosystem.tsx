@@ -80,7 +80,7 @@ export default function ServiceEcosystem({ className = "" }: ServiceEcosystemPro
     <section
       className={`w-full py-16 sm:py-24 lg:py-32 bg-white text-stone-900 overflow-hidden ${className}`}
     >
-      <div className="site-container max-w-7xl mx-auto px-4">
+      <div className="site-container">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">

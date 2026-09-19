@@ -12,7 +12,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
     <section
       className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-white text-stone-900 overflow-hidden flex flex-col items-center justify-center ${className}`}
     >
-      <div className="site-container max-w-5xl mx-auto px-4 text-center flex flex-col items-center">
+      <div className="site-container flex flex-col items-center text-center">
         
         {/* Eyebrow */}
         <motion.p

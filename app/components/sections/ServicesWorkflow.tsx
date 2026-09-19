@@ -11,22 +11,22 @@ export interface WorkflowStep {
 
 const WORKFLOW_STEPS: WorkflowStep[] = [
   {
-    step: "01 —",
+    step: "01",
     title: "Understand",
     description: "We begin by understanding the actual requirements of your business.",
   },
   {
-    step: "02 —",
+    step: "02",
     title: "Build",
     description: "We develop practical and user-friendly solutions around those requirements.",
   },
   {
-    step: "03 —",
+    step: "03",
     title: "Support",
     description: "We provide ongoing maintenance and technical support.",
   },
   {
-    step: "04 —",
+    step: "04",
     title: "Evolve",
     description: "We continuously improve solutions as business and industry requirements change.",
   },
@@ -42,7 +42,7 @@ const ServicesWorkflow: React.FC<ServicesWorkflowProps> = ({ className = "" }) =
       className={`w-full py-[80px] lg:py-[150px] bg-[#f8f8f8] text-stone-900 ${className}`}
     >
       <div className="site-container">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <motion.p
@@ -54,16 +54,16 @@ const ServicesWorkflow: React.FC<ServicesWorkflowProps> = ({ className = "" }) =
           >
             How We Work
           </motion.p>
-          
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{ letterSpacing: "-3px" }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-medium text-stone-900 leading-[1.18] font-[var(--font-dm-sans)]"
+            className="text-3xl sm:text-4xl lg:text-5xl font-medium text-stone-900 leading-[1.08] font-[var(--font-dm-sans)]"
           >
-            Understand. Build.
+            Understand. Build.{" "}
             <br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -102,8 +102,8 @@ const ServicesWorkflow: React.FC<ServicesWorkflowProps> = ({ className = "" }) =
                 </p>
               </div>
 
-              {/* Bottom Decorative Line Accent */}
-              <div className="mt-8 pt-4 border-t border-stone-100 flex items-center justify-between text-[11px] font-mono text-stone-400">
+              {/* Bottom Decorative Indicator */}
+              <div className="mt-8 pt-2 flex items-center justify-between text-[11px] font-mono text-stone-400">
                 <span>STEP {idx + 1} OF 4</span>
                 <span className="text-[#B65A00] opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium">
                   PROCESS
