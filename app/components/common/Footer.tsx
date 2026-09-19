@@ -28,11 +28,11 @@ const footerColumns = [
   {
     title: "Services",
     links: [
-      { label: "ERP Solutions", href: "/#our-services" },
-      { label: "Support & Maintenance", href: "/#our-services" },
-      { label: "Custom Software", href: "/#our-services" },
-      { label: "Data & System Management", href: "/#our-services" },
-      { label: "Mobile & Digital Solutions", href: "/#platform" },
+      { label: "ERP Solutions", href: "/our-services" },
+      { label: "Support & Maintenance", href: "/our-services" },
+      { label: "Custom Software", href: "/our-services" },
+      { label: "Data & System Management", href: "/our-services" },
+      { label: "Mobile & Digital Solutions", href: "/our-services" },
     ],
   },
 ];

@@ -16,7 +16,7 @@ const navItems = [
   { label: "Home", href: "/", hasDropdown: false },
   { label: "About Us", href: "/about-us", hasDropdown: false },
   { label: "Products", href: "#", hasDropdown: true },
-  { label: "Services", href: "/#our-services", hasDropdown: true },
+  { label: "Services", href: "/our-services", hasDropdown: true },
   { label: "Technology", href: "/#technology", hasDropdown: false },
   { label: "Contact Us", href: "/contact-us", hasDropdown: false },
 ];
@@ -58,7 +58,7 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
 const SERVICES_DROPDOWN: DropdownItem[] = [
   {
     label: "Jewellery ERP Solutions",
-    href: "/#our-services",
+    href: "/our-services",
     description: "Enterprise Operations for Jewellery Stores",
   },
   {
@@ -68,22 +68,22 @@ const SERVICES_DROPDOWN: DropdownItem[] = [
   },
   {
     label: "Support & Maintenance",
-    href: "/#our-services",
+    href: "/our-services",
     description: "24/7 Technical Care & System Updates",
   },
   {
     label: "Custom Software",
-    href: "/#our-services",
+    href: "/our-services",
     description: "Tailored Development & Workflows",
   },
   {
     label: "Data & System Management",
-    href: "/#our-services",
+    href: "/our-services",
     description: "Cloud Infrastructure & Data Migration",
   },
   {
     label: "Mobile & Digital Solutions",
-    href: "/#platform",
+    href: "/our-services",
     description: "Apps for Store Owners, Employees & Clients",
   },
 ];
@@ -140,11 +140,11 @@ const Header: React.FC<HeaderProps> = ({
       setActive("Contact Us");
     } else if (pathname.startsWith("/our-products")) {
       setActive("Products");
+    } else if (pathname.startsWith("/our-services")) {
+      setActive("Services");
     } else if (pathname === "/") {
       const hash = typeof window !== "undefined" ? window.location.hash : "";
-      if (hash === "#our-services") {
-        setActive("Services");
-      } else if (hash === "#technology") {
+      if (hash === "#technology") {
         setActive("Technology");
       } else {
         setActive("Home");
