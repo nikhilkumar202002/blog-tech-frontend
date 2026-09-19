@@ -1,5 +1,6 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
+import AurownVisibility from "@/app/components/sections/AurownVisibility";
 
 export default function AurownPage() {
   return (
@@ -14,6 +15,7 @@ export default function AurownPage() {
         buttonText="Request a Demo"
         buttonLink="/contact-us?product=aurown"
       />
+      <AurownVisibility />
     </main>
   );
 }
