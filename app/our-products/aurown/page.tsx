@@ -3,6 +3,8 @@ import ProductBanner from "@/app/components/common/ProductBanner";
 import AurownVisibility from "@/app/components/sections/AurownVisibility";
 import AurownFeatures from "@/app/components/sections/AurownFeatures";
 import AurownAccess from "@/app/components/sections/AurownAccess";
+import AurownNotifications from "@/app/components/sections/AurownNotifications";
+import AurownSecurity from "@/app/components/sections/AurownSecurity";
 
 export default function AurownPage() {
   return (
@@ -20,6 +22,8 @@ export default function AurownPage() {
       <AurownVisibility />
       <AurownFeatures />
       <AurownAccess />
+      <AurownNotifications />
+      <AurownSecurity />
     </main>
   );
 }
