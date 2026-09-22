@@ -84,18 +84,18 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
 
       {/* Main Content Container inside Global Class Container (site-container) */}
       <div className="site-container relative z-10 w-full pt-28 sm:pt-36 md:pt-28 pb-10 md:py-20 flex flex-col justify-between md:justify-center h-full">
-        <div className="max-w-2xl lg:max-w-3xl">
+        <div className="max-w-lg md:max-w-xl lg:max-w-2xl">
           {/* Main Title with Serif Gold Accent */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.08] mb-3 drop-shadow-md"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.12] mb-3 drop-shadow-md"
           >
             {titlePrefix.includes("\n") ? (
               <>
-                <span className="block sm:whitespace-nowrap">{titlePrefix.split("\n")[0]}</span>
-                <span className="block sm:whitespace-nowrap mt-1">
+                <span className="block">{titlePrefix.split("\n")[0]}</span>
+                <span className="block mt-1">
                   {titlePrefix.split("\n")[1]}
                   {titleHighlight && (
                     <span

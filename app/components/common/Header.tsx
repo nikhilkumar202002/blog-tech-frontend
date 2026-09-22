@@ -130,29 +130,26 @@ const Header: React.FC<HeaderProps> = ({
   activeItem = "Home",
 }) => {
   const pathname = usePathname();
-  const [active, setActive] = useState(activeItem);
+  const active = (() => {
+    const cleanPath = pathname ? pathname.replace(/\/$/, "") || "/" : "/";
+    if (cleanPath === "/about-us") return "About Us";
+    if (cleanPath === "/contact-us") return "Contact Us";
+    if (cleanPath === "/blog") return "Blog";
+    if (cleanPath === "/careers") return "Career";
+    if (cleanPath.startsWith("/our-products")) return "Products";
+    if (cleanPath.startsWith("/our-services")) return "Services";
+    if (cleanPath === "/") {
+      if (typeof window !== "undefined" && window.location.hash === "#technology") {
+        return "Technology";
+      }
+      return "Home";
+    }
+    return activeItem;
+  })();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"Products" | "Services" | null>(null);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (pathname === "/about-us") {
-      setActive("About Us");
-    } else if (pathname === "/contact-us") {
-      setActive("Contact Us");
-    } else if (pathname.startsWith("/our-products")) {
-      setActive("Products");
-    } else if (pathname.startsWith("/our-services")) {
-      setActive("Services");
-    } else if (pathname === "/") {
-      const hash = typeof window !== "undefined" ? window.location.hash : "";
-      if (hash === "#technology") {
-        setActive("Technology");
-      } else {
-        setActive("Home");
-      }
-    }
-  }, [pathname]);
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -229,12 +226,10 @@ const Header: React.FC<HeaderProps> = ({
   ) => {
     if (item.label === "Products" || item.href === "#") {
       e.preventDefault();
-      setActive(item.label);
       setOpenDropdown((prev) => (prev === item.label ? null : (item.label as "Products" | "Services")));
       return;
     }
 
-    setActive(item.label);
     setOpenDropdown(null);
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
@@ -273,7 +268,6 @@ const Header: React.FC<HeaderProps> = ({
     href: string,
     parentLabel: string
   ) => {
-    setActive(parentLabel);
     setOpenDropdown(null);
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);

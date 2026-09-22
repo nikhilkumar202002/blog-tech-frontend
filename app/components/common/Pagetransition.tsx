@@ -83,7 +83,12 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       // Check if target URL is same pathname with hash
       try {
         const url = new URL(anchor.href, window.location.origin);
-        if (url.pathname === window.location.pathname) {
+
+        // Normalize pathnames for comparison (strip trailing slashes)
+        const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+        const targetPath = url.pathname.replace(/\/$/, "") || "/";
+
+        if (currentPath === targetPath) {
           if (url.hash) return; // Allow smooth scroll inside page
           return; // Same page click
         }
@@ -93,10 +98,26 @@ export default function Pagetransition({ children }: { children: React.ReactNode
         isNavigatingRef.current = true;
         setPhase("closing");
 
-        // After shutters close shut (380ms), push new route
+        let dest = url.pathname;
+        if (!dest.endsWith("/") && !dest.includes(".")) {
+          dest += "/";
+        }
+        const fullDest = dest + url.search + url.hash;
+
+        // After shutters close shut (350ms), trigger client router transition
         setTimeout(() => {
-          router.push(url.pathname + url.search + url.hash);
-        }, 380);
+          try {
+            router.push(fullDest);
+            // Fallback safety: if client navigation hangs, perform location navigation
+            setTimeout(() => {
+              if (isNavigatingRef.current) {
+                window.location.href = fullDest;
+              }
+            }, 500);
+          } catch {
+            window.location.href = fullDest;
+          }
+        }, 350);
       } catch {
         // Fallback for malformed URLs
       }
@@ -107,6 +128,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       document.removeEventListener("click", handleLinkClick, { capture: true });
     };
   }, [router]);
+
 
   // Compute Shutter Panel Transforms:
   // - Closing: Panels slide from off-screen (-100% / 100%) to meet in center (0%)

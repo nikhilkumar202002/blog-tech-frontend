@@ -15,6 +15,11 @@ export default function Preloader() {
   const finish = useCallback(() => {
     if (exitingRef.current) return;
     exitingRef.current = true;
+    try {
+      sessionStorage.setItem("blogtec_preloaded", "true");
+    } catch {
+      // Ignore quota or security errors
+    }
     setExiting(true);
     exitTimerRef.current = setTimeout(() => setVisible(false), FADE_DURATION_MS);
   }, []);
@@ -30,6 +35,16 @@ export default function Preloader() {
   }, []);
 
   useEffect(() => {
+    // Skip preloader if already played in this browser session
+    try {
+      if (typeof window !== "undefined" && sessionStorage.getItem("blogtec_preloaded")) {
+        setVisible(false);
+        return;
+      }
+    } catch {
+      // Fallback if sessionStorage is disabled
+    }
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(false);
       return;
@@ -65,30 +80,33 @@ export default function Preloader() {
       id="preloader-root"
       role="status"
       aria-label="Loading website"
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] transition-opacity duration-[350ms] motion-reduce:hidden ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] overflow-hidden select-none transition-opacity duration-[350ms] motion-reduce:hidden ${
         exiting ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        onLoadedMetadata={(e) => {
-          adjustPlaybackSpeed(e.currentTarget);
-        }}
-        onEnded={finish}
-        onError={finish}
-        aria-hidden="true"
-        className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
-      >
-        <source src="/video/preloader.mp4" type="video/mp4" />
-        <source src="/video/hero-banner-video.mp4" type="video/mp4" />
-      </video>
+      <div className="relative flex items-center justify-center w-full max-w-[400px] max-h-[100dvh] overflow-hidden leading-none">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          onLoadedMetadata={(e) => {
+            adjustPlaybackSpeed(e.currentTarget);
+          }}
+          onEnded={finish}
+          onError={finish}
+          aria-hidden="true"
+          className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain outline-none border-0 ring-0 translate-z-0 scale-[1.01]"
+        >
+          <source src="/video/preloader.mp4" type="video/mp4" />
+          <source src="/video/hero-banner-video.mp4" type="video/mp4" />
+        </video>
+      </div>
     </div>
   );
 }
+
 
 
 

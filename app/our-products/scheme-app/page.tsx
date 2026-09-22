@@ -8,8 +8,8 @@ export default function SchemeAppPage() {
       <ProductBanner
         bgImage="/products/scheme-app/scheme-app.webp"
         mobileBgImage="/products/scheme-app/scheme-app-mobile.webp"
-        titlePrefix={"Empower Your Customers\nwith "}
-        titleHighlight="Digital Scheme Management"
+        titlePrefix={"Empower Customers\nwith "}
+        titleHighlight="Digital Schemes"
         description="A mobile app customized with your branding that allows customers to manage their jewellery schemes, make installment payments, and track their progress conveniently from anywhere."
         buttonText="Get Your Custom App"
         buttonLink="/contact-us?product=scheme-app"

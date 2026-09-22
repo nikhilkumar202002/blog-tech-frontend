@@ -375,7 +375,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 {/* Facebook */}
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/BlogtecSoftwarellp"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
@@ -386,7 +386,7 @@ export default function ContactPage() {
 
                 {/* Instagram */}
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/blogtec_software"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -397,7 +397,7 @@ export default function ContactPage() {
 
                 {/* LinkedIn */}
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/blogtec-software-llp/?originalSubdomain=in"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
