@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import RippleBackground from "@/app/components/ui/RippleBackground";
 
 export interface ServicesHeroProps {
   className?: string;
@@ -9,7 +10,9 @@ export interface ServicesHeroProps {
 
 const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
   return (
-    <section
+    <RippleBackground
+      theme="white"
+      hoverOnly={true}
       className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-white text-stone-900 overflow-hidden flex flex-col items-center justify-center ${className}`}
     >
       <div className="site-container flex flex-col items-center text-center">
@@ -62,7 +65,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
         </motion.p>
 
       </div>
-    </section>
+    </RippleBackground>
   );
 };
 
