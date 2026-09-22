@@ -11,7 +11,7 @@ export interface AboutpageBannerProps {
 const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => {
   return (
     <section
-      className={`relative w-full min-h-[580px] sm:min-h-[500px] md:min-h-[90vh] lg:min-h-screen flex items-center pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
+      className={`relative w-full h-[520px] min-h-[520px] md:min-h-[90vh] lg:min-h-screen flex items-start md:items-center pt-24 sm:pt-28 md:pt-36 lg:pt-40 pb-10 md:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
     >
       {/* Background Image from images folder */}
       <div className="absolute inset-0 z-0">
