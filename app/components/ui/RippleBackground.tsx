@@ -23,6 +23,7 @@ export interface RippleBackgroundProps {
   children?: React.ReactNode;
   theme?: "dark" | "light" | "white";
   backgroundColor?: string;
+  hoverOnly?: boolean;
 }
 
 /*
@@ -47,6 +48,7 @@ export default function RippleBackground({
   children,
   theme = "light",
   backgroundColor,
+  hoverOnly = true,
 }: RippleBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -625,29 +627,28 @@ export default function RippleBackground({
 
         /*
         |--------------------------------------------------------------------------
-        | DOT SIZE
+        | DOT SIZE & OPACITY
         |--------------------------------------------------------------------------
         */
+
+        if (hoverOnly && strongestInfluence <= 0.001) {
+          continue;
+        }
 
         const dotRadius =
           1.2 +
           strongestInfluence *
             1.8;
 
-        /*
-        |--------------------------------------------------------------------------
-        | DOT OPACITY
-        |--------------------------------------------------------------------------
-        */
+        const opacity = hoverOnly
+          ? strongestInfluence * (theme === "dark" ? 0.65 : 0.75)
+          : (theme === "dark"
+              ? 0.16 + strongestInfluence * 0.45
+              : 0.18 + strongestInfluence * 0.52);
 
-        const opacity =
-          theme === "dark"
-            ? 0.16 +
-              strongestInfluence *
-                0.45
-            : 0.18 +
-              strongestInfluence *
-                0.52;
+        if (opacity <= 0.005) {
+          continue;
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -729,7 +730,7 @@ export default function RippleBackground({
         handleTouchEnd
       );
     };
-  }, [theme, backgroundColor]);
+  }, [theme, backgroundColor, hoverOnly]);
 
   /*
   |--------------------------------------------------------------------------
