@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiArrowUpRight, FiClock, FiTag } from "react-icons/fi";
+import { FiClock, FiTag } from "react-icons/fi";
+import Button from "@/app/components/common/Button";
 
 export interface FeaturedBlogProps {
   className?: string;
@@ -56,11 +57,10 @@ const FeaturedBlog: React.FC<FeaturedBlogProps> = ({ className = "" }) => {
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 flex flex-col items-start text-left"
           >
-            {/* Featured Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A44B03]/10 border border-[#A44B03]/20 text-[#A44B03] text-xs font-semibold uppercase tracking-widest mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#A44B03] animate-pulse" />
-              FEATURED ARTICLE
-            </div>
+            {/* Featured Eyebrow */}
+            <span className="text-xs sm:text-sm font-medium text-stone-400 font-[var(--font-dm-sans)] uppercase tracking-widest mb-4 block">
+              Featured
+            </span>
 
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-stone-900 leading-[1.12] font-[var(--font-dm-sans)] mb-4">
@@ -93,13 +93,10 @@ const FeaturedBlog: React.FC<FeaturedBlogProps> = ({ className = "" }) => {
             </div>
 
             {/* CTA Button */}
-            <Link
+            <Button
               href="/blog/technology-built-around-jewellery-business"
-              className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-stone-900 hover:bg-[#A44B03] text-white text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#A44B03]/25"
-            >
-              <span>Read Article</span>
-              <FiArrowUpRight className="w-4 h-4 stroke-[2.2] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
+              text="Read Article"
+            />
           </motion.div>
 
         </div>
