@@ -101,13 +101,13 @@ const BlogGrid: React.FC<BlogGridProps> = ({ className = "" }) => {
     >
       <div className="site-container w-full">
         
-        {/* Header Section */}
-        <div className="text-left mb-12 sm:mb-16">
+        {/* Header Section (Centered) */}
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <span className="text-xs sm:text-sm font-medium text-stone-400 font-[var(--font-dm-sans)] uppercase tracking-widest mb-3 block">
             LATEST FROM BLOGTEC
           </span>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 leading-[1.12] max-w-3xl font-[var(--font-dm-sans)]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 leading-[1.12] font-[var(--font-dm-sans)]">
             Practical Knowledge for a{" "}
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -119,8 +119,8 @@ const BlogGrid: React.FC<BlogGridProps> = ({ className = "" }) => {
           </h2>
         </div>
 
-        {/* 4-Column Card Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+        {/* 4-Column Card Grid with 20px gap */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {blogPosts.map((post, idx) => (
             <motion.article
               key={post.id}
