@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Button from "../common/Button";
+import Button from "@/app/components/common/Button";
 
 export interface ServicesCTAProps {
   className?: string;

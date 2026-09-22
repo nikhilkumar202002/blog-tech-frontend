@@ -14,8 +14,9 @@ export interface ButtonProps {
   target?: string;
   rel?: string;
   pillColor?: string;
+  blendingColor?: string;
   textKey?: string | number;
-  variant?: "default" | "transparent-white" | "transparent";
+  variant?: "default" | "transparent-white" | "transparent" | "blended";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -28,6 +29,7 @@ const Button: React.FC<ButtonProps> = ({
   target,
   rel,
   pillColor = "bg-[#A44B03]",
+  blendingColor,
   textKey,
   variant = "default",
 }) => {
@@ -35,8 +37,15 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     default: "bg-white text-stone-900 border-black/5",
-    "transparent-white": "bg-transparent text-stone-900 border-white",
-    transparent: "bg-transparent text-stone-900 border-stone-300 hover:border-stone-400",
+    "transparent-white":
+      blendingColor ||
+      "bg-white/30 backdrop-blur-md text-stone-900 border-white hover:bg-white/40 shadow-sm",
+    transparent:
+      blendingColor ||
+      "bg-white/15 backdrop-blur-sm text-stone-900 border-stone-300 hover:border-stone-400",
+    blended:
+      blendingColor ||
+      "bg-white/35 backdrop-blur-md text-stone-900 border-white/90 hover:bg-white/45 shadow-sm",
   };
 
   const selectedVariant = variantStyles[variant] || variantStyles.default;

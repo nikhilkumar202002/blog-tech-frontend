@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import "../styles/Section.css";
+import "@/app/components/styles/Section.css";
 
 const DESCRIPTION_TEXT =
   "Our specialized software solutions are designed to simplify jewellery business operations, improve efficiency, and give you better control over every aspect of your business. We bring different aspects of your business together into one organized system, helping you reduce manual effort, improve access to information, and work smarter.";

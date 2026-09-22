@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const FADE_DURATION_MS = 350;
-const PRELOADER_DURATION_MS = 3_000;
+const PRELOADER_DURATION_MS = 3_500; // Target 3.5s (3 to 4 seconds range)
 
 export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -19,6 +19,16 @@ export default function Preloader() {
     exitTimerRef.current = setTimeout(() => setVisible(false), FADE_DURATION_MS);
   }, []);
 
+  const adjustPlaybackSpeed = useCallback((video: HTMLVideoElement) => {
+    if (video.duration && !isNaN(video.duration) && video.duration > 0) {
+      // Scale playback speed to fit the 3.5s target window (3-4 seconds)
+      const targetSec = PRELOADER_DURATION_MS / 1000;
+      video.playbackRate = Math.max(0.5, video.duration / targetSec);
+    } else {
+      video.playbackRate = 1.43; // Default speed for ~5s video to finish in ~3.5s
+    }
+  }, []);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(false);
@@ -26,7 +36,7 @@ export default function Preloader() {
     }
 
     if (videoRef.current) {
-      videoRef.current.playbackRate = 1.5;
+      adjustPlaybackSpeed(videoRef.current);
     }
 
     const preloaderTimer = setTimeout(finish, PRELOADER_DURATION_MS);
@@ -36,7 +46,7 @@ export default function Preloader() {
       clearTimeout(preloaderTimer);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
     };
-  }, [finish]);
+  }, [finish, adjustPlaybackSpeed]);
 
   useEffect(() => {
     if (!visible) return;
@@ -66,7 +76,7 @@ export default function Preloader() {
         playsInline
         preload="auto"
         onLoadedMetadata={(e) => {
-          e.currentTarget.playbackRate = 1.5;
+          adjustPlaybackSpeed(e.currentTarget);
         }}
         onEnded={finish}
         onError={finish}
@@ -74,10 +84,11 @@ export default function Preloader() {
         className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain"
       >
         <source src="/video/preloader.mp4" type="video/mp4" />
-        <source src="/video/blogtech-banner-video.webm" type="video/webm" />
+        <source src="/video/hero-banner-video.mp4" type="video/mp4" />
       </video>
     </div>
   );
 }
+
 
 

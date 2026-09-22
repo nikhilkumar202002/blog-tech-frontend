@@ -2,11 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import ServicesHero from "../components/sections/ServicesHero";
-import ServicesGrid from "../components/sections/ServicesGrid";
-import ServiceEcosystem from "../components/sections/ServiceEcosystem";
-import ServicesWorkflow from "../components/sections/ServicesWorkflow";
-import ServicesCTA from "../components/sections/ServicesCTA";
+import ServicesHero from "@/app/components/sections/our-services/ServicesHero";
+import ServicesGrid from "@/app/components/sections/our-services/ServicesGrid";
+import ServiceEcosystem from "@/app/components/sections/our-services/ServiceEcosystem";
+import ServicesWorkflow from "@/app/components/sections/our-services/ServicesWorkflow";
+import ServicesCTA from "@/app/components/sections/our-services/ServicesCTA";
 
 export default function ServicesClientPage() {
   return (

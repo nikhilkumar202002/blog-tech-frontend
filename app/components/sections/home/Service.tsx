@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Button from "../common/Button";
-import "../styles/Section.css";
+import Button from "@/app/components/common/Button";
+import "@/app/components/styles/Section.css";
 
 const MotionLink = motion.create(Link);
 

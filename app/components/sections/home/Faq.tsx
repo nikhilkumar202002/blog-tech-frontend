@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { motion } from "framer-motion";
-import "../styles/Section.css";
+import "@/app/components/styles/Section.css";
 
 const questions = [
   {

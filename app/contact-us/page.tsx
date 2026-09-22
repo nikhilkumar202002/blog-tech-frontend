@@ -50,7 +50,10 @@ export default function ContactPage() {
   };
 
   return (
-    <RippleBackground theme="light" className="w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
+    <RippleBackground
+  theme="light"
+  className="w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8"
+>
       <div className="max-w-7xl mx-auto w-full">
         
         {/* Header Title Section (60vh Height) */}

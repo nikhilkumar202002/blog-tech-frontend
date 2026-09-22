@@ -1,6 +1,6 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
-import JewelappFeatures from "@/app/components/sections/JewelappFeatures";
+import JewelappFeatures from "@/app/components/sections/our-products/jewel-connect/JewelappFeatures";
 
 export default function JewelConnectPage() {
   return (

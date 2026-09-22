@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import "../styles/Section.css";
+import "@/app/components/styles/Section.css";
 
 export default function CEOMessage() {
   return (

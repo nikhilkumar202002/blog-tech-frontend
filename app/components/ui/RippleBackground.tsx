@@ -9,13 +9,11 @@ interface Ripple {
   maxRadius: number;
   speed: number;
   opacity: number;
-  color: string;
   lineWidth: number;
+  isClick?: boolean;
 }
 
 interface GridPoint {
-  x: number;
-  y: number;
   baseX: number;
   baseY: number;
 }
@@ -24,273 +22,759 @@ export interface RippleBackgroundProps {
   className?: string;
   children?: React.ReactNode;
   theme?: "dark" | "light" | "white";
+  backgroundColor?: string;
 }
 
-const RIPPLE_COLORS_DARK = [
-  "rgba(164, 75, 3, ",    // Brand primary #A44B03
-  "rgba(217, 119, 6, ",   // Amber 600
-  "rgba(245, 158, 11, ",  // Amber 500
-  "rgba(56, 189, 248, ",  // Cyan accent
-  "rgba(251, 146, 60, ",  // Orange accent
-];
+/*
+|--------------------------------------------------------------------------
+| BRAND COLOR (RGB)
+|--------------------------------------------------------------------------
+|
+| Blogtec primary color: #A24A02 -> rgb(162, 74, 2)
+|
+*/
 
-const RIPPLE_COLORS_LIGHT = [
-  "rgba(164, 75, 3, ",    // Brand primary #A44B03
-  "rgba(217, 119, 6, ",   // Amber 600
-  "rgba(2, 132, 199, ",   // Sky blue 600
-  "rgba(194, 65, 12, ",   // Orange 700
-  "rgba(109, 40, 217, ",  // Violet 700
-];
+const PRIMARY_COLOR_RGB = "162, 74, 2";
+
+/*
+|--------------------------------------------------------------------------
+| RIPPLE BACKGROUND
+|--------------------------------------------------------------------------
+*/
 
 export default function RippleBackground({
   className = "",
   children,
-  theme = "dark",
+  theme = "light",
+  backgroundColor,
 }: RippleBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mousePosRef = useRef<{ x: number; y: number } | null>(null);
-  const lastSpawnRef = useRef<{ x: number; y: number }>({ x: -1000, y: -1000 });
+
+  const mouseRef = useRef({
+    x: -1000,
+    y: -1000,
+    active: false,
+  });
+
+  const lastSpawnRef = useRef({
+    x: -1000,
+    y: -1000,
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
+
     if (!canvas || !container) return;
 
     const ctx = canvas.getContext("2d");
+
     if (!ctx) return;
 
-    let animationFrameId: number;
     let width = 0;
     let height = 0;
-    let ripples: Ripple[] = [];
+    let devicePixelRatio = 1;
+
+    let animationFrameId = 0;
+
+    const ripples: Ripple[] = [];
     let gridPoints: GridPoint[] = [];
 
-    const GRID_SPACING = 36;
+    /*
+    |--------------------------------------------------------------------------
+    | SETTINGS
+    |--------------------------------------------------------------------------
+    */
 
-    const initGrid = (w: number, h: number) => {
-      gridPoints = [];
-      for (let x = 18; x < w; x += GRID_SPACING) {
-        for (let y = 18; y < h; y += GRID_SPACING) {
-          gridPoints.push({ x, y, baseX: x, baseY: y });
-        }
-      }
-    };
+    const GRID_SPACING = 24;
+
+    const RIPPLE_RADIUS = 190;
+
+    const RIPPLE_TRIGGER_DISTANCE = 22;
+
+    const RIPPLE_WAVE_WIDTH = 50;
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESIZE
+    |--------------------------------------------------------------------------
+    */
 
     const handleResize = () => {
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
       width = rect.width;
       height = rect.height;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+
+      devicePixelRatio = Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
+
+      canvas.width = Math.round(
+        width * devicePixelRatio
+      );
+
+      canvas.height = Math.round(
+        height * devicePixelRatio
+      );
+
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      ctx.scale(dpr, dpr);
-      initGrid(width, height);
+
+      ctx.setTransform(
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
+      );
+
+      /*
+       * Generate the dot grid.
+       */
+      gridPoints = [];
+
+      for (
+        let x = GRID_SPACING / 2;
+        x < width;
+        x += GRID_SPACING
+      ) {
+        for (
+          let y = GRID_SPACING / 2;
+          y < height;
+          y += GRID_SPACING
+        ) {
+          gridPoints.push({
+            baseX: x,
+            baseY: y,
+          });
+        }
+      }
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE RIPPLE
+    |--------------------------------------------------------------------------
+    */
 
-    const colors = theme === "dark" ? RIPPLE_COLORS_DARK : RIPPLE_COLORS_LIGHT;
+    const spawnRipple = (
+      x: number,
+      y: number,
+      isClick = false
+    ) => {
+      ripples.push({
+        x,
+        y,
 
-    const spawnRipple = (x: number, y: number, isClick = false) => {
-      const count = isClick ? 3 : 1;
-      for (let i = 0; i < count; i++) {
-        ripples.push({
+        radius: 4,
+
+        maxRadius: isClick
+          ? 260
+          : RIPPLE_RADIUS,
+
+        speed: isClick
+          ? 4.5
+          : 3.2,
+
+        opacity: isClick
+          ? 0.95
+          : 0.75,
+
+        lineWidth: isClick
+          ? 2
+          : 1.2,
+
+        isClick,
+      });
+
+      /*
+       * Prevent too many active ripples.
+       */
+      if (ripples.length > 15) {
+        ripples.shift();
+      }
+    };
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOUSE MOVE
+    |--------------------------------------------------------------------------
+    */
+
+    const handleMouseMove = (
+      event: MouseEvent
+    ) => {
+      const rect =
+        container.getBoundingClientRect();
+
+      const x =
+        event.clientX - rect.left;
+
+      const y =
+        event.clientY - rect.top;
+
+      mouseRef.current = {
+        x,
+        y,
+        active: true,
+      };
+
+      const distance = Math.hypot(
+        x - lastSpawnRef.current.x,
+        y - lastSpawnRef.current.y
+      );
+
+      if (
+        distance >
+        RIPPLE_TRIGGER_DISTANCE
+      ) {
+        spawnRipple(x, y);
+
+        lastSpawnRef.current = {
           x,
           y,
-          radius: 4 + i * 8,
-          maxRadius: (isClick ? 180 : 120) + Math.random() * 40,
-          speed: (isClick ? 3.5 : 2.2) + Math.random() * 0.8,
-          opacity: isClick ? 0.9 : 0.7,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          lineWidth: isClick ? 2.5 : 1.75,
-        });
+        };
       }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      mousePosRef.current = { x, y };
-
-      const dist = Math.hypot(x - lastSpawnRef.current.x, y - lastSpawnRef.current.y);
-      if (dist > 28) {
-        spawnRipple(x, y);
-        lastSpawnRef.current = { x, y };
-      }
-    };
+    /*
+    |--------------------------------------------------------------------------
+    | MOUSE LEAVE
+    |--------------------------------------------------------------------------
+    */
 
     const handleMouseLeave = () => {
-      mousePosRef.current = null;
+      mouseRef.current.active = false;
+
+      lastSpawnRef.current = {
+        x: -1000,
+        y: -1000,
+      };
     };
 
-    const handleClick = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      spawnRipple(x, y, true);
+    /*
+    |--------------------------------------------------------------------------
+    | CLICK RIPPLE
+    |--------------------------------------------------------------------------
+    */
+
+    const handleClick = (
+      event: MouseEvent
+    ) => {
+      const rect =
+        container.getBoundingClientRect();
+
+      const x =
+        event.clientX - rect.left;
+
+      const y =
+        event.clientY - rect.top;
+
+      spawnRipple(
+        x,
+        y,
+        true
+      );
     };
 
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
-    container.addEventListener("click", handleClick);
+    /*
+    |--------------------------------------------------------------------------
+    | TOUCH
+    |--------------------------------------------------------------------------
+    */
 
-    // Touch support
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!e.touches[0]) return;
-      const rect = container.getBoundingClientRect();
-      const x = e.touches[0].clientX - rect.left;
-      const y = e.touches[0].clientY - rect.top;
-      mousePosRef.current = { x, y };
-      const dist = Math.hypot(x - lastSpawnRef.current.x, y - lastSpawnRef.current.y);
-      if (dist > 30) {
+    const handleTouchMove = (
+      event: TouchEvent
+    ) => {
+      const touch = event.touches[0];
+
+      if (!touch) return;
+
+      const rect =
+        container.getBoundingClientRect();
+
+      const x =
+        touch.clientX - rect.left;
+
+      const y =
+        touch.clientY - rect.top;
+
+      mouseRef.current = {
+        x,
+        y,
+        active: true,
+      };
+
+      const distance = Math.hypot(
+        x - lastSpawnRef.current.x,
+        y - lastSpawnRef.current.y
+      );
+
+      if (distance > 25) {
         spawnRipple(x, y);
-        lastSpawnRef.current = { x, y };
+
+        lastSpawnRef.current = {
+          x,
+          y,
+        };
       }
     };
-    container.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    const handleTouchEnd = () => {
+      mouseRef.current.active = false;
+    };
+
+    /*
+    |--------------------------------------------------------------------------
+    | EVENTS
+    |--------------------------------------------------------------------------
+    */
+
+    handleResize();
+
+    const resizeObserver =
+      new ResizeObserver(
+        handleResize
+      );
+
+    resizeObserver.observe(
+      container
+    );
+
+    container.addEventListener(
+      "mousemove",
+      handleMouseMove
+    );
+
+    container.addEventListener(
+      "mouseleave",
+      handleMouseLeave
+    );
+
+    container.addEventListener(
+      "click",
+      handleClick
+    );
+
+    container.addEventListener(
+      "touchmove",
+      handleTouchMove,
+      {
+        passive: true,
+      }
+    );
+
+    container.addEventListener(
+      "touchend",
+      handleTouchEnd
+    );
 
     let time = 0;
 
+    /*
+    |--------------------------------------------------------------------------
+    | RENDER
+    |--------------------------------------------------------------------------
+    */
+
     const render = () => {
-      time += 0.02;
-      ctx.clearRect(0, 0, width, height);
+      time += 0.015;
 
-      // Render dark/light/white background base
-      if (theme === "dark") {
-        const bgGrad = ctx.createLinearGradient(0, 0, width, height);
-        bgGrad.addColorStop(0, "#0c0a09");
-        bgGrad.addColorStop(0.5, "#151210");
-        bgGrad.addColorStop(1, "#090807");
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, width, height);
+      /*
+       * Clear canvas.
+       */
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      /*
+      |--------------------------------------------------------------------------
+      | BACKGROUND
+      |--------------------------------------------------------------------------
+      */
+
+      if (backgroundColor) {
+        ctx.fillStyle = backgroundColor;
+      } else if (theme === "dark") {
+        ctx.fillStyle = "#0D0B0A";
       } else if (theme === "white") {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#FFFFFF";
       } else {
-        const bgGrad = ctx.createLinearGradient(0, 0, width, height);
-        bgGrad.addColorStop(0, "#fbf9f6");
-        bgGrad.addColorStop(0.5, "#f5eee6");
-        bgGrad.addColorStop(1, "#fbf9f6");
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#FAF7F2";
       }
 
-      // Mouse Cursor Glow
-      if (mousePosRef.current) {
-        const { x, y } = mousePosRef.current;
-        const glowGrad = ctx.createRadialGradient(x, y, 0, x, y, 220);
-        glowGrad.addColorStop(
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      /*
+      |--------------------------------------------------------------------------
+      | CURSOR GLOW
+      |--------------------------------------------------------------------------
+      */
+
+      if (
+        mouseRef.current.active
+      ) {
+        const {
+          x,
+          y,
+        } = mouseRef.current;
+
+        const glow =
+          ctx.createRadialGradient(
+            x,
+            y,
+            0,
+            x,
+            y,
+            220
+          );
+
+        if (theme === "dark") {
+          glow.addColorStop(
+            0,
+            `rgba(${PRIMARY_COLOR_RGB}, 0.2)`
+          );
+
+          glow.addColorStop(
+            0.45,
+            `rgba(${PRIMARY_COLOR_RGB}, 0.08)`
+          );
+        } else {
+          glow.addColorStop(
+            0,
+            `rgba(${PRIMARY_COLOR_RGB}, 0.14)`
+          );
+
+          glow.addColorStop(
+            0.45,
+            `rgba(${PRIMARY_COLOR_RGB}, 0.04)`
+          );
+        }
+
+        glow.addColorStop(
+          1,
+          `rgba(${PRIMARY_COLOR_RGB}, 0)`
+        );
+
+        ctx.fillStyle = glow;
+
+        ctx.fillRect(
           0,
-          theme === "dark" ? "rgba(164, 75, 3, 0.22)" : "rgba(164, 75, 3, 0.12)"
+          0,
+          width,
+          height
         );
-        glowGrad.addColorStop(
-          0.5,
-          theme === "dark" ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.04)"
-        );
-        glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-        ctx.fillStyle = glowGrad;
-        ctx.fillRect(0, 0, width, height);
       }
 
-      // Update & Draw Ripples
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        r.radius += r.speed;
-        r.opacity *= 0.965;
+      /*
+      |--------------------------------------------------------------------------
+      | UPDATE RIPPLES
+      |--------------------------------------------------------------------------
+      */
 
-        if (r.opacity < 0.01 || r.radius >= r.maxRadius) {
-          ripples.splice(i, 1);
+      for (
+        let i = ripples.length - 1;
+        i >= 0;
+        i--
+      ) {
+        const ripple =
+          ripples[i];
+
+        ripple.radius +=
+          ripple.speed;
+
+        ripple.opacity *=
+          0.965;
+
+        if (
+          ripple.radius >=
+            ripple.maxRadius ||
+          ripple.opacity < 0.015
+        ) {
+          ripples.splice(
+            i,
+            1
+          );
+
           continue;
         }
-
-        // Concentric wave rings
-        const ringCount = 3;
-        for (let k = 0; k < ringCount; k++) {
-          const ringRad = r.radius - k * 14;
-          if (ringRad <= 0) continue;
-
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(r.x, r.y, ringRad, 0, Math.PI * 2);
-          const currentOpacity = Math.max(0, r.opacity * (1 - k * 0.3));
-          ctx.strokeStyle = `${r.color}${currentOpacity})`;
-          ctx.lineWidth = Math.max(0.5, r.lineWidth * (1 - ringRad / r.maxRadius));
-          ctx.shadowColor = theme === "dark" ? "rgba(245, 158, 11, 0.4)" : "rgba(164, 75, 3, 0.2)";
-          ctx.shadowBlur = 8;
-          ctx.stroke();
-          ctx.restore();
-        }
       }
 
-      // Draw Grid Dots with Liquid Displacement
-      const dotColor =
-        theme === "dark" ? "rgba(255, 255, 255, 0.12)" : "rgba(164, 75, 3, 0.15)";
-      ctx.fillStyle = dotColor;
+      /*
+      |--------------------------------------------------------------------------
+      | DRAW DOT GRID
+      |--------------------------------------------------------------------------
+      */
 
-      for (let i = 0; i < gridPoints.length; i++) {
-        const pt = gridPoints[i];
-        let dispX = 0;
-        let dispY = 0;
+      for (
+        const point of gridPoints
+      ) {
+        let drawX =
+          point.baseX;
 
-        // Ripple displacement on grid
-        for (let j = 0; j < ripples.length; j++) {
-          const rip = ripples[j];
-          const dx = pt.baseX - rip.x;
-          const dy = pt.baseY - rip.y;
-          const dist = Math.hypot(dx, dy);
-          const waveDist = Math.abs(dist - rip.radius);
+        let drawY =
+          point.baseY;
 
-          if (waveDist < 35 && dist > 0) {
-            const factor = Math.sin((waveDist / 35) * Math.PI) * rip.opacity * 9;
-            dispX += (dx / dist) * factor;
-            dispY += (dy / dist) * factor;
+        let totalDisplacementX = 0;
+        let totalDisplacementY = 0;
+
+        let strongestInfluence = 0;
+
+        /*
+        |--------------------------------------------------------------------------
+        | APPLY RIPPLE TO DOTS
+        |--------------------------------------------------------------------------
+        */
+
+        for (
+          const ripple of ripples
+        ) {
+          const dx =
+            point.baseX -
+            ripple.x;
+
+          const dy =
+            point.baseY -
+            ripple.y;
+
+          const distance =
+            Math.hypot(
+              dx,
+              dy
+            );
+
+          if (
+            distance === 0
+          ) {
+            continue;
+          }
+
+          const distanceFromWave =
+            Math.abs(
+              distance -
+                ripple.radius
+            );
+
+          if (
+            distanceFromWave <
+            RIPPLE_WAVE_WIDTH
+          ) {
+            /*
+             * Smooth wave influence.
+             */
+            const normalized =
+              distanceFromWave /
+              RIPPLE_WAVE_WIDTH;
+
+            const wave =
+              Math.sin(
+                normalized *
+                  Math.PI
+              );
+
+            const influence =
+              wave *
+              ripple.opacity;
+
+            /*
+             * Push the dot away
+             * from the ripple center.
+             */
+            const displacement =
+              influence * 25;
+
+            totalDisplacementX +=
+              (dx / distance) *
+              displacement;
+
+            totalDisplacementY +=
+              (dy / distance) *
+              displacement;
+
+            strongestInfluence =
+              Math.max(
+                strongestInfluence,
+                influence
+              );
           }
         }
 
-        // Ambient sine floating
-        const floatX = Math.sin(time + pt.baseY * 0.05) * 1.5;
-        const floatY = Math.cos(time + pt.baseX * 0.05) * 1.5;
+        /*
+         * Ambient floating motion
+         */
+        const floatX = Math.sin(time + point.baseY * 0.04) * 0.8;
+        const floatY = Math.cos(time + point.baseX * 0.04) * 0.8;
 
-        pt.x = pt.baseX + dispX + floatX;
-        pt.y = pt.baseY + dispY + floatY;
+        drawX +=
+          totalDisplacementX + floatX;
+
+        drawY +=
+          totalDisplacementY + floatY;
+
+        /*
+        |--------------------------------------------------------------------------
+        | DOT SIZE
+        |--------------------------------------------------------------------------
+        */
+
+        const dotRadius =
+          1.2 +
+          strongestInfluence *
+            1.8;
+
+        /*
+        |--------------------------------------------------------------------------
+        | DOT OPACITY
+        |--------------------------------------------------------------------------
+        */
+
+        const opacity =
+          theme === "dark"
+            ? 0.16 +
+              strongestInfluence *
+                0.45
+            : 0.18 +
+              strongestInfluence *
+                0.52;
+
+        /*
+        |--------------------------------------------------------------------------
+        | DRAW DOT
+        |--------------------------------------------------------------------------
+        */
 
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 1.2, 0, Math.PI * 2);
+
+        ctx.fillStyle =
+          `rgba(${PRIMARY_COLOR_RGB}, ${opacity})`;
+
+        ctx.arc(
+          drawX,
+          drawY,
+          dotRadius,
+          0,
+          Math.PI * 2
+        );
+
         ctx.fill();
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      /*
+      |--------------------------------------------------------------------------
+      | NEXT FRAME
+      |--------------------------------------------------------------------------
+      */
+
+      animationFrameId =
+        requestAnimationFrame(
+          render
+        );
     };
+
+    /*
+    |--------------------------------------------------------------------------
+    | START
+    |--------------------------------------------------------------------------
+    */
 
     render();
 
+    /*
+    |--------------------------------------------------------------------------
+    | CLEANUP
+    |--------------------------------------------------------------------------
+    */
+
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-      container.removeEventListener("click", handleClick);
-      container.removeEventListener("touchmove", handleTouchMove);
+      cancelAnimationFrame(
+        animationFrameId
+      );
+
+      resizeObserver.disconnect();
+
+      container.removeEventListener(
+        "mousemove",
+        handleMouseMove
+      );
+
+      container.removeEventListener(
+        "mouseleave",
+        handleMouseLeave
+      );
+
+      container.removeEventListener(
+        "click",
+        handleClick
+      );
+
+      container.removeEventListener(
+        "touchmove",
+        handleTouchMove
+      );
+
+      container.removeEventListener(
+        "touchend",
+        handleTouchEnd
+      );
     };
-  }, [theme]);
+  }, [theme, backgroundColor]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | COMPONENT
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <div
       ref={containerRef}
-      className={`relative w-full flex-shrink-0 ${className}`}
+      className={`
+        relative
+        w-full
+        overflow-hidden
+        ${className}
+      `}
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Ripple Canvas */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+        "
+      >
         <canvas
           ref={canvasRef}
-          className="w-full h-full pointer-events-none"
+          className="
+            block
+            h-full
+            w-full
+          "
         />
       </div>
-      <div className="relative z-10">{children}</div>
+
+      {/* Page Content */}
+      <div
+        className="
+          relative
+          z-10
+        "
+      >
+        {children}
+      </div>
     </div>
   );
 }

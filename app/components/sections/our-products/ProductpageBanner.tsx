@@ -3,7 +3,7 @@
 import React from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { motion } from "framer-motion";
-import RippleBackground from "../ui/RippleBackground";
+import RippleBackground from "@/app/components/ui/RippleBackground";
 
 export interface ProductpageBannerProps {
     className?: string;

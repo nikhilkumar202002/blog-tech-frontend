@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight, FiArrowRight, FiChevronRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import "../styles/Section.css";
+import "@/app/components/styles/Section.css";
 
 export interface ServiceDetail {
   id: string;

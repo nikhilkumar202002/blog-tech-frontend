@@ -1,6 +1,6 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
-import SchemeFeatures from "@/app/components/sections/SchemeFeatures";
+import SchemeFeatures from "@/app/components/sections/our-products/scheme-app/SchemeFeatures";
 
 export default function SchemeAppPage() {
   return (

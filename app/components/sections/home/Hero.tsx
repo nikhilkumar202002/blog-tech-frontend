@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Button from "../common/Button";
-import "../styles/Section.css";
+import Button from "@/app/components/common/Button";
+import "@/app/components/styles/Section.css";
 
 export interface HeroSlide {
   id: number;
@@ -138,12 +138,9 @@ const Hero: React.FC<HeroProps> = ({
     if (videoRef.current) {
       videoRef.current.muted = true;
       videoRef.current.defaultMuted = true;
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Ignore autoplay restriction errors
-        });
-      }
+      videoRef.current.play().catch(() => {
+        // Ignore autoplay restriction errors
+      });
     }
   }, []);
 
@@ -160,7 +157,7 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <section className={`hero-section ${className || ""}`} id="home">
-      {/* 100vh Full Width Background Video (Intact, without animations) */}
+      {/* 100vh Full Width Background Video */}
       <video
         ref={videoRef}
         autoPlay
@@ -176,8 +173,8 @@ const Hero: React.FC<HeroProps> = ({
           media="(max-width: 767px)"
         />
         <source
-          src="/video/blogtech-banner-video.webm"
-          type="video/webm"
+          src="/video/hero-banner-video.mp4"
+          type="video/mp4"
         />
         Your browser does not support HTML5 video.
       </video>

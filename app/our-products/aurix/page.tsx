@@ -1,7 +1,7 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
-import AurixUIShowcase from "@/app/components/sections/AurixUIShowcase";
-import AurixFeatures from "@/app/components/sections/AurixFeatures";
+import AurixUIShowcase from "@/app/components/sections/our-products/aurix/AurixUIShowcase";
+import AurixFeatures from "@/app/components/sections/our-products/aurix/AurixFeatures";
 
 export default function AurixPage() {
   return (
