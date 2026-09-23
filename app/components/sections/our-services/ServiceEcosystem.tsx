@@ -203,7 +203,7 @@ export default function ServiceEcosystem({ className = "" }: ServiceEcosystemPro
           >
             <div className="relative w-[150px] h-[60px]">
               <Image
-                src="/MAIN-LOGO.png"
+                src="/main-logo-320.png"
                 alt="Blogtec Software"
                 fill
                 className="object-contain"

@@ -79,49 +79,43 @@ const contentContainerVariants = {
 };
 
 const titlePrimaryVariants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
   },
   exit: {
     opacity: 0,
     y: -18,
-    filter: "blur(4px)",
     transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
 const titleAccentVariants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
   },
   exit: {
     opacity: 0,
     y: -18,
-    filter: "blur(4px)",
     transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
 const captionVariants = {
-  hidden: { opacity: 0, y: 18, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 18 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const },
   },
   exit: {
     opacity: 0,
     y: -12,
-    filter: "blur(2px)",
     transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
@@ -151,7 +145,7 @@ const Hero: React.FC<HeroProps> = ({
     }, autoPlayInterval);
 
     return () => clearInterval(timer);
-  }, [currentIdx, autoPlayInterval]);
+  }, [autoPlayInterval]);
 
   const currentSlide = heroSlides[currentIdx];
 
@@ -164,8 +158,9 @@ const Hero: React.FC<HeroProps> = ({
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         className="hero-video"
+        aria-hidden="true"
       >
         <source
           src="/video/blogtech-banner-video-mobile.mp4"

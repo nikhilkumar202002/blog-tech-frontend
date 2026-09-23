@@ -1,36 +1,289 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blogtec Software Website
 
-## Getting Started
+Corporate website for Blogtec Software, built with Next.js App Router. The site presents Blogtec's jewellery ERP products, services, company information, blog content, careers page, legal pages, and contact experience.
 
-First, run the development server:
+## Tech Stack
+
+- Next.js `16.3.5`
+- React `19.2.8`
+- TypeScript
+- Tailwind CSS `4` via `@tailwindcss/postcss`
+- Framer Motion for page and section animation
+- React Icons
+- Static export deployment with Apache `.htaccess` support
+
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev      # Start local development server
+npm run build    # Create optimized static export build
+npm run start    # Start Next production server, mostly useful before static export hosting
+npm run lint     # Run ESLint
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+app/
+  layout.tsx                         Global shell, metadata, fonts, header, footer
+  page.tsx                           Home page
+  template.tsx                       Route-level Framer Motion entry animation
+  globals.css                        Global styles and Tailwind setup
+  about-us/                          About page route
+  blog/                              Blog listing and static blog detail routes
+  careers/                           Careers route
+  contact-us/                        Contact form and contact details route
+  our-products/                      Product routes
+  our-services/                      Services route
+  privacy-policy/                    Legal page
+  terms-and-conditions/              Legal page
+  components/
+    common/                          Shared layout and UI components
+    sections/                        Page-specific section components
+    styles/                          Shared CSS and CSS modules
+    ui/                              Lower-level UI effects/components
+public/
+  images/                            General imagery
+  products/                          Product banners and UI imagery
+  tech_logos/                        Technology carousel logos
+  UI/                                AURIX interface screenshots
+  video/                             Hero and preloader videos
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Application Shell
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The root layout in `app/layout.tsx` defines the global experience:
 
-## Deploy on Vercel
+- Loads Google fonts through `next/font`: DM Sans, Inter, and Cormorant Garamond.
+- Defines site metadata, icons, Open Graph, and Twitter card data.
+- Renders the initial `Preloader`.
+- Wraps the site in a custom SVG clipped `Frame`.
+- Renders the fixed `Header`, route content through `Pagetransition`, and `Footer`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The frame component uses a scroll container marked with `data-site-scroll`. Several navigation and scroll helpers target this element instead of the browser window.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Routes
+
+| Route | File | Purpose |
+| --- | --- | --- |
+| `/` | `app/page.tsx` | Home page with hero, about, services, platform, technology carousel, CEO message, and FAQ. |
+| `/about-us` | `app/about-us/page.tsx` | Company story, core approach, and future positioning. |
+| `/our-services` | `app/our-services/page.tsx` | Services page with hero, service grid, ecosystem, workflow, and CTA. |
+| `/our-products` | `app/our-products/page.tsx` | Redirects to `/our-products/aurix`. |
+| `/our-products/aurix` | `app/our-products/aurix/page.tsx` | AURIX product page with product banner, UI showcase, and feature sections. |
+| `/our-products/jewel-connect` | `app/our-products/jewel-connect/page.tsx` | Jewel Connect product page. |
+| `/our-products/scheme-app` | `app/our-products/scheme-app/page.tsx` | Scheme mobile app product page. |
+| `/our-products/employee-payroll` | `app/our-products/employee-payroll/page.tsx` | Employee and payroll product page. |
+| `/our-products/aurown` | `app/our-products/aurown/page.tsx` | Aurown owner app product page. |
+| `/blog` | `app/blog/page.tsx` | Blog listing page. |
+| `/blog/[slug]` | `app/blog/[slug]/page.tsx` | Static blog article pages generated by `generateStaticParams`. |
+| `/careers` | `app/careers/page.tsx` | Careers form page. |
+| `/contact-us` | `app/contact-us/page.tsx` | Contact form, office details, map link, phone, email, WhatsApp, and social links. |
+| `/privacy-policy` | `app/privacy-policy/page.tsx` | Privacy policy. |
+| `/terms-and-conditions` | `app/terms-and-conditions/page.tsx` | Terms and conditions. |
+
+## Main Components
+
+### Common Components
+
+- `Header.tsx`: Responsive site navigation, product/service dropdowns, mobile menu, active route detection, and same-page hash scrolling.
+- `Footer.tsx`: Footer navigation, brand block, legal links, phone, email, and address.
+- `Frame.tsx`: Fixed SVG frame with custom clipping and internal scroll container.
+- `Pagetransition.tsx`: Custom route transition overlay. It intercepts internal navigation, starts `router.push()` immediately, closes the shutter, and reveals after `usePathname()` confirms route change.
+- `Preloader.tsx`: First-visit video preloader controlled by `sessionStorage`.
+- `ProductBanner.tsx`: Shared hero/banner component for product pages.
+- `Button.tsx`: Shared animated button component.
+
+### Section Components
+
+Sections are grouped by page area:
+
+- `components/sections/home`: Home page sections.
+- `components/sections/about-us`: About page sections.
+- `components/sections/our-services`: Services page sections.
+- `components/sections/our-products`: Product listing and product-specific sections.
+- `components/sections/blog`: Blog listing sections.
+- `components/sections/careers`: Careers page sections.
+
+## Navigation And Transitions
+
+The project uses two animation layers:
+
+- `app/template.tsx` gives each route a light Framer Motion fade/slide entry.
+- `components/common/Pagetransition.tsx` adds a shutter-style overlay for internal page navigation.
+
+Important behavior in `Pagetransition.tsx`:
+
+- Only intercepts normal same-site left-click navigation.
+- Ignores external URLs, `mailto:`, `tel:`, downloads, new-tab clicks, modifier-key clicks, and hash-only links.
+- Normalizes internal route URLs with trailing slashes because `next.config.ts` enables `trailingSlash`.
+- Starts `router.push()` immediately to avoid live-server delay.
+- Moves from `closing` to `closed` while waiting for the next route.
+- Reveals the page only when `usePathname()` changes.
+- Includes a delayed hard-navigation fallback for static export hosting if client navigation stalls.
+
+## Styling
+
+The project uses a mix of Tailwind utility classes and dedicated CSS files:
+
+- `app/globals.css`: Global CSS and utility helpers.
+- `components/styles/Section.css`: Large shared section styles for home and product/service sections.
+- `components/styles/Components.css`: Shared component styles, especially footer/legal layout utilities.
+- `components/styles/LegalPage.module.css`: CSS module for legal pages.
+- `Pagetransition.module.css`: Older transition CSS module. The current transition implementation uses inline transform styles in `Pagetransition.tsx`.
+
+Fonts are exposed through CSS variables:
+
+- `--font-dm-sans`
+- `--font-inter`
+- `--font-cormorant-garamond`
+
+## Assets
+
+All public assets are served from `public/`.
+
+Key asset groups:
+
+- `public/MAIN-LOGO.png`: Main brand logo.
+- `public/fav-icon.jpg` and `public/fav-icon-2.jpg`: Favicons and social metadata images.
+- `public/video/`: Preloader and hero videos.
+- `public/images/`: General page imagery.
+- `public/products/`: Product hero and mockup images.
+- `public/UI/`: AURIX interface screenshots.
+- `public/tech_logos/`: Technology carousel logos.
+
+Because `next.config.ts` uses static export and `images.unoptimized`, images are served as static files. Use paths beginning with `/`, for example `/products/aurix/product-aurix.webp`.
+
+## Blog Content
+
+Blog detail content currently lives inside `app/blog/[slug]/page.tsx` as the `BLOG_POSTS_DETAILS` object.
+
+To add a blog post:
+
+1. Add a new entry to `BLOG_POSTS_DETAILS`.
+2. Add the slug to any listing data used by `FeaturedBlog` or `BlogGrid` if needed.
+3. Ensure the image exists in `public/`.
+4. `generateStaticParams()` will include the new slug automatically if it is added to `BLOG_POSTS_DETAILS`.
+
+## Product Pages
+
+Product pages use `ProductBanner` for consistent hero layout and then render product-specific sections.
+
+Products currently documented in routes:
+
+- AURIX
+- Jewel Connect
+- Scheme Mobile App
+- Employee & Payroll
+- Aurown
+
+To add a product:
+
+1. Create `app/our-products/<product-slug>/page.tsx`.
+2. Add images under `public/products/<product-slug>/`.
+3. Reuse `ProductBanner`.
+4. Add product-specific sections under `components/sections/our-products/<product-slug>/`.
+5. Update product dropdowns in `Header.tsx` and footer product links in `Footer.tsx`.
+
+## Configuration
+
+### `next.config.ts`
+
+```ts
+const nextConfig = {
+  output: "export",
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+};
+```
+
+This means:
+
+- The site builds as static HTML suitable for shared hosting or Apache hosting.
+- Routes are emitted as folder-style URLs with `index.html`.
+- Next image optimization is disabled, so images must be manually optimized before being added.
+
+### `.htaccess`
+
+The `.htaccess` file supports Apache static hosting:
+
+- Serves existing physical files directly.
+- Serves directory `index.html` files.
+- Maps clean URLs like `/about-us` to `/about-us/index.html`.
+- Uses `/404.html` for missing resources.
+
+## Build And Deployment
+
+Production build:
+
+```bash
+npm run build
+```
+
+With `output: "export"`, the deployable static output is generated for static hosting. Upload the generated static output and `.htaccess` to the hosting server as required by the deployment process.
+
+After deployment, test these areas:
+
+- Header navigation and product/service dropdown links.
+- Page transition timing on live server.
+- Hash links such as `/#technology`.
+- Product CTA links, including `tel:` links.
+- Blog detail pages.
+- Contact page form UI and contact links.
+- Mobile menu.
+
+## Development Notes
+
+- The site has a custom scroll container inside `Frame.tsx`; use `[data-site-scroll]` when implementing scroll-to-top or section scrolling.
+- Keep route links internal with Next `Link` where possible.
+- For static export, prefer route paths with trailing slash compatibility.
+- Do not remove the generated Next agent block in `AGENTS.md`; the project notes say it is re-added by `next dev`.
+- When editing animation behavior, test on both local dev and production build because live static hosting can reveal timing issues that are not obvious locally.
+
+## Quality Checks
+
+Run:
+
+```bash
+npm run build
+npx eslint app/components/common/Pagetransition.tsx
+```
+
+Current known repo-wide lint status:
+
+- The full `npm run lint` command reports existing issues unrelated to the page transition work, including synchronous state updates in some effects, unescaped apostrophes, unused imports, and several `no-img-element` warnings.
+- `npm run build` passes successfully.
+
+## Common Maintenance Tasks
+
+### Update Header Navigation
+
+Edit `navItems`, `PRODUCTS_DROPDOWN`, and `SERVICES_DROPDOWN` in `app/components/common/Header.tsx`.
+
+### Update Footer Links
+
+Edit `footerColumns` in `app/components/common/Footer.tsx`.
+
+### Update SEO Metadata
+
+Global metadata lives in `app/layout.tsx`. Route-level metadata can be exported from each route page, as done in `app/our-services/page.tsx`.
+
+### Update The Initial Loader
+
+The preloader video path is `/video/preloader.mp4`, referenced in `app/components/common/Preloader.tsx`.
+
+### Update Contact Information
+
+Contact details are rendered in `app/contact-us/page.tsx` and repeated in `app/components/common/Footer.tsx`.
+

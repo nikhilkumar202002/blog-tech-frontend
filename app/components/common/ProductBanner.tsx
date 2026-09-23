@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { FiArrowUpRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 
@@ -54,28 +53,19 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           className="absolute inset-0 z-0 w-full overflow-hidden"
         >
           {/* Desktop Banner Image */}
-          <Image
-            src={activeImage}
-            alt={titleHighlight || titlePrefix || "Product Showcase"}
-            fill
-            priority
-            sizes="100vw"
-            className={`object-cover object-right transition-all duration-700 ${
-              activeMobileImage !== activeImage ? "hidden md:block" : "block"
-            }`}
-          />
-
-          {/* Mobile Banner Image (Fits 520px height on mobile) */}
-          {activeMobileImage !== activeImage && (
-            <Image
-              src={activeMobileImage}
+          <picture>
+            {activeMobileImage !== activeImage && (
+              <source srcSet={activeMobileImage} media="(max-width: 767px)" />
+            )}
+            <img
+              src={activeImage}
               alt={titleHighlight || titlePrefix || "Product Showcase Mobile"}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center block md:hidden transition-all duration-700"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center md:object-right transition-all duration-700"
             />
-          )}
+          </picture>
 
           {/* Dark Gradient Overlay: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
           <div className="absolute inset-0 w-full md:w-[55%] bg-gradient-to-b md:bg-gradient-to-r from-black via-black/80 md:via-black/70 to-transparent pointer-events-none opacity-90 z-1" />
@@ -89,7 +79,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.12] mb-3 drop-shadow-md"
           >
             {titlePrefix.includes("\n") ? (
@@ -129,7 +119,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <motion.h2
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="text-lg sm:text-xl md:text-2xl font-medium text-stone-100 font-[var(--font-dm-sans)] mb-5 leading-snug drop-shadow-sm"
             >
               {subtitle}
@@ -141,7 +131,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="hidden sm:block space-y-3 mb-8 sm:mb-10 max-w-lg"
             >
               {description.split("\n\n").map((paragraph, idx) => (
@@ -160,7 +150,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.45, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center"
             >
               <Link

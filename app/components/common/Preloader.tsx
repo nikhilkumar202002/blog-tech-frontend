@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const FADE_DURATION_MS = 350;
-const PRELOADER_DURATION_MS = 3_500; // Target 3.5s (3 to 4 seconds range)
+const FADE_DURATION_MS = 250;
+const PRELOADER_DURATION_MS = 1_200; // Fast 1.2s initial brand entrance
 
 export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -25,13 +25,7 @@ export default function Preloader() {
   }, []);
 
   const adjustPlaybackSpeed = useCallback((video: HTMLVideoElement) => {
-    if (video.duration && !isNaN(video.duration) && video.duration > 0) {
-      // Scale playback speed to fit the 3.5s target window (3-4 seconds)
-      const targetSec = PRELOADER_DURATION_MS / 1000;
-      video.playbackRate = Math.max(0.5, video.duration / targetSec);
-    } else {
-      video.playbackRate = 1.43; // Default speed for ~5s video to finish in ~3.5s
-    }
+    video.playbackRate = 2.0; // Play at 2x speed for fast entrance
   }, []);
 
   useEffect(() => {
@@ -42,7 +36,7 @@ export default function Preloader() {
         return;
       }
     } catch {
-      // Fallback if sessionStorage is disabled
+      // Fallback
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -80,33 +74,31 @@ export default function Preloader() {
       id="preloader-root"
       role="status"
       aria-label="Loading website"
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] overflow-hidden select-none transition-opacity duration-[350ms] motion-reduce:hidden ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] overflow-hidden select-none transition-opacity duration-[250ms] motion-reduce:hidden ${
         exiting ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <div className="relative flex items-center justify-center w-full max-w-[400px] max-h-[100dvh] overflow-hidden leading-none">
+      <div className="relative flex items-center justify-center w-full max-w-[360px] max-h-[100dvh] overflow-hidden leading-none">
         <video
           ref={videoRef}
           autoPlay
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onLoadedMetadata={(e) => {
             adjustPlaybackSpeed(e.currentTarget);
           }}
           onEnded={finish}
           onError={finish}
           aria-hidden="true"
-          className="block h-auto max-h-[100dvh] w-full max-w-[400px] object-contain outline-none border-0 ring-0 translate-z-0 scale-[1.01]"
+          className="block h-auto max-h-[100dvh] w-full max-w-[360px] object-contain outline-none border-0 ring-0 translate-z-0 scale-[1.01]"
         >
           <source src="/video/preloader.mp4" type="video/mp4" />
-          <source src="/video/hero-banner-video.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
   );
 }
-
 
 
 

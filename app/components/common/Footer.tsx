@@ -75,7 +75,7 @@ export default function Footer() {
         <div className="site-footer-brand">
           <Link href="/" prefetch={true} onClick={(e) => handleLinkClick(e, "/")} aria-label="Blogtec Software home">
             <Image
-              src="/MAIN-LOGO.png"
+              src="/main-logo-320.png"
               alt="Blogtec Software"
               width={120}
               height={29}
