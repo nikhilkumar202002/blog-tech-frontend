@@ -135,7 +135,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
                 {/* Content Area */}
                 <div className="flex flex-col flex-grow justify-between px-1 pb-1">
                   <div>
-                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-stone-900 mb-2 font-[var(--font-dm-sans)] group-hover:text-[#c05803] transition-colors duration-300">
+                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-stone-900 mb-2 font-[var(--font-dm-sans)] group-hover:text-[#A44B03] transition-colors duration-300">
                       {item.title}
                     </h3>
                     <p className="text-[15px] sm:text-[16px] text-stone-500 font-normal leading-relaxed font-[var(--font-inter)]">

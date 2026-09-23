@@ -446,7 +446,7 @@ const Header: React.FC<HeaderProps> = ({
                         prefetch={true}
                         onClick={(e) => handleNavClick(e, item)}
                         aria-current={active === item.label ? "location" : undefined}
-                        className="group flex min-h-12 items-center gap-4 text-[#211d1a] transition-colors hover:text-[#A44B03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
+                        className={`group flex min-h-12 items-center gap-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03] ${active === item.label ? "text-[#A44B03]" : "text-[#211d1a] hover:text-[#A44B03]"}`}
                       >
                         <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#A44B03]">
                           {String(index + 1).padStart(2, "0")}

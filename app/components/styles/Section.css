@@ -420,7 +420,7 @@
   font-family: var(--font-cormorant-garamond), serif;
   font-style: italic;
   font-weight: 500;
-  color: #c05803;
+  color: #A44B03;
 }
 
 .about-description {
@@ -554,11 +554,11 @@
 }
 
 .service-arrow-btn:hover {
-  background-color: #c05803;
+  background-color: #A44B03;
   color: #ffffff;
-  border-color: #c05803;
+  border-color: #A44B03;
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(192, 88, 3, 0.25);
+  box-shadow: 0 4px 14px rgba(164, 75, 3, 0.25);
 }
 
 .service-arrow-btn:active {
@@ -703,7 +703,7 @@
   font-family: var(--font-cormorant-garamond), serif;
   font-style: italic;
   font-weight: 500;
-  color: #c05803;
+  color: #A44B03;
 }
 
 .service-intro-bottom {
@@ -732,7 +732,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.8125rem 1.625rem;
-  background-color: #8d4001;
+  background-color: #A44B03;
   color: #ffffff;
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 0.9375rem;
@@ -741,14 +741,14 @@
   border-radius: 9999px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(192, 88, 3, 0.25);
+  box-shadow: 0 4px 14px rgba(164, 75, 3, 0.25);
   transition: all 220ms ease;
 }
 
 .service-cta-btn:hover {
-  background-color: #662e00;
+  background-color: #8D3F00;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(192, 88, 3, 0.35);
+  box-shadow: 0 6px 20px rgba(164, 75, 3, 0.35);
 }
 
 .service-cta-btn:active {

@@ -38,7 +38,7 @@ const ServicesCTA: React.FC<ServicesCTAProps> = ({ className = "" }) => {
               Let's Build The{" "}
               <span
                 style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-                className="italic font-normal text-[#B65A00]"
+                className="italic font-normal text-[#A44B03]"
               >
                 Right Solution
               </span>

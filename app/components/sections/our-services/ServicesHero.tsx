@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import RippleBackground from "@/app/components/ui/RippleBackground";
 
 export interface ServicesHeroProps {
   className?: string;
@@ -10,19 +10,41 @@ export interface ServicesHeroProps {
 
 const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
   return (
-    <RippleBackground
-      theme="white"
-      hoverOnly={true}
-      className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-white text-stone-900 overflow-hidden flex flex-col items-center justify-center ${className}`}
+    <section
+      className={`relative w-full min-h-screen flex items-center justify-center pt-28 sm:pt-36 md:pt-44 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
     >
-      <div className="site-container flex flex-col items-center text-center">
+      {/* Background Image from images folder */}
+      <div className="absolute inset-0 z-0">
+        {/* Desktop Background Banner Image */}
+        <Image
+          src="/images/service-banner-web.webp"
+          alt="Blogtec Jewellery Technology Services Banner Desktop"
+          fill
+          priority
+          sizes="100vw"
+          className="hidden md:block object-cover object-center"
+        />
+        {/* Mobile Background Banner Image */}
+        <Image
+          src="/images/service-banner-mobile.webp"
+          alt="Blogtec Jewellery Technology Services Banner Mobile"
+          fill
+          priority
+          sizes="100vw"
+          className="block md:hidden object-cover object-center"
+        />
+      </div>
+
+      {/* Main Content Container (Left Side Content Alignment) */}
+      <div className="site-container w-full relative z-10">
+        <div className="max-w-3xl text-left flex flex-col items-start">
         
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-lg sm:text-xl lg:text-2xl font-normal text-stone-400 font-[var(--font-dm-sans)] mb-4 tracking-normal"
+          className="text-lg sm:text-xl lg:text-2xl font-normal text-stone-500 font-[var(--font-dm-sans)] mb-4 tracking-normal"
         >
           Our Services
         </motion.p>
@@ -32,12 +54,12 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-5xl font-[var(--font-dm-sans)] mb-6"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-4xl font-[var(--font-dm-sans)] mb-6"
         >
           Technology That{" "}
           <span
             style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-            className="italic font-normal text-[#c05803]"
+            className="italic font-normal text-[#A44B03]"
           >
             Supports
           </span>
@@ -45,7 +67,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           {" "}Your{" "}
           <span
             style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-            className="italic font-normal text-[#c05803]"
+            className="italic font-normal text-[#A44B03]"
           >
             Business
           </span>{" "}
@@ -57,15 +79,16 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-sm sm:text-base lg:text-lg text-stone-500 font-normal leading-[1.4] max-w-3xl font-[var(--font-inter)] tracking-normal"
+          className="text-sm sm:text-base lg:text-lg text-stone-600 font-normal leading-[1.5] max-w-2xl font-[var(--font-inter)] tracking-normal"
         >
           From Jewellery ERP Solutions To Ongoing Support, Custom Development And Digital Solutions,
           Blogtec Helps Jewellery Businesses Implement And Evolve Technology Around Their Real
           Business Requirements.
         </motion.p>
 
+        </div>
       </div>
-    </RippleBackground>
+    </section>
   );
 };
 
