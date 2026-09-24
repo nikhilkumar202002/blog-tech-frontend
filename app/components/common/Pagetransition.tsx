@@ -166,18 +166,19 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       }
     };
 
-    const handlePageShow = () => openEye();
-    const handlePopState = () => openEye();
+    const handleFailsafeOpen = () => openEye();
 
     document.removeEventListener("click", handleLinkClick, { capture: true });
     document.addEventListener("click", handleLinkClick, { capture: true });
-    window.addEventListener("pageshow", handlePageShow);
-    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("pageshow", handleFailsafeOpen);
+    window.addEventListener("popstate", handleFailsafeOpen);
+    window.addEventListener("beforeunload", handleFailsafeOpen);
 
     return () => {
       document.removeEventListener("click", handleLinkClick, { capture: true });
-      window.removeEventListener("pageshow", handlePageShow);
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("pageshow", handleFailsafeOpen);
+      window.removeEventListener("popstate", handleFailsafeOpen);
+      window.removeEventListener("beforeunload", handleFailsafeOpen);
       clearTimers();
     };
   }, [clearTimers, openEye]);
@@ -186,12 +187,10 @@ export default function Pagetransition({ children }: { children: React.ReactNode
 
   return (
     <>
-      {/* Upper White Eyelid Shutter */}
+      {/* Upper Straight White Shutter */}
       <div
-        className="fixed top-0 left-0 right-0 h-[53vh] bg-white z-[99999] pointer-events-none"
+        className="fixed top-0 left-0 right-0 h-[51vh] bg-white z-[99999] pointer-events-none"
         style={{
-          borderBottomLeftRadius: "50% 20%",
-          borderBottomRightRadius: "50% 20%",
           transform: isEyeShut ? "translateY(0%)" : "translateY(-105%)",
           transition: `transform ${isEyeShut ? CLOSE_EYE_MS : OPEN_EYE_MS}ms ${
             isEyeShut ? "cubic-bezier(0.76, 0, 0.24, 1)" : "cubic-bezier(0.16, 1, 0.3, 1)"
@@ -200,12 +199,10 @@ export default function Pagetransition({ children }: { children: React.ReactNode
         }}
       />
 
-      {/* Lower White Eyelid Shutter */}
+      {/* Lower Straight White Shutter */}
       <div
-        className="fixed bottom-0 left-0 right-0 h-[53vh] bg-white z-[99999] pointer-events-none"
+        className="fixed bottom-0 left-0 right-0 h-[51vh] bg-white z-[99999] pointer-events-none"
         style={{
-          borderTopLeftRadius: "50% 20%",
-          borderTopRightRadius: "50% 20%",
           transform: isEyeShut ? "translateY(0%)" : "translateY(105%)",
           transition: `transform ${isEyeShut ? CLOSE_EYE_MS : OPEN_EYE_MS}ms ${
             isEyeShut ? "cubic-bezier(0.76, 0, 0.24, 1)" : "cubic-bezier(0.16, 1, 0.3, 1)"
