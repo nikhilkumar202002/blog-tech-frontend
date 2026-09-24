@@ -9,17 +9,21 @@ export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitingRef = useRef(false);
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return true;
+  const [visible, setVisible] = useState(true);
+  const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
     try {
-      if (sessionStorage.getItem("blogtec_preloaded")) return false;
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+      if (
+        sessionStorage.getItem("blogtec_preloaded") ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        setVisible(false);
+      }
     } catch {
       // Fallback
     }
-    return true;
-  });
-  const [exiting, setExiting] = useState(false);
+  }, []);
 
   const finish = useCallback(() => {
     if (exitingRef.current) return;

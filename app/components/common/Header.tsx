@@ -295,7 +295,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={containerClasses}>
-      <div className="relative w-full h-[62px] md:h-[80px]" inert={mobileMenuOpen} aria-hidden={mobileMenuOpen}>
+      <div className="relative w-full h-[62px] md:h-[80px]" inert={mobileMenuOpen ? true : undefined} aria-hidden={mobileMenuOpen}>
         {/* Left: Logo situated inside top-left frame tab */}
         <div className="absolute left-2 top-2.5 pointer-events-auto flex items-center">
           <BlogtecLogo />
@@ -321,7 +321,7 @@ const Header: React.FC<HeaderProps> = ({
                     prefetch={true}
                     onClick={(e) => handleNavClick(e, item)}
                     className={`flex items-center gap-1.5 text-sm font-medium transition-all duration-150 ${isActive
-                      ? "bg-[#A44B03] text-white px-4 py-1.5 rounded-lg shadow-xs"
+                      ? "bg-[#7A3602] text-white px-4 py-1.5 rounded-lg shadow-xs"
                       : "text-neutral-700 hover:text-neutral-950 hover:bg-neutral-200/50 px-3.5 py-1.5 rounded-lg"
                       }`}
                   >
@@ -350,7 +350,7 @@ const Header: React.FC<HeaderProps> = ({
                       onMouseLeave={handleMouseLeave}
                     >
                       <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-3.5">
-                        <div className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#A44B03] font-[var(--font-inter)] border-b border-stone-100 mb-2.5">
+                        <div className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#7A3602] font-[var(--font-inter)] border-b border-stone-100 mb-2.5">
                           Blogtec {item.label}
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -360,11 +360,11 @@ const Header: React.FC<HeaderProps> = ({
                               href={sub.href}
                               prefetch={true}
                               onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
-                              className="group/item flex flex-col p-3 rounded-xl hover:bg-[#A44B03]/[0.06] transition-colors"
+                              className="group/item flex flex-col p-3 rounded-xl hover:bg-[#7A3602]/[0.06] transition-colors"
                             >
-                              <div className="flex items-center justify-between text-sm font-semibold text-stone-900 group-hover/item:text-[#A44B03]">
+                              <div className="flex items-center justify-between text-sm font-semibold text-stone-900 group-hover/item:text-[#7A3602]">
                                 <span>{sub.label}</span>
-                                <svg className="w-4 h-4 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#A44B03]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#7A3602]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
                               </div>
@@ -423,7 +423,7 @@ const Header: React.FC<HeaderProps> = ({
                   requestAnimationFrame(() => menuButtonRef.current?.focus());
                 }}
                 aria-label="Close menu"
-                className="grid h-11 w-11 place-items-center rounded-full border border-[#e5ded6] bg-white text-[#44352b] shadow-sm transition-colors hover:bg-[#faf0e6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03]"
+                className="grid h-11 w-11 place-items-center rounded-full border border-[#e5ded6] bg-white text-[#44352b] shadow-sm transition-colors hover:bg-[#faf0e6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A3602]"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
                   <path d="M5 5l14 14M19 5L5 19" />
@@ -432,7 +432,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
 
             <div className="my-auto py-8">
-              <p className="mb-4 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#A44B03]">
+              <p className="mb-4 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#7A3602]">
                 Explore Blogtec
               </p>
               <nav id="mobile-site-menu" aria-label="Mobile navigation" className="space-y-1">
@@ -445,15 +445,15 @@ const Header: React.FC<HeaderProps> = ({
                         prefetch={true}
                         onClick={(e) => handleNavClick(e, item)}
                         aria-current={active === item.label ? "location" : undefined}
-                        className={`group flex min-h-12 items-center gap-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A44B03] ${active === item.label ? "text-[#A44B03]" : "text-[#211d1a] hover:text-[#A44B03]"}`}
+                        className={`group flex min-h-12 items-center gap-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A3602] ${active === item.label ? "text-[#7A3602]" : "text-[#211d1a] hover:text-[#7A3602]"}`}
                       >
-                        <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#A44B03]">
+                        <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#7A3602]">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[clamp(1.5rem,6.5vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.04em]">
                           {item.label}
                         </span>
-                        <svg className="h-5 w-5 flex-none text-[#A44B03] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <svg className="h-5 w-5 flex-none text-[#7A3602] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <path d="M5 12h14m-6-6 6 6-6 6" />
                         </svg>
                       </Link>
@@ -467,7 +467,7 @@ const Header: React.FC<HeaderProps> = ({
                               href={sub.href}
                               prefetch={true}
                               onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
-                              className="block py-1.5 text-sm font-medium text-stone-700 hover:text-[#A44B03] transition-colors"
+                              className="block py-1.5 text-sm font-medium text-stone-700 hover:text-[#7A3602] transition-colors"
                             >
                               • {sub.label}
                             </Link>

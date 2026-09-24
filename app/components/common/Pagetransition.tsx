@@ -3,53 +3,55 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const OPEN_DURATION = 180;
-const CLOSED_DELAY = 180;
-const MAX_CLOSED_SAFETY_MS = 350;
+const CLOSE_EYE_MS = 360;
+const OPEN_EYE_MS = 400;
+const MIN_SHUT_TIME_MS = 380;
+const MAX_SAFETY_MS = 900;
 
 export default function Pagetransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isFirstRender = useRef(true);
-  const [phase, setPhase] = useState<"idle" | "closing" | "closed" | "opening">("idle");
+  const [eyeState, setEyeState] = useState<"open" | "blinking_shut" | "shut" | "opening">("open");
   const isNavigatingRef = useRef(false);
-  const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const closedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const blinkStartTimeRef = useRef<number>(0);
+
+  const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const shutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const safetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const clearTransitionTimers = useCallback(() => {
-    if (revealTimerRef.current) {
-      clearTimeout(revealTimerRef.current);
-      revealTimerRef.current = null;
+  const clearTimers = useCallback(() => {
+    if (openTimerRef.current) {
+      clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
     }
-
-    if (closedTimerRef.current) {
-      clearTimeout(closedTimerRef.current);
-      closedTimerRef.current = null;
+    if (shutTimerRef.current) {
+      clearTimeout(shutTimerRef.current);
+      shutTimerRef.current = null;
     }
-
     if (safetyTimerRef.current) {
       clearTimeout(safetyTimerRef.current);
       safetyTimerRef.current = null;
     }
   }, []);
 
-  const revealPage = useCallback(() => {
-    clearTransitionTimers();
+  const openEye = useCallback(() => {
+    clearTimers();
     isNavigatingRef.current = false;
-    setPhase("opening");
+    setEyeState("opening");
 
-    revealTimerRef.current = setTimeout(() => {
-      setPhase("idle");
-      revealTimerRef.current = null;
-    }, OPEN_DURATION);
-  }, [clearTransitionTimers]);
+    openTimerRef.current = setTimeout(() => {
+      setEyeState("open");
+      openTimerRef.current = null;
+    }, OPEN_EYE_MS);
+  }, [clearTimers]);
 
   useEffect(() => {
     const handleScrollTarget = () => {
       const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
-      const hash = typeof window !== "undefined" && window.location.hash
-        ? decodeURIComponent(window.location.hash.slice(1))
-        : "";
+      const hash =
+        typeof window !== "undefined" && window.location.hash
+          ? decodeURIComponent(window.location.hash.slice(1))
+          : "";
 
       if (hash) {
         const target = document.getElementById(hash);
@@ -75,15 +77,28 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       return;
     }
 
-    // Page changed: Start revealing opening sequence
-    revealPage();
+    // Route changed: Ensure white eyelids fully blink shut before opening new page
+    const elapsed = Date.now() - blinkStartTimeRef.current;
+    const delayNeeded = isNavigatingRef.current
+      ? Math.max(0, MIN_SHUT_TIME_MS - elapsed)
+      : 0;
 
-    const scrollTimer = setTimeout(handleScrollTarget, 60);
+    let revealTimeout: ReturnType<typeof setTimeout> | null = null;
+    if (delayNeeded > 0) {
+      revealTimeout = setTimeout(() => {
+        openEye();
+      }, delayNeeded);
+    } else {
+      openEye();
+    }
+
+    const scrollTimer = setTimeout(handleScrollTarget, delayNeeded + 30);
 
     return () => {
+      if (revealTimeout) clearTimeout(revealTimeout);
       clearTimeout(scrollTimer);
     };
-  }, [pathname, revealPage]);
+  }, [pathname, openEye]);
 
   useEffect(() => {
     const handleLinkClick = (e: MouseEvent) => {
@@ -106,7 +121,6 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       const href = anchor.getAttribute("href");
       if (!href) return;
 
-      // Ignore non-page links, downloads, new tabs, or hash-only links.
       if (
         href.startsWith("mailto:") ||
         href.startsWith("tel:") ||
@@ -127,34 +141,35 @@ export default function Pagetransition({ children }: { children: React.ReactNode
           currentPath === targetPath && window.location.search === url.search;
 
         if (isSameRoute) {
-          if (url.hash) return; // Allow smooth scroll inside page
-          return; // Same page click
+          if (url.hash) return;
+          return;
         }
 
-        // Let Next Link handle navigation immediately; this component paints a fast transition.
+        // Close the eye (white eyelids blink shut over current page)
         isNavigatingRef.current = true;
-        setPhase("closing");
+        blinkStartTimeRef.current = Date.now();
+        setEyeState("blinking_shut");
 
-        closedTimerRef.current = setTimeout(() => {
+        shutTimerRef.current = setTimeout(() => {
           if (isNavigatingRef.current) {
-            setPhase("closed");
-            // Set safety fallback timer to open if route change takes too long
+            setEyeState("shut");
             safetyTimerRef.current = setTimeout(() => {
               if (isNavigatingRef.current) {
-                revealPage();
+                openEye();
               }
-            }, MAX_CLOSED_SAFETY_MS);
+            }, MAX_SAFETY_MS);
           }
-          closedTimerRef.current = null;
-        }, CLOSED_DELAY);
+          shutTimerRef.current = null;
+        }, CLOSE_EYE_MS);
       } catch {
-        revealPage();
+        openEye();
       }
     };
 
-    const handlePageShow = () => revealPage();
-    const handlePopState = () => revealPage();
+    const handlePageShow = () => openEye();
+    const handlePopState = () => openEye();
 
+    document.removeEventListener("click", handleLinkClick, { capture: true });
     document.addEventListener("click", handleLinkClick, { capture: true });
     window.addEventListener("pageshow", handlePageShow);
     window.addEventListener("popstate", handlePopState);
@@ -163,35 +178,38 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       document.removeEventListener("click", handleLinkClick, { capture: true });
       window.removeEventListener("pageshow", handlePageShow);
       window.removeEventListener("popstate", handlePopState);
-      clearTransitionTimers();
+      clearTimers();
     };
-  }, [clearTransitionTimers, revealPage]);
+  }, [clearTimers, openEye]);
 
-  // Compute Shutter Panel Transforms:
-  // "closing" or "closed": panels shut together (0%)
-  // "opening" or "idle": panels slide offscreen (-100% / 100%)
-  const isShut = phase === "closing" || phase === "closed";
-  const topTranslate = isShut ? "translateY(0%)" : "translateY(-100%)";
-  const bottomTranslate = isShut ? "translateY(0%)" : "translateY(100%)";
+  const isEyeShut = eyeState === "blinking_shut" || eyeState === "shut";
 
   return (
     <>
-      {/* Top Clean Shutter Overlay */}
+      {/* Upper White Eyelid Shutter */}
       <div
-        className="fixed top-0 left-0 right-0 h-[50dvh] bg-[#f8f8f8] z-[9999] pointer-events-none"
+        className="fixed top-0 left-0 right-0 h-[53vh] bg-white z-[99999] pointer-events-none"
         style={{
-          transform: topTranslate,
-          transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
+          borderBottomLeftRadius: "50% 20%",
+          borderBottomRightRadius: "50% 20%",
+          transform: isEyeShut ? "translateY(0%)" : "translateY(-105%)",
+          transition: `transform ${isEyeShut ? CLOSE_EYE_MS : OPEN_EYE_MS}ms ${
+            isEyeShut ? "cubic-bezier(0.76, 0, 0.24, 1)" : "cubic-bezier(0.16, 1, 0.3, 1)"
+          }`,
           willChange: "transform",
         }}
       />
 
-      {/* Bottom Clean Shutter Overlay */}
+      {/* Lower White Eyelid Shutter */}
       <div
-        className="fixed bottom-0 left-0 right-0 h-[50dvh] bg-[#f8f8f8] z-[9999] pointer-events-none"
+        className="fixed bottom-0 left-0 right-0 h-[53vh] bg-white z-[99999] pointer-events-none"
         style={{
-          transform: bottomTranslate,
-          transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
+          borderTopLeftRadius: "50% 20%",
+          borderTopRightRadius: "50% 20%",
+          transform: isEyeShut ? "translateY(0%)" : "translateY(105%)",
+          transition: `transform ${isEyeShut ? CLOSE_EYE_MS : OPEN_EYE_MS}ms ${
+            isEyeShut ? "cubic-bezier(0.76, 0, 0.24, 1)" : "cubic-bezier(0.16, 1, 0.3, 1)"
+          }`,
           willChange: "transform",
         }}
       />

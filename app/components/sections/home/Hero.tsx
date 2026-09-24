@@ -168,7 +168,7 @@ const Hero: React.FC<HeroProps> = ({
           media="(max-width: 767px)"
         />
         <source
-          src="/video/hero-banner-video.mp4"
+          src="/video/hero-banner.mp4"
           type="video/mp4"
         />
         Your browser does not support HTML5 video.
