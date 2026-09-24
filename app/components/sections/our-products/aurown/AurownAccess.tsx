@@ -31,7 +31,7 @@ const AurownAccess: React.FC<AurownAccessProps> = ({ className = "" }) => {
 
             {/* Headline */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-stone-900 font-[var(--font-dm-sans)] leading-[1.1] mb-6">
-              Your Business Doesn't Stop{" "}
+              Your Business Doesn&apos;t Stop{" "}
               <br className="hidden sm:inline" />
               When You{" "}
               <span
@@ -48,7 +48,7 @@ const AurownAccess: React.FC<AurownAccessProps> = ({ className = "" }) => {
             </p>
 
             <p className="text-stone-600 text-base sm:text-lg font-[var(--font-inter)] font-normal leading-relaxed mb-4">
-              Whether you're visiting suppliers, managing another branch, traveling abroad, or away from the showroom floor, your core metrics remain continuously synchronized and accessible.
+              Whether you&apos;re visiting suppliers, managing another branch, traveling abroad, or away from the showroom floor, your core metrics remain continuously synchronized and accessible.
             </p>
 
             <p className="text-stone-600 text-base sm:text-lg font-[var(--font-inter)] font-normal leading-relaxed mb-6">

@@ -3,8 +3,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const OPEN_DURATION = 260;
-const CLOSED_DELAY = 320;
+const OPEN_DURATION = 180;
+const CLOSED_DELAY = 180;
+const MAX_CLOSED_SAFETY_MS = 350;
 
 export default function Pagetransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -13,6 +14,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
   const isNavigatingRef = useRef(false);
   const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const safetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearTransitionTimers = useCallback(() => {
     if (revealTimerRef.current) {
@@ -23,6 +25,11 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     if (closedTimerRef.current) {
       clearTimeout(closedTimerRef.current);
       closedTimerRef.current = null;
+    }
+
+    if (safetyTimerRef.current) {
+      clearTimeout(safetyTimerRef.current);
+      safetyTimerRef.current = null;
     }
   }, []);
 
@@ -71,7 +78,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     // Page changed: Start revealing opening sequence
     revealPage();
 
-    const scrollTimer = setTimeout(handleScrollTarget, 80);
+    const scrollTimer = setTimeout(handleScrollTarget, 60);
 
     return () => {
       clearTimeout(scrollTimer);
@@ -124,13 +131,19 @@ export default function Pagetransition({ children }: { children: React.ReactNode
           return; // Same page click
         }
 
-        // Let Next Link handle navigation immediately; this component only paints the transition.
+        // Let Next Link handle navigation immediately; this component paints a fast transition.
         isNavigatingRef.current = true;
         setPhase("closing");
 
         closedTimerRef.current = setTimeout(() => {
           if (isNavigatingRef.current) {
             setPhase("closed");
+            // Set safety fallback timer to open if route change takes too long
+            safetyTimerRef.current = setTimeout(() => {
+              if (isNavigatingRef.current) {
+                revealPage();
+              }
+            }, MAX_CLOSED_SAFETY_MS);
           }
           closedTimerRef.current = null;
         }, CLOSED_DELAY);
@@ -168,7 +181,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
         className="fixed top-0 left-0 right-0 h-[50dvh] bg-[#f8f8f8] z-[9999] pointer-events-none"
         style={{
           transform: topTranslate,
-          transition: "transform 320ms cubic-bezier(0.76, 0, 0.24, 1)",
+          transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
           willChange: "transform",
         }}
       />
@@ -178,7 +191,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
         className="fixed bottom-0 left-0 right-0 h-[50dvh] bg-[#f8f8f8] z-[9999] pointer-events-none"
         style={{
           transform: bottomTranslate,
-          transition: "transform 320ms cubic-bezier(0.76, 0, 0.24, 1)",
+          transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
           willChange: "transform",
         }}
       />
@@ -190,3 +203,4 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     </>
   );
 }
+

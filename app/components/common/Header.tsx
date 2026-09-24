@@ -17,7 +17,7 @@ const navItems = [
   { label: "About Us", href: "/about-us", hasDropdown: false },
   { label: "Products", href: "#", hasDropdown: true },
   { label: "Services", href: "/our-services", hasDropdown: true },
-  { label: "Technology", href: "/#technology", hasDropdown: false },
+ 
   { label: "Blog", href: "/blog", hasDropdown: false },
   { label: "Career", href: "/careers", hasDropdown: false },
   { label: "Contact Us", href: "/contact-us", hasDropdown: false },

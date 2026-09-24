@@ -9,20 +9,19 @@ export interface AurownVisibilityProps {
 
 const AurownVisibility: React.FC<AurownVisibilityProps> = ({ className = "" }) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLElement | null>(null);
-  const [containerReady, setContainerReady] = useState(false);
+  const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const scroller = document.querySelector<HTMLElement>("[data-site-scroll]");
     if (scroller) {
-      containerRef.current = scroller;
-      setContainerReady(true);
+      const handle = requestAnimationFrame(() => setContainerEl(scroller));
+      return () => cancelAnimationFrame(handle);
     }
   }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    container: containerReady && containerRef.current ? containerRef : undefined,
+    container: containerEl ? { current: containerEl } : undefined,
     offset: ["start end", "end start"],
   });
 

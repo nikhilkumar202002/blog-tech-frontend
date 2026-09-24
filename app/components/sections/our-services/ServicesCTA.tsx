@@ -35,7 +35,7 @@ const ServicesCTA: React.FC<ServicesCTAProps> = ({ className = "" }) => {
               style={{ letterSpacing: "-2px" }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-medium text-stone-900 leading-[1.1] font-[var(--font-dm-sans)]"
             >
-              Let's Build The{" "}
+              Let&apos;s Build The{" "}
               <span
                 style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
                 className="italic font-normal text-[#A44B03]"
@@ -57,7 +57,7 @@ const ServicesCTA: React.FC<ServicesCTAProps> = ({ className = "" }) => {
           >
             {/* Description */}
             <p className="text-sm sm:text-base text-stone-900 font-normal leading-relaxed font-[var(--font-inter)] max-w-md">
-              Tell Us What Your Business Needs And Let's
+              Tell Us What Your Business Needs And Let&apos;s
               <br className="hidden sm:inline" />
               {" "}Explore How Blogtec Can Help.
             </p>

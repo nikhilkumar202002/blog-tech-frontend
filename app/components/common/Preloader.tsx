@@ -9,7 +9,16 @@ export default function Preloader() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitingRef = useRef(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      if (sessionStorage.getItem("blogtec_preloaded")) return false;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+    } catch {
+      // Fallback
+    }
+    return true;
+  });
   const [exiting, setExiting] = useState(false);
 
   const finish = useCallback(() => {
@@ -29,20 +38,7 @@ export default function Preloader() {
   }, []);
 
   useEffect(() => {
-    // Skip preloader if already played in this browser session
-    try {
-      if (typeof window !== "undefined" && sessionStorage.getItem("blogtec_preloaded")) {
-        setVisible(false);
-        return;
-      }
-    } catch {
-      // Fallback
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(false);
-      return;
-    }
+    if (!visible) return;
 
     if (videoRef.current) {
       adjustPlaybackSpeed(videoRef.current);
@@ -55,7 +51,7 @@ export default function Preloader() {
       clearTimeout(preloaderTimer);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
     };
-  }, [finish, adjustPlaybackSpeed]);
+  }, [visible, finish, adjustPlaybackSpeed]);
 
   useEffect(() => {
     if (!visible) return;

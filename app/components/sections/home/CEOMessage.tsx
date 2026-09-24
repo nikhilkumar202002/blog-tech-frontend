@@ -56,7 +56,7 @@ export default function CEOMessage() {
         >
           <div className="ceo-message-photo">
             <Image
-              src="/images/founder-story-illustration.png"
+              src="/images/founder-story-illustration.webp"
               alt="Illustrative office portrait of a professional speaking on the phone at a desk"
               fill
               sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 45vw, 48vw"
