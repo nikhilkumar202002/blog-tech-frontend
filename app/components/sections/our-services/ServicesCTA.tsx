@@ -64,7 +64,7 @@ const ServicesCTA: React.FC<ServicesCTAProps> = ({ className = "" }) => {
 
             {/* Talk to Our Team CTA Button */}
             <div>
-              <Button href="/contact-us" pillColor="bg-[#A44B03]">
+              <Button href="/contact-us" pillColor="bg-[#7A3602]">
                 Talk to Our Team
               </Button>
             </div>

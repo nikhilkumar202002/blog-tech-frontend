@@ -223,7 +223,7 @@ const Service: React.FC = () => {
                   Owners And Customers, Blogtec Provides Specialized Solutions For
                   Different Aspects Of The Jewellery Business.
                 </p>
-                <Button href="/our-products/aurix" pillColor="bg-[#A44B03]">
+                <Button href="/our-products/aurix" pillColor="bg-[#7A3602]">
                   Explore Products
                 </Button>
               </div>

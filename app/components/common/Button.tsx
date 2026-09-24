@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
   target,
   rel,
-  pillColor = "bg-[#A44B03]",
+  pillColor = "bg-[#7A3602]",
   blendingColor,
   textKey,
   variant = "default",

@@ -131,7 +131,7 @@
 .hero-headline-primary {
   font-family: var(--font-dm-sans), sans-serif;
   font-weight: 400;
-  color: #483527;
+  color: #422c1d;
   letter-spacing: -0.025em;
   font-size: clamp(2.5rem, 6.5vw, 3.25rem);
   line-height: 0.96;
@@ -165,7 +165,7 @@
   font-family: var(--font-cormorant-garamond), serif;
   font-style: italic;
   font-weight: 500;
-  color: #8c5a25;
+  color: #8c571f;
   letter-spacing: -0.015em;
   font-size: clamp(2.85rem, 7.5vw, 3.75rem);
   line-height: 0.96;
@@ -302,7 +302,7 @@
 }
 
 .hero-indicator-btn:hover {
-  background-color: #8c5a25;
+  background-color: #8c571f;
 }
 
 @media (min-width: 768px) {
@@ -313,7 +313,7 @@
 
 .hero-indicator-btn.is-active {
   width: 2rem;
-  background-color: #8c5a25;
+  background-color: #8c571f;
 }
 
 @media (min-width: 768px) {
