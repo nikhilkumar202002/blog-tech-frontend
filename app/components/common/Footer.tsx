@@ -10,10 +10,10 @@ const footerColumns = [
     title: "Products",
     links: [
       { label: "AURIX", href: "/our-products/aurix" },
+      { label: "Aurown", href: "/our-products/aurown" },
       { label: "Scheme Mobile App", href: "/our-products/scheme-app" },
       { label: "Jewel Connect", href: "/our-products/jewel-connect" },
       { label: "Employee & Payroll", href: "/our-products/employee-payroll" },
-      { label: "Aurown", href: "/our-products/aurown" },
     ],
   },
   {

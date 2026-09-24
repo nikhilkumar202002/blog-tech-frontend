@@ -26,6 +26,14 @@ const PRODUCTS: ServiceItem[] = [
     imageAlt: "AURIX Jewellery Management Solution",
   },
   {
+    id: "aurown",
+    title: "AUROWN",
+    description:
+      "An Application Designed Specifically For Jewellery Business Owners To Monitor And Track Business Operations, Sales, And Inventory From Anywhere.",
+    image: "/products/aurown/aurown-app-mockup.webp",
+    imageAlt: "AUROWN Business Owners Tracking App",
+  },
+  {
     id: "scheme-app",
     title: "SCHEME MOBILE APP",
     description:
@@ -48,14 +56,6 @@ const PRODUCTS: ServiceItem[] = [
       "A Centralized System To Manage Employee Information, Attendance, Salary Processing, And Documentation Efficiently.",
     image: "/products/enroll-payroll/enroll-management-system.webp",
     imageAlt: "Employee and Payroll Management System",
-  },
-  {
-    id: "aurown",
-    title: "AUROWN",
-    description:
-      "An Application Designed Specifically For Jewellery Business Owners To Monitor And Track Business Operations, Sales, And Inventory From Anywhere.",
-    image: "/products/aurown/aurown-app-mockup.webp",
-    imageAlt: "AUROWN Business Owners Tracking App",
   },
 ];
 

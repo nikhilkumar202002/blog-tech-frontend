@@ -27,6 +27,17 @@ const PRODUCTS: ProductItem[] = [
         image: "/products/aurix.jpg",
     },
     {
+        id: "aurown",
+        title: "Aurown",
+        subtitle: "Business Monitoring App",
+        tag: "Business Monitoring",
+        description:
+            "Stay connected to your business with mobile access to sales, stock, purchases, customers, schemes and business insights.",
+        ctaText: "Explore Aurown",
+        image:
+            "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80",
+    },
+    {
         id: "employee-payroll",
         title: "Employee & Payroll",
         subtitle: "People Management System",
@@ -56,17 +67,6 @@ const PRODUCTS: ProductItem[] = [
             "Give customers a convenient way to view their jewellery schemes, make installment payments and track their scheme progress.",
         ctaText: "Explore Scheme Mobile App",
         image: "/products/scheme-app.jpg",
-    },
-    {
-        id: "aurown",
-        title: "Aurown",
-        subtitle: "Business Monitoring App",
-        tag: "Business Monitoring",
-        description:
-            "Stay connected to your business with mobile access to sales, stock, purchases, customers, schemes and business insights.",
-        ctaText: "Explore Aurown",
-        image:
-            "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80",
     },
 ];
 

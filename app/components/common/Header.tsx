@@ -36,6 +36,11 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
     description: "Jewellery ERP & POS Management Solution",
   },
   {
+    label: "Aurown",
+    href: "/our-products/aurown",
+    description: "Business Operations & Executive Dashboard",
+  },
+  {
     label: "Jewel Connect",
     href: "/our-products/jewel-connect",
     description: "Digital Catalogue & Barcode Stock Availability",
@@ -49,11 +54,6 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
     label: "Employee & Payroll",
     href: "/our-products/employee-payroll",
     description: "Staff Attendance, Salary & HR Management",
-  },
-  {
-    label: "Aurown",
-    href: "/our-products/aurown",
-    description: "Business Operations & Executive Dashboard",
   },
 ];
 
