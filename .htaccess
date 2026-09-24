@@ -8,24 +8,32 @@
 </IfModule>
 
 # ----------------------------------------------------------------------
+# Correct MIME Types for Media & Static Assets
+# ----------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType application/json .json
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+</IfModule>
+
+# ----------------------------------------------------------------------
 # Cache-Control & Expires Headers
 # ----------------------------------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 month"
 
-  # HTML documents (short cache for fresh content)
+  # HTML documents (revalidate to ensure fresh page navigation)
   ExpiresByType text/html "access plus 0 seconds"
 
-  # Next.js static immutable assets (hashed JS & CSS)
+  # Immutable static assets (hashed JS, CSS, images, video)
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType text/css "access plus 1 year"
-
-  # Media & Fonts
-  ExpiresByType image/jpg "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType video/mp4 "access plus 1 year"
@@ -34,19 +42,19 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-  # Immutable long-term cache for Next static chunks
+  # Long-term cache for immutable assets
   <FilesMatch "\.(js|css|webp|png|jpg|jpeg|gif|ico|svg|woff2|mp4)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  # HTML pages should revalidate
+  # HTML revalidation
   <FilesMatch "\.html$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
 </IfModule>
 
 # ----------------------------------------------------------------------
-# Rewrite Engine & Clean URL Handling
+# Rewrite Engine & Navigation Routing for Next.js Export (cPanel / HostingSpell)
 # ----------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -56,24 +64,30 @@
   Options -Indexes -MultiViews
   DirectoryIndex index.html
 
-  # 1. ALWAYS serve existing physical files directly (JS, CSS, images, .txt, .json, .html)
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
+  # 1. Standardize root request / -> index.html
+  RewriteRule ^$ index.html [L]
 
-  # 2. Serve directory directly if index.html exists inside it
+  # 2. Always serve existing physical files & directories directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
-  RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^ - [L]
 
-  # 3. Handle clean URLs for folder/index.html (e.g. /about-us or /about-us/ -> /about-us/index.html)
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-  RewriteRule ^(.+?)/?$ /$1/index.html [L,QSA]
+  # 3. Clean URLs for directories containing index.html (e.g. /contact-us or /contact-us/ -> /contact-us/index.html)
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)$ $1/index.html [L]
 
-  # 4. Fallback to 404 page for missing resources
-  ErrorDocument 404 /404.html
+  # 4. Clean URLs for .html files (e.g. /contact-us -> /contact-us.html)
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # 5. SPA Fallback: Route non-file requests to /index.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^ 404.html [L]
+  RewriteRule ^(.*)$ /index.html [L]
+
+  # 6. Error document fallback
+  ErrorDocument 404 /404.html
 </IfModule>
+
+
 

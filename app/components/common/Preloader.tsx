@@ -78,6 +78,11 @@ export default function Preloader() {
         exiting ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `try{if(sessionStorage.getItem('blogtec_preloaded')==='true'){document.getElementById('preloader-root').style.display='none';}}catch(e){}`,
+        }}
+      />
       <div className="relative flex items-center justify-center w-full max-w-[360px] max-h-[100dvh] overflow-hidden leading-none">
         <video
           ref={videoRef}

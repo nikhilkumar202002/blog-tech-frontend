@@ -35,8 +35,8 @@ const heroSlides: HeroSlide[] = [
   },
   {
     id: 3,
-    primaryTitle: "Create. Connect.",
-    accentTitle: "Grow.",
+    primaryTitle: "Create.",
+    accentTitle: "Connect. Grow.",
     caption:
       "We build technology around your business needs, helping you work smarter, stay connected, and create new opportunities for growth.",
     ctaText: "Explore Our Solutions",

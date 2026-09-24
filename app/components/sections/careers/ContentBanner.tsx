@@ -9,7 +9,7 @@ export interface ContentBannerProps {
 
 const ContentBanner: React.FC<ContentBannerProps> = ({ className = "" }) => {
   return (
-    <section className={`w-full py-20 sm:py-28 bg-[#FBF9F5] border-y border-stone-200/80 overflow-hidden relative ${className}`}>
+    <section className={`w-full py-20 sm:py-28 bg-[#FAF7F2] border-y border-stone-200/80 overflow-hidden relative ${className}`}>
       <div className="site-container w-full max-w-6xl mx-auto">
         <div className="max-w-4xl text-left">
           

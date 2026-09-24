@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const CLOSE_EYE_MS = 360;
-const OPEN_EYE_MS = 400;
-const MIN_SHUT_TIME_MS = 380;
-const MAX_SAFETY_MS = 900;
+const CLOSE_EYE_MS = 380;
+const OPEN_EYE_MS = 450;
+const MIN_SHUT_TIME_MS = 340;
+const MAX_SAFETY_MS = 850;
 
 export default function Pagetransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const isFirstRender = useRef(true);
   const [eyeState, setEyeState] = useState<"open" | "blinking_shut" | "shut" | "opening">("open");
   const isNavigatingRef = useRef(false);
@@ -70,6 +71,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
 
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      openEye();
       const hash = typeof window !== "undefined" ? window.location.hash : "";
       if (hash) {
         setTimeout(handleScrollTarget, 100);
@@ -92,7 +94,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       openEye();
     }
 
-    const scrollTimer = setTimeout(handleScrollTarget, delayNeeded + 30);
+    const scrollTimer = setTimeout(handleScrollTarget, delayNeeded + 20);
 
     return () => {
       if (revealTimeout) clearTimeout(revealTimeout);
@@ -119,7 +121,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       if (!anchor) return;
 
       const href = anchor.getAttribute("href");
-      if (!href) return;
+      if (!href || href === "#") return;
 
       if (
         href.startsWith("mailto:") ||
@@ -145,19 +147,32 @@ export default function Pagetransition({ children }: { children: React.ReactNode
           return;
         }
 
-        // Close the eye (white eyelids blink shut over current page)
+        // Intercept native / Next link click so eyelids close cleanly first
+        e.preventDefault();
+
+        const destination = url.pathname + url.search + url.hash;
+
         isNavigatingRef.current = true;
         blinkStartTimeRef.current = Date.now();
         setEyeState("blinking_shut");
 
+        // Safety fallback: if router push stalls on static server, force location update
+        if (safetyTimerRef.current) clearTimeout(safetyTimerRef.current);
+        safetyTimerRef.current = setTimeout(() => {
+          if (isNavigatingRef.current) {
+            window.location.href = destination;
+          }
+        }, MAX_SAFETY_MS);
+
+        // When eyelids complete shutting, trigger actual navigation
         shutTimerRef.current = setTimeout(() => {
           if (isNavigatingRef.current) {
             setEyeState("shut");
-            safetyTimerRef.current = setTimeout(() => {
-              if (isNavigatingRef.current) {
-                openEye();
-              }
-            }, MAX_SAFETY_MS);
+            try {
+              router.push(destination);
+            } catch {
+              window.location.href = destination;
+            }
           }
           shutTimerRef.current = null;
         }, CLOSE_EYE_MS);
@@ -173,15 +188,17 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     window.addEventListener("pageshow", handleFailsafeOpen);
     window.addEventListener("popstate", handleFailsafeOpen);
     window.addEventListener("beforeunload", handleFailsafeOpen);
+    window.addEventListener("focus", handleFailsafeOpen);
 
     return () => {
       document.removeEventListener("click", handleLinkClick, { capture: true });
       window.removeEventListener("pageshow", handleFailsafeOpen);
       window.removeEventListener("popstate", handleFailsafeOpen);
       window.removeEventListener("beforeunload", handleFailsafeOpen);
+      window.removeEventListener("focus", handleFailsafeOpen);
       clearTimers();
     };
-  }, [clearTimers, openEye]);
+  }, [clearTimers, openEye, router]);
 
   const isEyeShut = eyeState === "blinking_shut" || eyeState === "shut";
 
@@ -218,4 +235,6 @@ export default function Pagetransition({ children }: { children: React.ReactNode
     </>
   );
 }
+
+
 

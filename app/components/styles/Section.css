@@ -89,7 +89,7 @@
 }
 
 .hero-text-block {
-  max-width: 42rem;
+  max-width: 36rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -98,13 +98,13 @@
 
 @media (min-width: 1024px) {
   .hero-text-block {
-    max-width: 58rem;
+    max-width: 44rem;
   }
 }
 
 @media (min-width: 1280px) {
   .hero-text-block {
-    max-width: 66rem;
+    max-width: 48rem;
   }
 }
 
@@ -123,7 +123,7 @@
 .hero-headline {
   display: flex;
   flex-direction: column;
-  line-height: 0.96;
+  line-height: 1.05;
   margin: 0;
   padding: 0;
 }
@@ -133,31 +133,31 @@
   font-weight: 400;
   color: #422c1d;
   letter-spacing: -0.025em;
-  font-size: clamp(2.5rem, 6.5vw, 3.25rem);
-  line-height: 0.96;
+  font-size: clamp(2.1rem, 5.5vw, 2.75rem);
+  line-height: 1.05;
 }
 
 @media (min-width: 640px) {
   .hero-headline-primary {
-    font-size: clamp(3.25rem, 5.5vw, 4rem);
+    font-size: clamp(2.75rem, 4.5vw, 3.25rem);
   }
 }
 
 @media (min-width: 768px) {
   .hero-headline-primary {
-    font-size: clamp(4rem, 5vw, 4.75rem);
+    font-size: clamp(3.25rem, 4.2vw, 3.75rem);
   }
 }
 
 @media (min-width: 1024px) {
   .hero-headline-primary {
-    font-size: clamp(4.75rem, 4.8vw, 5.75rem);
+    font-size: clamp(3.5rem, 3.8vw, 4.25rem);
   }
 }
 
 @media (min-width: 1280px) {
   .hero-headline-primary {
-    font-size: clamp(5.5rem, 4.5vw, 6.5rem);
+    font-size: clamp(3.85rem, 3.5vw, 4.65rem);
   }
 }
 
@@ -167,32 +167,32 @@
   font-weight: 500;
   color: #8c571f;
   letter-spacing: -0.015em;
-  font-size: clamp(2.85rem, 7.5vw, 3.75rem);
-  line-height: 0.96;
-  margin-top: -0.02em;
+  font-size: clamp(2.4rem, 6vw, 3.1rem);
+  line-height: 1.02;
+  margin-top: 0.05em;
 }
 
 @media (min-width: 640px) {
   .hero-headline-accent {
-    font-size: clamp(3.75rem, 6.5vw, 4.5rem);
+    font-size: clamp(3.1rem, 5vw, 3.75rem);
   }
 }
 
 @media (min-width: 768px) {
   .hero-headline-accent {
-    font-size: clamp(4.5rem, 6vw, 5.5rem);
+    font-size: clamp(3.75rem, 4.8vw, 4.35rem);
   }
 }
 
 @media (min-width: 1024px) {
   .hero-headline-accent {
-    font-size: clamp(5.5rem, 5.5vw, 6.75rem);
+    font-size: clamp(4.1rem, 4.2vw, 4.85rem);
   }
 }
 
 @media (min-width: 1280px) {
   .hero-headline-accent {
-    font-size: clamp(6.5rem, 5.2vw, 7.5rem);
+    font-size: clamp(4.5rem, 4vw, 5.25rem);
   }
 }
 

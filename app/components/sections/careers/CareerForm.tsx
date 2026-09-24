@@ -13,6 +13,7 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import Button from "@/app/components/common/Button";
+import RippleBackground from "@/app/components/ui/RippleBackground";
 
 export interface CareerFormProps {
   className?: string;
@@ -63,16 +64,19 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
   };
 
   return (
-    <section className={`w-full py-20 sm:py-28 bg-white overflow-hidden ${className}`}>
+    <RippleBackground
+      theme="light"
+      className={`w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${className}`}
+    >
       <div className="site-container w-full max-w-5xl mx-auto">
         
         {/* Section Header (Centered, 2 Lines) */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-medium text-stone-400 font-[var(--font-dm-sans)] uppercase tracking-widest mb-3 block">
+          <span className="text-xs sm:text-sm font-medium text-[#737373] font-[var(--font-dm-sans)] uppercase tracking-widest mb-3 block">
             JOIN OUR TEAM
           </span>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-stone-900 leading-[1.12] font-[var(--font-dm-sans)] mb-5">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-[#202020] leading-[1.08] font-[var(--font-dm-sans)] mb-5">
             Don&apos;t See a Role?<br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -83,7 +87,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
             Your Profile.
           </h1>
 
-          <p className="text-stone-600 text-base sm:text-lg font-normal leading-relaxed font-[var(--font-dm-sans)]">
+          <p className="text-neutral-600 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto font-[var(--font-dm-sans)]">
             We welcome applications from people who believe their skills and experience
             could contribute to Blogtec. Tell us a little about yourself, your experience and
             the kind of work you&apos;re interested in.
@@ -91,7 +95,8 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
         </div>
 
         {/* Modern Form Card */}
-        <div className="bg-white border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl shadow-stone-100/80 relative overflow-hidden">
+        <div className="bg-white/85 backdrop-blur-xl border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl shadow-stone-200/50 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40">
+          <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#A44B03]/10 rounded-full blur-3xl pointer-events-none" />
           
           {submitted ? (
             <div className="py-12 sm:py-16 text-center max-w-md mx-auto">
@@ -389,7 +394,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
         </div>
 
       </div>
-    </section>
+    </RippleBackground>
   );
 };
 
