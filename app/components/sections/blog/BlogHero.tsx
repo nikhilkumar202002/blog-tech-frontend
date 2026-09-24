@@ -11,9 +11,8 @@ export interface BlogHeroProps {
 const BlogHero: React.FC<BlogHeroProps> = ({ className = "" }) => {
   return (
     <RippleBackground
-      theme="white"
-      hoverOnly={true}
-      className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-28 bg-white text-stone-900 overflow-hidden flex flex-col justify-center ${className}`}
+      theme="light"
+      className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-28 text-stone-900 overflow-hidden flex flex-col justify-center ${className}`}
     >
       <div className="site-container w-full text-left">
         

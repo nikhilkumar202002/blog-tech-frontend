@@ -74,6 +74,7 @@ export default function Preloader() {
       id="preloader-root"
       role="status"
       aria-label="Loading website"
+      suppressHydrationWarning={true}
       className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#fdfdfd] overflow-hidden select-none transition-opacity duration-[250ms] motion-reduce:hidden ${
         exiting ? "pointer-events-none opacity-0" : "opacity-100"
       }`}

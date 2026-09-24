@@ -116,6 +116,7 @@ export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }>
         alt="Blogtec Software Logo"
         width={100}
         height={38}
+        priority
         className="h-6 md:h-7 w-auto object-contain"
       />
     </Link>

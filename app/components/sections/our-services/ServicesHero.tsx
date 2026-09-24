@@ -11,13 +11,13 @@ export interface ServicesHeroProps {
 const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
   return (
     <section
-      className={`relative w-full min-h-screen flex items-center justify-center pt-28 sm:pt-36 md:pt-44 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
+      className={`relative w-full min-h-screen flex items-start md:items-center justify-start md:justify-center pt-24 sm:pt-32 md:pt-44 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
     >
       {/* Background Image from images folder */}
       <div className="absolute inset-0 z-0">
         {/* Desktop Background Banner Image */}
         <Image
-          src="/images/service-banner-web.webp"
+          src="/images/service-banner-desktop.webp"
           alt="Blogtec Jewellery Technology Services Banner Desktop"
           fill
           priority
@@ -44,7 +44,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-lg sm:text-xl lg:text-2xl font-normal text-stone-500 font-[var(--font-dm-sans)] mb-4 tracking-normal"
+          className="text-base sm:text-lg md:text-xl font-normal text-stone-500 font-[var(--font-dm-sans)] mb-3 sm:mb-4 tracking-normal"
         >
           Our Services
         </motion.p>
@@ -54,7 +54,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-4xl font-[var(--font-dm-sans)] mb-6"
+          className="text-4xl sm:text-5xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-xl lg:max-w-2xl xl:max-w-3xl font-[var(--font-dm-sans)] mb-0 md:mb-6"
         >
           Technology That{" "}
           <span
@@ -74,12 +74,12 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           At Every Step.
         </motion.h1>
 
-        {/* Subtext Description */}
+        {/* Subtext Description (Hidden on mobile) */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-sm sm:text-base lg:text-lg text-stone-600 font-normal leading-[1.5] max-w-2xl font-[var(--font-inter)] tracking-normal"
+          className="hidden md:block text-stone-600 font-normal leading-relaxed text-base lg:text-base xl:text-lg max-w-lg lg:max-w-xl xl:max-w-2xl font-[var(--font-dm-sans)] tracking-normal"
         >
           From Jewellery ERP Solutions To Ongoing Support, Custom Development And Digital Solutions,
           Blogtec Helps Jewellery Businesses Implement And Evolve Technology Around Their Real
