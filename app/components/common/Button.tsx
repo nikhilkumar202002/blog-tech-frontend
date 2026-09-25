@@ -56,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
       "bg-white/35 backdrop-blur-md text-stone-900 border-white/90 hover:bg-white/45 shadow-sm",
     "transparent-white-hover":
       blendingColor ||
-      "bg-white/10 backdrop-blur-md text-white border-white/40 hover:border-white shadow-sm",
+      "bg-transparent text-white border-white/40 hover:border-white shadow-sm",
   };
 
   const selectedVariant = variantStyles[variant] || variantStyles.default;
