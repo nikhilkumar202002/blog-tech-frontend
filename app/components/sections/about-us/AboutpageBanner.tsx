@@ -44,7 +44,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.215, 0.61, 0.355, 1] }}
-            className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.08] mb-0 md:mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.1] max-w-xl lg:max-w-2xl xl:max-w-3xl mb-4 md:mb-6"
           >
             Technology Built<br />
             Around the{" "}
@@ -62,7 +62,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
-            className="hidden md:block text-stone-700 text-base sm:text-lg md:text-xl font-[var(--font-dm-sans)] font-medium leading-relaxed max-w-2xl mb-10 sm:mb-12"
+            className="hidden md:block text-stone-700 text-sm md:text-base lg:text-base xl:text-lg font-[var(--font-dm-sans)] font-normal leading-relaxed max-w-lg lg:max-w-xl xl:max-w-2xl mb-8 sm:mb-10"
           >
             Built around the unique needs of jewellers, our software combines
             19+ years of industry expertise, practical technology, and effortless
@@ -74,10 +74,10 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.215, 0.61, 0.355, 1] }}
-            className="hidden md:grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-stone-300/80 max-w-2xl"
+            className="hidden md:grid grid-cols-3 gap-4 sm:gap-8 pt-6 sm:pt-8 border-t border-stone-300/80 max-w-lg lg:max-w-xl xl:max-w-2xl"
           >
             <div>
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)] flex items-baseline">
+              <div className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)] flex items-baseline">
                 19<span className="text-[#A44B03]">+</span>
               </div>
               <div className="text-xs sm:text-sm text-stone-700 font-[var(--font-dm-sans)] leading-snug font-medium">
@@ -88,7 +88,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             </div>
 
             <div>
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)]">
+              <div className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)]">
                 5
               </div>
               <div className="text-xs sm:text-sm text-stone-700 font-[var(--font-dm-sans)] leading-snug font-medium">
@@ -99,7 +99,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             </div>
 
             <div>
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)]">
+              <div className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-tight text-[#202020] mb-1.5 font-[var(--font-dm-sans)]">
                 100<span className="text-[#A44B03]">%</span>
               </div>
               <div className="text-xs sm:text-sm text-stone-700 font-[var(--font-dm-sans)] leading-snug font-medium">

@@ -73,19 +73,6 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
           </span>{" "}
           At Every Step.
         </motion.h1>
-
-        {/* Subtext Description (Hidden on mobile) */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden md:block text-stone-600 font-normal leading-relaxed text-base lg:text-base xl:text-lg max-w-lg lg:max-w-xl xl:max-w-2xl font-[var(--font-dm-sans)] tracking-normal"
-        >
-          From Jewellery ERP Solutions To Ongoing Support, Custom Development And Digital Solutions,
-          Blogtec Helps Jewellery Businesses Implement And Evolve Technology Around Their Real
-          Business Requirements.
-        </motion.p>
-
         </div>
       </div>
     </section>
