@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import RippleBackground from "../components/ui/RippleBackground";
+
 import {
   FiSmartphone,
   FiPhoneCall,
@@ -50,10 +50,7 @@ export default function ContactPage() {
   };
 
   return (
-    <RippleBackground
-  theme="light"
-  className="w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8"
->
+    <main className="w-full min-h-screen bg-[#FAF7F2] pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto w-full">
         
         {/* Header Title Section (60vh Height) */}
@@ -413,6 +410,6 @@ export default function ContactPage() {
         </div>
 
       </div>
-    </RippleBackground>
+    </main>
   );
 }

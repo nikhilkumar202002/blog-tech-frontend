@@ -82,7 +82,7 @@ export default function Footer() {
               className="site-footer-logo"
             />
           </Link>
-          <p>Technology Built Around<br />The Jewellery Business.</p>
+          <p>Create. Connect. Grow</p>
         </div>
 
         {footerColumns.map((column) => (

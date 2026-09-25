@@ -13,7 +13,7 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import Button from "@/app/components/common/Button";
-import RippleBackground from "@/app/components/ui/RippleBackground";
+
 
 export interface CareerFormProps {
   className?: string;
@@ -64,8 +64,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
   };
 
   return (
-    <RippleBackground
-      theme="light"
+    <section
       className={`w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${className}`}
     >
       <div className="site-container w-full max-w-5xl mx-auto">
@@ -394,7 +393,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
         </div>
 
       </div>
-    </RippleBackground>
+    </section>
   );
 };
 

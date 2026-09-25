@@ -6,6 +6,8 @@ import Footer from "./components/common/Footer";
 import Preloader from "./components/common/Preloader";
 import Pagetransition from "./components/common/Pagetransition";
 import "./globals.css";
+import "./components/styles/Section.css";
+import "./components/styles/Components.css";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",

@@ -6,8 +6,8 @@ export default function EmployeePayrollPage() {
     <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
         bgImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80"
-        titlePrefix="Explore "
-        titleHighlight="Employee & Payroll."
+        titlePrefix={"Manage Your People.\n"}
+        titleHighlight="Simplify Your Payroll."
         subtitle="People Management System"
         description="Manage employee information, attendance, leave, payroll, salary records and employee documentation from one centralized system."
         buttonText="Book Employee & Payroll Demo"

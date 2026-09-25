@@ -31,7 +31,7 @@ export default function CEOMessage() {
             className="ceo-message-copy"
           >
             <p className="ceo-message-description">
-              I founded Blogtec Software in 2007 with a clear vision: to develop reliable, efficient, and industry-focused software solutions specifically for the jewellery business. Over the years, our close association with jewellery businesses has given us a deep understanding of the challenges they face every day—from managing stock and billing to accounting, schemes, and business reporting
+              We founded Blogtec Software in 2007 with a vision to develop reliable, efficient, and industry-focused software solutions for the jewellery business. Over the years, working closely with jewellers has helped us understand their everyday challenges, from stock management and billing to accounting, schemes, and business reporting. This experience has shaped the way we develop our software, allowing us to create practical solutions that simplify daily operations and support business growth
             </p>
 
             <div className="ceo-message-signoff">

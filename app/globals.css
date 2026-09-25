@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import "./components/styles/Section.css";
-@import "./components/styles/Components.css";
 
 :root {
   --background: #f8f8f8;

@@ -47,7 +47,7 @@ const heroSlides: HeroSlide[] = [
     primaryTitle: "Built on Trust.",
     accentTitle: "Driven by Experience.",
     caption:
-      "Trusted relationships and a deep understanding of business shape the way we work, as we continue to evolve with your changing needs.",
+      "Evolving with your business through trusted partnerships and deep industry experience.",
     ctaText: "Explore Our Solutions",
     ctaLink: "#services",
   },

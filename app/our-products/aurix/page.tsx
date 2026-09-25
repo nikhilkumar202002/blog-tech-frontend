@@ -9,9 +9,9 @@ export default function AurixPage() {
       <ProductBanner
         bgImage="/products/aurix/product-aurix.webp"
         mobileBgImage="/products/aurix/aurx-mobile-banner.webp"
-        titlePrefix={"Total Control.\nOne "}
-        titleHighlight="Jewellery Business."
-        subtitle="Your Business. At Your Fingertips."
+        titlePrefix={"Every Aspect of Your\n"}
+        titleHighlight="Jewellery Business. Simplified."
+        subtitle="One Software. Complete Management."
         description="AURIX is a comprehensive jewellery management solution built to streamline day-to-day operations, from inventory and billing to customer management, accounting, and business reporting."
         buttonText="Call Now"
         buttonLink="tel:7994455922"
