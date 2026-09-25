@@ -11,7 +11,7 @@ export interface ServicesHeroProps {
 const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
   return (
     <section
-      className={`relative w-full min-h-screen flex items-start md:items-center justify-start md:justify-center pt-24 sm:pt-32 md:pt-44 lg:pt-48 pb-16 sm:pb-24 lg:pb-32 bg-[#FBF9F5] overflow-hidden ${className}`}
+      className={`relative w-full min-h-screen flex items-center justify-start pt-20 md:pt-24 pb-12 md:pb-16 bg-[#FBF9F5] overflow-hidden ${className}`}
     >
       {/* Background Image from images folder */}
       <div className="absolute inset-0 z-0">
@@ -35,44 +35,33 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
         />
       </div>
 
-      {/* Main Content Container (Left Side Content Alignment) */}
-      <div className="site-container w-full relative z-10">
-        <div className="max-w-3xl text-left flex flex-col items-start">
-        
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-base sm:text-lg md:text-xl font-normal text-stone-500 font-[var(--font-dm-sans)] mb-3 sm:mb-4 tracking-normal"
-        >
-          Our Services
-        </motion.p>
-
-        {/* Main Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-xl lg:max-w-2xl xl:max-w-3xl font-[var(--font-dm-sans)] mb-0 md:mb-6"
-        >
-          Technology That{" "}
-          <span
-            style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-            className="italic font-normal text-[#A44B03]"
+      {/* Main Content Container (Vertically Centered Alignment) */}
+      <div className="site-container w-full relative z-10 flex items-center">
+        <div className="max-w-3xl text-left flex flex-col justify-center my-auto">
+          {/* Main Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-xl lg:max-w-2xl xl:max-w-3xl font-[var(--font-dm-sans)]"
           >
-            Supports
-          </span>
-          <br className="hidden sm:inline" />
-          {" "}Your{" "}
-          <span
-            style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-            className="italic font-normal text-[#A44B03]"
-          >
-            Business
-          </span>{" "}
-          At Every Step.
-        </motion.h1>
+            Technology That{" "}
+            <span
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="italic font-normal text-[#A44B03]"
+            >
+              Supports
+            </span>
+            <br className="hidden sm:inline" />
+            {" "}Your{" "}
+            <span
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="italic font-normal text-[#A44B03]"
+            >
+              Business
+            </span>{" "}
+            At Every Step.
+          </motion.h1>
         </div>
       </div>
     </section>

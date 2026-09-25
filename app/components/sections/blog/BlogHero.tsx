@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import RippleBackground from "@/app/components/ui/RippleBackground";
 
 export interface BlogHeroProps {
   className?: string;
@@ -10,9 +9,8 @@ export interface BlogHeroProps {
 
 const BlogHero: React.FC<BlogHeroProps> = ({ className = "" }) => {
   return (
-    <RippleBackground
-      theme="light"
-      className={`relative w-full pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-28 text-stone-900 overflow-hidden flex flex-col justify-center ${className}`}
+    <section
+      className={`relative w-full bg-[#FAF7F2] pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-24 lg:pb-28 text-stone-900 overflow-hidden flex flex-col justify-center ${className}`}
     >
       <div className="site-container w-full text-left">
         
@@ -46,7 +44,7 @@ const BlogHero: React.FC<BlogHeroProps> = ({ className = "" }) => {
         </motion.p>
 
       </div>
-    </RippleBackground>
+    </section>
   );
 };
 

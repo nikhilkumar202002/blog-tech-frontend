@@ -149,6 +149,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"Products" | "Services" | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -432,43 +433,72 @@ const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
 
-            <div className="my-auto py-8">
-              <p className="mb-4 font-[var(--font-inter)] text-xs font-semibold uppercase tracking-[0.22em] text-[#7A3602]">
-                Explore Blogtec
-              </p>
+            <div className="my-auto py-6">
               <nav id="mobile-site-menu" aria-label="Mobile navigation" className="space-y-1">
-                {navItems.map((item, index) => {
+                {navItems.map((item) => {
                   const dropdownList = item.label === "Products" ? PRODUCTS_DROPDOWN : item.label === "Services" ? SERVICES_DROPDOWN : null;
-                  return (
-                    <div key={item.label} className="border-b border-[#e5ded6] py-2">
-                      <Link
-                        href={item.href}
-                        prefetch={true}
-                        onClick={(e) => handleNavClick(e, item)}
-                        aria-current={active === item.label ? "location" : undefined}
-                        className={`group flex min-h-12 items-center gap-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A3602] ${active === item.label ? "text-[#7A3602]" : "text-[#211d1a] hover:text-[#7A3602]"}`}
-                      >
-                        <span className="w-6 self-start pt-1 font-[var(--font-inter)] text-[11px] font-medium tracking-[0.12em] text-[#7A3602]">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[clamp(1.5rem,6.5vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.04em]">
-                          {item.label}
-                        </span>
-                        <svg className="h-5 w-5 flex-none text-[#7A3602] transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <path d="M5 12h14m-6-6 6 6-6 6" />
-                        </svg>
-                      </Link>
+                  const isExpanded = !!mobileExpanded[item.label];
 
-                      {/* Mobile Sub-Links List */}
-                      {dropdownList && (
-                        <div className="pl-10 pr-2 pt-1 pb-2 space-y-2">
+                  return (
+                    <div key={item.label} className="border-b border-[#e5ded6] py-1.5">
+                      {dropdownList ? (
+                        <button
+                          type="button"
+                          onClick={() => setMobileExpanded((prev) => ({ ...prev, [item.label]: !prev[item.label] }))}
+                          className={`group flex min-h-12 w-full items-center justify-between gap-4 py-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A3602] ${active === item.label ? "text-[#7A3602]" : "text-[#211d1a] hover:text-[#7A3602]"}`}
+                        >
+                          <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[22px] font-medium leading-snug tracking-[-0.02em]">
+                            {item.label}
+                          </span>
+                          <svg
+                            className={`h-5 w-5 flex-none text-[#7A3602] transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </button>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          prefetch={true}
+                          onClick={(e) => handleNavClick(e, item)}
+                          aria-current={active === item.label ? "location" : undefined}
+                          className={`group flex min-h-12 items-center justify-between gap-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A3602] ${active === item.label ? "text-[#7A3602]" : "text-[#211d1a] hover:text-[#7A3602]"}`}
+                        >
+                          <span className="min-w-0 flex-1 font-[var(--font-dm-sans)] text-[22px] font-medium leading-snug tracking-[-0.02em]">
+                            {item.label}
+                          </span>
+                          <svg
+                            className="h-5 w-5 flex-none text-[#7A3602] transition-transform group-hover:translate-x-1"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M5 12h14m-6-6 6 6-6 6" />
+                          </svg>
+                        </Link>
+                      )}
+
+                      {/* Collapsible Mobile Sub-Links List */}
+                      {dropdownList && isExpanded && (
+                        <div className="pl-4 pr-2 pt-1 pb-3 space-y-2">
                           {dropdownList.map((sub) => (
                             <Link
                               key={sub.label}
                               href={sub.href}
                               prefetch={true}
                               onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
-                              className="block py-1.5 text-sm font-medium text-stone-700 hover:text-[#7A3602] transition-colors"
+                              className="block py-1.5 font-[var(--font-dm-sans)] text-[20px] font-medium text-stone-700 hover:text-[#7A3602] transition-colors leading-snug"
                             >
                               • {sub.label}
                             </Link>

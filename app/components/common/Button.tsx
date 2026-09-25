@@ -14,9 +14,11 @@ export interface ButtonProps {
   target?: string;
   rel?: string;
   pillColor?: string;
+  hoverTextColor?: string;
+  arrowColor?: string;
   blendingColor?: string;
   textKey?: string | number;
-  variant?: "default" | "transparent-white" | "transparent" | "blended";
+  variant?: "default" | "transparent-white" | "transparent" | "blended" | "transparent-white-hover";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -29,11 +31,17 @@ const Button: React.FC<ButtonProps> = ({
   target,
   rel,
   pillColor = "bg-[#7A3602]",
+  hoverTextColor,
+  arrowColor,
   blendingColor,
   textKey,
   variant = "default",
 }) => {
   const content = text || children;
+
+  const isWhitePill = pillColor.includes("bg-white");
+  const actualHoverTextColor = hoverTextColor || (isWhitePill ? "group-hover:text-stone-900" : "group-hover:text-white");
+  const actualArrowColor = arrowColor || (isWhitePill ? "text-stone-900" : "text-white");
 
   const variantStyles = {
     default: "bg-white text-stone-900 border-black/5",
@@ -46,6 +54,9 @@ const Button: React.FC<ButtonProps> = ({
     blended:
       blendingColor ||
       "bg-white/35 backdrop-blur-md text-stone-900 border-white/90 hover:bg-white/45 shadow-sm",
+    "transparent-white-hover":
+      blendingColor ||
+      "bg-white/10 backdrop-blur-md text-white border-white/40 hover:border-white shadow-sm",
   };
 
   const selectedVariant = variantStyles[variant] || variantStyles.default;
@@ -60,7 +71,7 @@ const Button: React.FC<ButtonProps> = ({
       />
 
       {/* Layer 1: Left-aligned Text Content */}
-      <span className="relative z-10 transition-colors duration-500 group-hover:text-white font-[var(--font-dm-sans)] pr-2">
+      <span className={`relative z-10 transition-colors duration-500 ${actualHoverTextColor} font-[var(--font-dm-sans)] pr-2`}>
         {textKey !== undefined ? (
           <AnimatePresence mode="wait">
             <motion.span
@@ -80,7 +91,7 @@ const Button: React.FC<ButtonProps> = ({
       </span>
 
       {/* Layer 2: Right-aligned Arrow Icon (Perfectly Centered in Pill Box) */}
-      <div className="absolute right-1 top-[4px] bottom-[4px] w-12 z-10 flex items-center justify-center text-white pointer-events-none">
+      <div className={`absolute right-1 top-[4px] bottom-[4px] w-12 z-10 flex items-center justify-center ${actualArrowColor} pointer-events-none transition-colors duration-500`}>
         <svg
           className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
           fill="none"

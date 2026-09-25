@@ -39,7 +39,8 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
           <div className="platform-actions">
             <Button
               href="#our-services"
-              pillColor="bg-[#A44B03]"
+              variant="transparent-white-hover"
+              pillColor="bg-white"
               onClick={(e) => {
                 const target =
                   document.getElementById("our-services") ||
