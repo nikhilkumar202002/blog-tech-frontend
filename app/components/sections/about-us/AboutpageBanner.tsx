@@ -44,7 +44,7 @@ const AboutpageBanner: React.FC<AboutpageBannerProps> = ({ className = "" }) => 
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.215, 0.61, 0.355, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.1] max-w-xl lg:max-w-2xl xl:max-w-3xl mb-4 md:mb-6"
+            className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.1] max-w-xl lg:max-w-2xl xl:max-w-4xl mb-4 md:mb-6"
           >
             Technology Built<br />
             Around the{" "}

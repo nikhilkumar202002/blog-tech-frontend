@@ -43,7 +43,7 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl sm:text-5xl md:text-5xl lg:text-[50px] xl:text-6xl 2xl:text-7xl font-medium tracking-tight text-stone-900 leading-[1.08] max-w-xl lg:max-w-2xl xl:max-w-3xl font-[var(--font-dm-sans)]"
+            className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-medium tracking-tight text-stone-900 leading-[1.08] max-w-xl lg:max-w-2xl xl:max-w-4xl font-[var(--font-dm-sans)]"
           >
             Technology That{" "}
             <span

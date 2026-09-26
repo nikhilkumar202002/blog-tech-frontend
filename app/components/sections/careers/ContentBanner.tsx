@@ -30,7 +30,7 @@ const ContentBanner: React.FC<ContentBannerProps> = ({ className = "" }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.15] mb-8"
+            className="text-3xl sm:text-4xl md:text-[42px] lg:text-[52px] xl:text-[60px] 2xl:text-[68px] font-normal tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.15] mb-8"
           >
             Work on Technology With a{" "}
             <span

@@ -75,7 +75,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
             JOIN OUR TEAM
           </span>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-[#202020] leading-[1.08] font-[var(--font-dm-sans)] mb-5">
+          <h1 className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-medium tracking-tight text-[#202020] leading-[1.08] font-[var(--font-dm-sans)] mb-5">
             Don&apos;t See a Role?<br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}

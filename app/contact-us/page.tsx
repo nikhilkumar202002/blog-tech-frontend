@@ -59,7 +59,7 @@ export default function ContactPage() {
             Contact Us
           </span>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.05]">
+          <h1 className="text-4xl sm:text-5xl md:text-[56px] lg:text-[68px] xl:text-[76px] 2xl:text-[84px] font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.05]">
             Let&apos;s Create<br />
             <span
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}

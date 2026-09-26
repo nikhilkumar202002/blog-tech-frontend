@@ -19,7 +19,7 @@ const BlogHero: React.FC<BlogHeroProps> = ({ className = "" }) => {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-stone-900 leading-[1.08] max-w-4xl font-[var(--font-dm-sans)] mb-6"
+          className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-semibold tracking-tight text-stone-900 leading-[1.08] max-w-4xl lg:max-w-5xl font-[var(--font-dm-sans)] mb-6"
         >
           Ideas, Insights &amp; Updates for the{" "}
           <span
