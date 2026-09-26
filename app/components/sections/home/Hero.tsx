@@ -124,18 +124,44 @@ const Hero: React.FC<HeroProps> = ({
   className = "",
   autoPlayInterval = 5500,
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
 
   // Autoplay video initialization
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.defaultMuted = true;
-      videoRef.current.play().catch(() => {
-        // Ignore autoplay restriction errors
+    const playVideos = () => {
+      [desktopVideoRef.current, mobileVideoRef.current].forEach((video) => {
+        if (video) {
+          video.muted = true;
+          video.defaultMuted = true;
+          video.play().catch(() => {
+            // Ignore autoplay restriction errors
+          });
+        }
       });
+    };
+
+    playVideos();
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handleMediaChange = () => {
+      playVideos();
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleMediaChange);
+    } else {
+      mediaQuery.addListener(handleMediaChange);
     }
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener("change", handleMediaChange);
+      } else {
+        mediaQuery.removeListener(handleMediaChange);
+      }
+    };
   }, []);
 
   // Slide rotation logic
@@ -151,24 +177,34 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <section className={`hero-section ${className || ""}`} id="home">
-      {/* 100vh Full Width Background Video */}
+      {/* 100vh Full Width Background Video - Desktop */}
       <video
-        ref={videoRef}
+        ref={desktopVideoRef}
         autoPlay
         loop
         muted
         playsInline
         preload="metadata"
-        className="hero-video"
+        className="hero-video hero-video-desktop"
+        aria-hidden="true"
+      >
+        <source src="/video/hero-banner.mp4" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+
+      {/* 100vh Full Width Background Video - Mobile */}
+      <video
+        ref={mobileVideoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="hero-video hero-video-mobile"
         aria-hidden="true"
       >
         <source
           src="/video/blogtech-banner-video-mobile.mp4"
-          type="video/mp4"
-          media="(max-width: 767px)"
-        />
-        <source
-          src="/video/hero-banner.mp4"
           type="video/mp4"
         />
         Your browser does not support HTML5 video.

@@ -38,6 +38,24 @@
   backface-visibility: hidden;
 }
 
+.hero-video-mobile {
+  display: block;
+}
+
+.hero-video-desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hero-video-mobile {
+    display: none;
+  }
+
+  .hero-video-desktop {
+    display: block;
+  }
+}
+
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -863,9 +881,9 @@
 .platform-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 65vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   overflow: hidden;
   background-image: url('/images/mobile-laptop-mockup-3.webp');
@@ -873,8 +891,8 @@
   background-position: center bottom;
   background-size: cover;
   background-repeat: no-repeat;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 @media (min-width: 768px) {
@@ -970,7 +988,7 @@
   font-weight: 500;
   color: #ffffff;
   letter-spacing: -0.025em;
-  font-size: 2.25rem;
+  font-size: 2rem;
   line-height: 1.1;
   margin: 0;
 }
@@ -1000,6 +1018,7 @@
 }
 
 .platform-description {
+  display: none;
   margin-top: 1.25rem;
   margin-bottom: 2rem;
   font-family: var(--font-inter), sans-serif;
@@ -1010,14 +1029,9 @@
   font-weight: 400;
 }
 
-@media (min-width: 640px) {
-  .platform-description {
-    font-size: 1rem;
-  }
-}
-
 @media (min-width: 768px) {
   .platform-description {
+    display: block;
     margin-top: 1.5rem;
     margin-bottom: 2.25rem;
     font-size: 1.0625rem;
@@ -1028,6 +1042,25 @@
 .platform-actions {
   display: flex;
   align-items: center;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .platform-actions {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .platform-actions a,
+  .platform-actions button {
+    height: 2.75rem !important;
+    min-width: 11.5rem !important;
+    padding-left: 1.125rem !important;
+    padding-right: 3.25rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 0.75rem !important;
+  }
 }
 
 .platform-cta-btn {
@@ -1444,7 +1477,7 @@
 
 .ceo-message-bottom {
   align-items: end;
-  margin-top: -5rem;
+  margin-top: -10rem;
 }
 
 .ceo-message-eyebrow {
@@ -1487,16 +1520,16 @@
   margin: 0;
   color: #383838;
   font-family: var(--font-inter), sans-serif;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 28px;
 }
 
 .ceo-message-signoff {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 5rem;
+  margin-top: 2rem;
   font-family: var(--font-inter), sans-serif;
 }
 
@@ -1536,7 +1569,7 @@
   padding-bottom: 80px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .ceo-message-section {
     padding-top: 80px;
     padding-bottom: 0px;
@@ -1546,21 +1579,27 @@
   .ceo-message-top,
   .ceo-message-bottom {
     grid-template-columns: 1fr;
-    row-gap: 2rem;
+    row-gap: 2.5rem;
   }
 
   .ceo-message-bottom {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .ceo-message-eyebrow {
+    font-size: 16px;
   }
 
   .ceo-message-title {
     max-width: 34rem;
-    font-size: clamp(1.875rem, 6vw, 2.25rem);
+    font-size: clamp(2rem, 6.5vw, 2.375rem);
   }
 
   .ceo-message-description {
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.62;
   }
 }
 
@@ -1710,6 +1749,7 @@
 
 @media (max-width: 767px) {
   .faq-section {
+    padding-top: 0px;
     padding-bottom: 5rem;
   }
 

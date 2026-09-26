@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowUpRight, FiArrowRight, FiChevronRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import OurServiceMobile from "./OurServiceMobile";
 import "@/app/components/styles/Section.css";
 
 export interface ServiceDetail {
@@ -18,7 +19,7 @@ export interface ServiceDetail {
   link: string;
 }
 
-const SERVICES_DATA: ServiceDetail[] = [
+export const SERVICES_DATA: ServiceDetail[] = [
   {
     id: "jewellery-erp",
     title: "Jewellery ERP Solutions",
@@ -83,57 +84,6 @@ const SERVICES_DATA: ServiceDetail[] = [
 
 const OurServices: React.FC = () => {
   const [activeId, setActiveId] = useState<string>("jewellery-erp");
-  const [mobileActiveIndex, setMobileActiveIndex] = useState<number>(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const dragStartRef = useRef<{
-    pointerId: number;
-    startX: number;
-    scrollLeft: number;
-    isMoved: boolean;
-  } | null>(null);
-
-  const handleMobileScroll = () => {
-    const el = carouselRef.current;
-    if (!el || isDragging) return;
-    const cardWidth = el.firstElementChild?.clientWidth || 280;
-    const index = Math.round(el.scrollLeft / (cardWidth + 16));
-    setMobileActiveIndex(Math.max(0, Math.min(SERVICES_DATA.length - 1, index)));
-  };
-
-  const scrollToMobileSlide = (index: number) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    const cardWidth = el.firstElementChild?.clientWidth || 280;
-    el.scrollTo({ left: index * (cardWidth + 16), behavior: "smooth" });
-    setMobileActiveIndex(index);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType === "touch") return;
-    dragStartRef.current = {
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      scrollLeft: carouselRef.current?.scrollLeft || 0,
-      isMoved: false,
-    };
-    setIsDragging(true);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const start = dragStartRef.current;
-    if (!start || !carouselRef.current || start.pointerId !== e.pointerId) return;
-    const diffX = e.clientX - start.startX;
-    if (Math.abs(diffX) > 4) {
-      start.isMoved = true;
-      carouselRef.current.scrollLeft = start.scrollLeft - diffX;
-    }
-  };
-
-  const handlePointerUp = () => {
-    dragStartRef.current = null;
-    setIsDragging(false);
-  };
 
   return (
     <section className="our-services-section relative z-10 w-full pt-[80px] pb-0 md:pt-[150px] md:pb-0 bg-[#faf9f6] block" id="our-services">
@@ -163,19 +113,11 @@ const OurServices: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Card Container: Mobile Swipe Carousel (< md) vs Desktop Accordion (>= md) */}
-        <div
-          ref={carouselRef}
-          onScroll={handleMobileScroll}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          onPointerLeave={handlePointerUp}
-          className={`flex overflow-x-auto gap-4 w-full select-none touch-pan-x touch-pan-y [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:flex-row md:h-[500px] lg:h-[560px] ${
-            isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab md:cursor-default"
-          }`}
-        >
+        {/* Mobile View: Separate Mobile Card Carousel */}
+        <OurServiceMobile services={SERVICES_DATA} />
+
+        {/* Desktop View: Interactive Accordion (md and above) */}
+        <div className="hidden md:flex flex-row h-[500px] lg:h-[560px] w-full gap-4">
           {SERVICES_DATA.map((item, idx) => {
             const isActive = activeId === item.id;
 
@@ -187,15 +129,11 @@ const OurServices: React.FC = () => {
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 onMouseEnter={() => setActiveId(item.id)}
-                onClick={() => {
-                  if (dragStartRef.current?.isMoved) return;
-                  setActiveId(item.id);
-                  scrollToMobileSlide(idx);
-                }}
-                className={`relative group rounded-[28px] sm:rounded-[32px] overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col justify-between p-6 sm:p-8 shrink-0 snap-center w-[85vw] sm:w-[340px] h-[440px] md:w-auto md:h-full ${
+                onClick={() => setActiveId(item.id)}
+                className={`relative group rounded-[32px] overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col justify-between p-8 h-full ${
                   isActive
-                    ? "md:flex-[3.2] bg-neutral-900 shadow-none md:shadow-2xl md:ring-1 md:ring-black/10"
-                    : "md:flex-[1] bg-neutral-800 hover:md:flex-[1.2]"
+                    ? "flex-[3.2] bg-neutral-900 shadow-2xl ring-1 ring-black/10"
+                    : "flex-[1] bg-neutral-800 hover:flex-[1.2]"
                 }`}
               >
                 {/* Background Image */}
@@ -203,7 +141,7 @@ const OurServices: React.FC = () => {
                   src={item.imageUrl}
                   alt={item.title}
                   fill
-                  sizes="(max-width: 768px) 85vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 1200px) 50vw, 33vw"
                   className={`object-cover transition-transform duration-1000 ease-out ${
                     isActive ? "scale-105" : "scale-100 group-hover:scale-105 opacity-80"
                   }`}
@@ -213,7 +151,7 @@ const OurServices: React.FC = () => {
                 {/* Dark Gradient Overlay */}
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 bg-gradient-to-t from-black/90 via-black/40 to-black/30 ${
-                    isActive ? "opacity-90" : "opacity-85 md:opacity-80 group-hover:opacity-75"
+                    isActive ? "opacity-90" : "opacity-80 group-hover:opacity-75"
                   }`}
                 />
 
@@ -222,7 +160,7 @@ const OurServices: React.FC = () => {
                   <div
                     className={`flex-shrink-0 grid place-items-center rounded-full transition-all duration-500 ${
                       isActive
-                        ? "w-11 h-11 bg-[#A44B03] text-white shadow-none md:shadow-lg scale-100"
+                        ? "w-11 h-11 bg-[#A44B03] text-white shadow-lg scale-100"
                         : "w-10 h-10 bg-white/20 backdrop-blur-md border border-white/30 text-white group-hover:bg-white group-hover:text-black scale-95"
                     }`}
                   >
@@ -239,18 +177,18 @@ const OurServices: React.FC = () => {
                   <h3
                     className={`font-medium font-[var(--font-dm-sans)] text-white tracking-tight leading-tight transition-all duration-500 ${
                       isActive
-                        ? "text-2xl sm:text-3xl lg:text-4xl mb-3"
-                        : "text-2xl sm:text-2xl md:text-xl lg:text-2xl mb-3 md:mb-2"
+                        ? "text-3xl lg:text-4xl mb-3"
+                        : "text-xl lg:text-2xl mb-2"
                     }`}
                   >
                     {item.title}
                   </h3>
 
                   <p
-                    className={`text-sm sm:text-base text-neutral-200/90 font-[var(--font-dm-sans)] leading-relaxed transition-all duration-500 max-w-xl ${
+                    className={`text-base text-neutral-200/90 font-[var(--font-dm-sans)] leading-relaxed transition-all duration-500 max-w-xl ${
                       isActive
                         ? "opacity-100 max-h-32 mb-6"
-                        : "opacity-100 md:opacity-0 max-h-32 md:max-h-0 overflow-hidden mb-5 md:mb-0"
+                        : "opacity-0 max-h-0 overflow-hidden mb-0"
                     }`}
                   >
                     {item.description}
@@ -258,8 +196,8 @@ const OurServices: React.FC = () => {
 
                   <Link
                     href={item.link}
-                    className={`inline-flex items-center justify-between gap-3 w-full sm:w-auto px-5 py-3 rounded-full bg-white text-neutral-900 font-semibold text-xs uppercase tracking-wider shadow-none md:shadow-xl transition-all duration-300 hover:bg-[#A44B03] hover:text-white group/btn ${
-                      isActive ? "opacity-100 translate-y-0" : "opacity-100 md:opacity-75"
+                    className={`inline-flex items-center justify-between gap-3 px-5 py-3 rounded-full bg-white text-neutral-900 font-semibold text-xs uppercase tracking-wider shadow-xl transition-all duration-300 hover:bg-[#A44B03] hover:text-white group/btn ${
+                      isActive ? "opacity-100 translate-y-0" : "opacity-75"
                     }`}
                   >
                     <span>Explore Service</span>
@@ -273,25 +211,10 @@ const OurServices: React.FC = () => {
           })}
         </div>
 
-        {/* Mobile Navigation Dots */}
-        <div className="flex md:hidden items-center justify-center gap-2 mt-6">
-          {SERVICES_DATA.map((item, idx) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToMobileSlide(idx)}
-              aria-label={`Go to service slide ${idx + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                mobileActiveIndex === idx
-                  ? "w-6 bg-[#A44B03]"
-                  : "w-2 bg-neutral-300 hover:bg-neutral-400"
-              }`}
-            />
-          ))}
-        </div>
-
       </div>
     </section>
   );
 };
 
 export default OurServices;
+

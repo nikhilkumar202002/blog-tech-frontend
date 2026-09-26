@@ -12,7 +12,7 @@ export interface PlatformProps {
 const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
   return (
     <section className={`platform-section ${className}`} id="platform">
-      {/* Soft gradient overlay to enhance text contrast on fixed background */}
+   
       <div className="platform-overlay" />
 
       <div className="platform-container">
@@ -61,4 +61,4 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
 };
 
 export default Platform;
-
+
