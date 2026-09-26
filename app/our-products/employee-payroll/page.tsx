@@ -5,7 +5,8 @@ export default function EmployeePayrollPage() {
   return (
     <main className="w-full flex flex-col flex-shrink-0">
       <ProductBanner
-        bgImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80"
+        bgImage="/products/enroll-payroll/payroll-management-desktop.webp"
+        mobileBgImage="/products/enroll-payroll/payroll-management-mobile.webp"
         titlePrefix={"Manage Your People.\n"}
         titleHighlight="Simplify Your Payroll."
         subtitle="People Management System"

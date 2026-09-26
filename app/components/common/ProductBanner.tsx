@@ -42,7 +42,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
 
   return (
     <section
-      className={`relative w-full h-[520px] min-h-[520px] md:min-h-screen md:h-screen flex items-start md:items-center overflow-hidden bg-stone-950 flex-shrink-0 ${className}`}
+      className={`relative w-full h-[680px] sm:h-[750px] min-h-[680px] sm:min-h-[750px] md:min-h-screen md:h-screen flex items-start md:items-center overflow-hidden bg-stone-950 flex-shrink-0 ${className}`}
     >
       {/* Background Banner Image Container */}
       {activeImage && (
@@ -52,9 +52,9 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           transition={{ duration: 1.2, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0 w-full overflow-hidden"
         >
-          {/* Desktop Banner Image */}
-          <picture>
-            {activeMobileImage !== activeImage && (
+          {/* Desktop & Mobile Banner Image */}
+          <picture className="absolute inset-0 h-full w-full">
+            {activeMobileImage && activeMobileImage !== activeImage && (
               <source srcSet={activeMobileImage} media="(max-width: 767px)" />
             )}
             <img
@@ -73,19 +73,19 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
       )}
 
       {/* Main Content Container inside Global Class Container (site-container) */}
-      <div className="site-container relative z-10 w-full pt-28 sm:pt-36 md:pt-28 pb-10 md:py-20 flex flex-col justify-between md:justify-center h-full">
-        <div className="max-w-lg md:max-w-xl lg:max-w-2xl">
+      <div className="site-container relative z-10 w-full pt-20 sm:pt-28 md:pt-28 pb-8 md:py-20 flex flex-col justify-start md:justify-center h-full">
+        <div className="max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
           {/* Main Title with Serif Gold Accent */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.12] mb-3 drop-shadow-md"
+            className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.15] mb-3 sm:mb-4 drop-shadow-md"
           >
             {titlePrefix.includes("\n") ? (
               <>
-                <span className="block">{titlePrefix.split("\n")[0]}</span>
-                <span className="block mt-1">
+                <span className="block whitespace-nowrap sm:whitespace-normal">{titlePrefix.split("\n")[0]}</span>
+                <span className="block mt-1 whitespace-nowrap sm:whitespace-normal">
                   {titlePrefix.split("\n")[1]}
                   {titleHighlight && (
                     <span
@@ -132,7 +132,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden sm:block space-y-3 mb-8 sm:mb-10 max-w-lg"
+              className="hidden md:block space-y-3 mb-8 sm:mb-10 max-w-lg"
             >
               {description.split("\n\n").map((paragraph, idx) => (
                 <p
@@ -155,19 +155,19 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             >
               <Link
                 href={buttonLink}
-                className="group relative inline-flex items-center justify-between gap-6 sm:gap-8 pl-6 sm:pl-8 pr-1.5 sm:pr-2 py-1.5 sm:py-2 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-500 shadow-xl"
+                className="group relative inline-flex items-center justify-between gap-3 sm:gap-4 pl-4 sm:pl-5 pr-1 sm:pr-1.5 py-1 sm:py-1 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-500 shadow-xl"
               >
                 {/* Expanding White Circle Background on Hover */}
-                <span className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[28] pointer-events-none z-0" />
+                <span className="absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[28] pointer-events-none z-0" />
 
                 {/* Button Label Text */}
-                <span className="relative z-10 text-base sm:text-lg font-normal tracking-tight text-white transition-colors duration-300 group-hover:text-black">
+                <span className="relative z-10 text-xs sm:text-sm md:text-base font-normal tracking-tight text-white transition-colors duration-300 group-hover:text-black">
                   {buttonText}
                 </span>
 
                 {/* Right Circle Icon with Black Arrow */}
-                <span className="relative z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-black flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
-                  <FiArrowUpRight className="w-5 h-5 stroke-[2.2] text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span className="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-black flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+                  <FiArrowUpRight className="w-4 h-4 stroke-[2.2] text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </Link>
             </motion.div>

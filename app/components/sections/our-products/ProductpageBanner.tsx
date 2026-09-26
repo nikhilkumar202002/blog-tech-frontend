@@ -51,7 +51,7 @@ const ProductpageBanner: React.FC<ProductpageBannerProps> = ({ className = "" })
                 >
 
                     {/* Heading */}
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[76px] font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.08] mb-6 max-w-4xl">
+                    <h1 className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-medium tracking-tight text-[#202020] font-[var(--font-dm-sans)] leading-[1.08] mb-6 max-w-4xl lg:max-w-5xl">
                         Technology built around the{" "}
                         <span
                             style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
