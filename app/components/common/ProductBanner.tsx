@@ -155,19 +155,19 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             >
               <Link
                 href={buttonLink}
-                className="group relative inline-flex items-center justify-between gap-3 sm:gap-4 pl-4 sm:pl-5 pr-1 sm:pr-1.5 py-1 sm:py-1 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-500 shadow-xl"
+                className="group relative inline-flex items-center justify-between gap-3 sm:gap-4 md:gap-5 lg:gap-6 pl-4 sm:pl-5 md:pl-6 lg:pl-8 xl:pl-9 pr-1.5 sm:pr-2 md:pr-2.5 lg:pr-3 py-1.5 sm:py-2 md:py-2.5 lg:py-3 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-500 shadow-xl"
               >
                 {/* Expanding White Circle Background on Hover */}
-                <span className="absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[28] pointer-events-none z-0" />
+                <span className="absolute right-1.5 sm:right-2 md:right-2.5 lg:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 md:w-11 md:h-11 lg:w-13 lg:h-13 rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[36] pointer-events-none z-0" />
 
                 {/* Button Label Text */}
-                <span className="relative z-10 text-xs sm:text-sm md:text-base font-normal tracking-tight text-white transition-colors duration-300 group-hover:text-black">
+                <span className="relative z-10 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium tracking-tight text-white transition-colors duration-300 group-hover:text-black">
                   {buttonText}
                 </span>
 
                 {/* Right Circle Icon with Black Arrow */}
-                <span className="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-black flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
-                  <FiArrowUpRight className="w-4 h-4 stroke-[2.2] text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span className="relative z-10 w-8 h-8 sm:w-9 sm:h-9 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-white text-black flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+                  <FiArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 stroke-[2.2] text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </Link>
             </motion.div>

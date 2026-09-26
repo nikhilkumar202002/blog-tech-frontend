@@ -1,5 +1,7 @@
 import React from "react";
 import ProductBanner from "@/app/components/common/ProductBanner";
+import EmployeePayrollIntro from "@/app/components/sections/our-products/employee-payroll/EmployeePayrollIntro";
+import EmployeePayrollFeatures from "@/app/components/sections/our-products/employee-payroll/EmployeePayrollFeatures";
 
 export default function EmployeePayrollPage() {
   return (
@@ -14,6 +16,8 @@ export default function EmployeePayrollPage() {
         buttonText="Book Employee & Payroll Demo"
         buttonLink="/contact-us?product=employee-payroll"
       />
+      <EmployeePayrollIntro />
+      <EmployeePayrollFeatures />
     </main>
   );
 }
