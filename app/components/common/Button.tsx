@@ -61,13 +61,13 @@ const Button: React.FC<ButtonProps> = ({
 
   const selectedVariant = variantStyles[variant] || variantStyles.default;
 
-  const baseClasses = `group relative inline-flex items-center justify-between h-12 sm:h-13 md:h-14 min-w-[200px] sm:min-w-[220px] md:min-w-[240px] pl-5 sm:pl-6 pr-14 sm:pr-16 ${selectedVariant} font-medium text-sm sm:text-base border rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
+  const baseClasses = `group relative inline-flex items-center justify-between h-11 sm:h-12 md:h-13 min-w-[180px] sm:min-w-[200px] md:min-w-[220px] pl-5 sm:pl-6 pr-13 sm:pr-14 md:pr-15 ${selectedVariant} font-medium text-xs sm:text-sm md:text-sm border rounded-2xl overflow-hidden select-none transition-all duration-300 ${className}`;
 
   const innerElements = (
     <>
       {/* Layer 0: Expanding Theme Background Fill (Smooth Width Animation) */}
       <div
-        className={`absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 h-[calc(100%-8px)] w-10 sm:w-11 md:w-12 group-hover:w-[calc(100%-8px)] sm:group-hover:w-[calc(100%-12px)] ${pillColor} rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]`}
+        className={`absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 h-[calc(100%-8px)] w-9 sm:w-10 md:w-11 group-hover:w-[calc(100%-8px)] sm:group-hover:w-[calc(100%-12px)] ${pillColor} rounded-xl z-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]`}
       />
 
       {/* Layer 1: Left-aligned Text Content */}
@@ -91,9 +91,9 @@ const Button: React.FC<ButtonProps> = ({
       </span>
 
       {/* Layer 2: Right-aligned Arrow Icon (Square Box with Smaller Radius) */}
-      <div className={`absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 h-[calc(100%-8px)] w-10 sm:w-11 md:w-12 rounded-xl z-10 flex items-center justify-center ${actualArrowColor} pointer-events-none transition-colors duration-500`}>
+      <div className={`absolute right-1 sm:right-1.5 top-1/2 -translate-y-1/2 h-[calc(100%-8px)] w-9 sm:w-10 md:w-11 rounded-xl z-10 flex items-center justify-center ${actualArrowColor} pointer-events-none transition-colors duration-500`}>
         <svg
-          className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-0.5"
+          className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5"
           fill="none"
           stroke="currentColor"
           strokeWidth="2.2"

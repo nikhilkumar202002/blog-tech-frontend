@@ -67,17 +67,17 @@ export default function JewelappFeatures() {
                             whileInView={{ opacity: 1, y: 0, x: 0 }}
                             viewport={{ once: true, margin: "-60px" }}
                             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                            className="lg:col-span-6 xl:col-span-6 flex justify-center"
+                            className="lg:col-span-6 xl:col-span-6 flex justify-center items-center"
                         >
-                            <div className="relative w-full max-w-xs sm:max-w-md lg:max-w-lg flex justify-center items-center">
+                            <div className="relative w-full flex justify-center items-center">
                                 <div className="absolute inset-0 bg-[#A44B03]/10 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
                                 <Image
                                     src="/products/jewel-connect/jewel-connect-mockup.webp"
                                     alt="Jewel Connect Digital Showroom Platform UI"
-                                    width={600}
-                                    height={800}
+                                    width={750}
+                                    height={550}
                                     priority
-                                    className="relative z-10 w-full h-auto object-contain max-h-[320px] xs:max-h-[380px] sm:max-h-[550px] drop-shadow-2xl rounded-2xl sm:rounded-3xl"
+                                    className="relative z-10 w-full h-auto object-contain drop-shadow-2xl rounded-2xl sm:rounded-3xl"
                                 />
                             </div>
                         </motion.div>
