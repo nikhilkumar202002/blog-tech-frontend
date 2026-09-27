@@ -730,10 +730,10 @@
   }
 }
 
-/* First Card (Intro Card - Taller Height) */
+/* First Card (Intro Card) */
 .service-intro-card {
-  height: 480px;
-  padding: 2.25rem 2rem;
+  height: 450px;
+  padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -755,17 +755,23 @@
 }
 
 .service-intro-top {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .service-headline {
   font-family: var(--font-dm-sans), sans-serif;
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: #1a1a1a;
   line-height: 1.15;
   letter-spacing: -0.025em;
   margin: 0;
+}
+
+@media (min-width: 640px) {
+  .service-headline {
+    font-size: 2.125rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -791,7 +797,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
 .service-intro-description {
@@ -846,9 +852,9 @@
   transform: translate(2px, -2px);
 }
 
-/* Product Cards (Shorter Height than First Card) */
+/* Product Cards */
 .service-product-card {
-  height: 410px;
+  height: 450px;
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -870,7 +876,7 @@
 .service-card-image-wrapper {
   position: relative;
   width: 100%;
-  height: 190px;
+  height: 200px;
   border-radius: 1.25rem;
   overflow: hidden;
   background-color: #e5e5e3;
@@ -1030,13 +1036,19 @@
   max-width: 36rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 768px) {
   .platform-content {
     max-width: 42rem;
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
@@ -1105,11 +1117,15 @@
 .platform-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   margin-top: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .platform-actions {
+    justify-content: flex-start;
+    width: auto;
     margin-top: 0;
   }
 }
