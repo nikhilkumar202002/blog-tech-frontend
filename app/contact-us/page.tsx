@@ -11,6 +11,7 @@ import {
   FiClock,
   FiSend,
   FiCheckCircle,
+  FiAlertCircle,
   FiUser,
   FiMessageSquare,
   FiChevronDown,
@@ -22,6 +23,8 @@ import {
   FaLinkedin,
 } from "react-icons/fa6";
 
+import { sendContactMessage } from "@/app/utils/service";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -31,22 +34,89 @@ export default function ContactPage() {
     message: "",
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1200);
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Please enter your name.";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Please enter your email address.";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (formData.phone.trim()) {
+      const phoneRegex = /^[+]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
+      if (!phoneRegex.test(formData.phone.trim()) || formData.phone.trim().length < 7) {
+        newErrors.phone = "Please enter a valid phone number.";
+      }
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = "Please select a topic/subject.";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Please enter your message.";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters long.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await sendContactMessage(formData);
+      setSuccessMessage("Your message has been sent successfully. We will get back to you shortly!");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "General Inquiry",
+        message: "",
+      });
+      setErrors({});
+    } catch (err: any) {
+      console.error("Contact API error:", err);
+      const apiMessage =
+        err?.response?.data?.message ||
+        "Failed to send your message. Please try again or contact us directly.";
+      setErrorMessage(apiMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -94,152 +164,153 @@ export default function ContactPage() {
               Fill in your details below and our team will get back to you promptly.
             </p>
 
-            {submitted ? (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center my-8 backdrop-blur-md">
-                <FiCheckCircle className="w-14 h-14 text-emerald-600 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-stone-900 mb-2">Message Sent Successfully!</h3>
-                <p className="text-stone-600 text-sm mb-6">
-                  Thank you for reaching out to Blogtec. We look forward to connecting with you.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-6 py-2.5 rounded-xl bg-[#A44B03] hover:bg-[#8b3f02] text-white text-sm font-semibold transition-all duration-200 shadow-md"
-                >
-                  Send Another Message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Name Input */}
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
-                      Your Name *
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiUser className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="John Doe"
-                        className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email Input */}
-                  <div>
-                    <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
-                      Email Address *
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiMail className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="john@example.com"
-                        className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Phone Input */}
-                  <div>
-                    <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
-                      Phone Number
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiSmartphone className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+91 79944 55922"
-                        className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Subject Select */}
-                  <div>
-                    <label htmlFor="subject" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
-                      Topic / Subject
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 pr-10 text-stone-900 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm appearance-none"
-                      >
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Jewellery Tech Solutions">Jewellery Tech Solutions</option>
-                        <option value="Custom Software Development">Custom Software Development</option>
-                        <option value="Support & Maintenance">Support & Maintenance</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiChevronDown className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Message Input */}
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Name Input */}
                 <div>
-                  <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
-                    Your Message *
+                  <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
+                    Your Name *
                   </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your project or inquiry..."
-                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm resize-none"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                      <FiUser className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="John Doe"
+                      className={`w-full bg-stone-50 border ${errors.name ? 'border-rose-400 bg-rose-50/20' : 'border-stone-200'} rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm`}
+                    />
+                  </div>
+                  {errors.name && <p className="text-rose-500 text-xs mt-1 font-medium">{errors.name}</p>}
                 </div>
 
-                {/* Submit CTA */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#A44B03] hover:bg-[#8b3f02] text-white font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#A44B03]/25 disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Sending Message...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Send Message</span>
-                      <FiSend className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+                {/* Email Input */}
+                <div>
+                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
+                    Email Address *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                      <FiMail className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="john@example.com"
+                      className={`w-full bg-stone-50 border ${errors.email ? 'border-rose-400 bg-rose-50/20' : 'border-stone-200'} rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm`}
+                    />
+                  </div>
+                  {errors.email && <p className="text-rose-500 text-xs mt-1 font-medium">{errors.email}</p>}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Phone Input */}
+                <div>
+                  <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                      <FiSmartphone className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+91 79944 55922"
+                      className={`w-full bg-stone-50 border ${errors.phone ? 'border-rose-400 bg-rose-50/20' : 'border-stone-200'} rounded-xl pl-10 pr-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm`}
+                    />
+                  </div>
+                  {errors.phone && <p className="text-rose-500 text-xs mt-1 font-medium">{errors.phone}</p>}
+                </div>
+
+                {/* Subject Select */}
+                <div>
+                  <label htmlFor="subject" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
+                    Topic / Subject
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`w-full bg-stone-50 border ${errors.subject ? 'border-rose-400 bg-rose-50/20' : 'border-stone-200'} rounded-xl px-4 py-3 pr-10 text-stone-900 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm appearance-none`}
+                    >
+                      <option value="General Inquiry">General Inquiry</option>
+                      <option value="Jewellery Tech Solutions">Jewellery Tech Solutions</option>
+                      <option value="Custom Software Development">Custom Software Development</option>
+                      <option value="Support & Maintenance">Support & Maintenance</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
+                      <FiChevronDown className="w-4 h-4" />
+                    </div>
+                  </div>
+                  {errors.subject && <p className="text-rose-500 text-xs mt-1 font-medium">{errors.subject}</p>}
+                </div>
+              </div>
+
+              {/* Message Input */}
+              <div>
+                <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2">
+                  Your Message *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell us about your project or inquiry..."
+                  className={`w-full bg-stone-50 border ${errors.message ? 'border-rose-400 bg-rose-50/20' : 'border-stone-200'} rounded-xl px-4 py-3 text-stone-900 placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all text-sm resize-none`}
+                />
+                {errors.message && <p className="text-rose-500 text-xs mt-1 font-medium">{errors.message}</p>}
+              </div>
+
+              {/* Submit CTA */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#A44B03] hover:bg-[#8b3f02] text-white font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#A44B03]/25 disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Sending Message...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <FiSend className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+
+              {/* Success / Error Messages positioned directly below submit button */}
+              {successMessage && (
+                <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium flex items-center gap-3 animate-fadeIn">
+                  <FiCheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  <span>{successMessage}</span>
+                </div>
+              )}
+
+              {errorMessage && (
+                <div className="mt-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-medium flex items-center gap-3 animate-fadeIn">
+                  <FiAlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+            </form>
           </div>
 
           {/* Right Column: Real Contact Details Cards (5 cols) */}

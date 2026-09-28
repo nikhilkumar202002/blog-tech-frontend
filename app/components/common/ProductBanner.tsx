@@ -42,7 +42,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
 
   return (
     <section
-      className={`relative w-full h-[680px] sm:h-[750px] min-h-[680px] sm:min-h-[750px] md:min-h-screen md:h-screen flex items-start md:items-center overflow-hidden bg-stone-950 flex-shrink-0 ${className}`}
+      className={`relative w-full h-[520px] sm:h-[580px] min-h-[520px] sm:min-h-[580px] md:min-h-screen md:h-screen flex items-center overflow-hidden bg-stone-950 flex-shrink-0 ${className}`}
     >
       {/* Background Banner Image Container */}
       {activeImage && (
@@ -73,8 +73,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
       )}
 
       {/* Main Content Container inside Global Class Container (site-container) */}
-      <div className="site-container relative z-10 w-full pt-20 sm:pt-28 md:pt-28 pb-8 md:py-20 flex flex-col justify-start md:justify-center h-full">
-        <div className="max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
+      <div className="site-container relative z-10 w-full pt-16 sm:pt-20 md:pt-28 pb-6 md:py-20 flex flex-col justify-center items-center md:items-start h-full my-auto text-center md:text-left">
+        <div className="max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl flex flex-col items-center md:items-start">
           {/* Main Title with Serif Gold Accent */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
@@ -84,8 +84,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           >
             {titlePrefix.includes("\n") ? (
               <>
-                <span className="block whitespace-nowrap sm:whitespace-normal">{titlePrefix.split("\n")[0]}</span>
-                <span className="block mt-1 whitespace-nowrap sm:whitespace-normal">
+                <span className="block whitespace-normal sm:whitespace-normal">{titlePrefix.split("\n")[0]}</span>
+                <span className="block mt-1 whitespace-normal sm:whitespace-normal">
                   {titlePrefix.split("\n")[1]}
                   {titleHighlight && (
                     <span
@@ -151,7 +151,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center"
+              className="flex items-center justify-center md:justify-start"
             >
               <Link
                 href={buttonLink}

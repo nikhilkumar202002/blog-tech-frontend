@@ -4,10 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const GALLERY_IMAGES = [
-  {
-    src: "/images/growing-industry-1.webp",
-    alt: "Growing With the Industry - Jewellery Technology 1",
-  },
+
   {
     src: "/images/growing-industry-2.webp",
     alt: "Growing With the Industry - Jewellery Technology 2",
