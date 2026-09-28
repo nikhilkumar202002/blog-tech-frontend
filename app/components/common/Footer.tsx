@@ -91,14 +91,14 @@ export default function Footer() {
               <Image
                 src="/main-logo-320.png"
                 alt="Blogtec Software"
-                width={120}
-                height={29}
+                width={230}
+                height={55}
                 className="site-footer-logo"
               />
             </Link>
             <p
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-              className="italic font-bold text-[#926818] text-[28px] sm:text-[32px] md:text-[36px] mt-3 tracking-wide"
+              className="italic font-semibold text-[#7E5316] text-[26px] sm:text-[34px] md:text-[36px]"
             >
               Create. Connect. Grow.
             </p>
