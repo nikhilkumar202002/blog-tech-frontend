@@ -12,17 +12,23 @@
 .hero-section {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 100vh;
+  height: 88vh;
+  min-height: 88vh;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
   z-index: 1;
+  padding-top: 6.5rem;
+  padding-bottom: 3.5rem;
 }
 
 @media (min-width: 768px) {
   .hero-section {
+    height: 100vh;
+    min-height: 100vh;
     align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
@@ -64,16 +70,21 @@
   width: 100%;
   pointer-events: none;
   z-index: 2;
-  background: linear-gradient(to right,
-      rgba(248, 244, 238, 0.55) 0%,
-      rgba(248, 244, 238, 0.35) 35%,
-      rgba(248, 244, 238, 0.1) 60%,
+  background: linear-gradient(to bottom,
+      rgba(248, 244, 238, 0.75) 0%,
+      rgba(248, 244, 238, 0.45) 50%,
+      rgba(248, 244, 238, 0.15) 80%,
       transparent 100%);
 }
 
 @media (min-width: 768px) {
   .hero-overlay {
     width: 65%;
+    background: linear-gradient(to right,
+        rgba(248, 244, 238, 0.55) 0%,
+        rgba(248, 244, 238, 0.35) 35%,
+        rgba(248, 244, 238, 0.1) 60%,
+        transparent 100%);
   }
 }
 
@@ -82,7 +93,7 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  padding-top: 6.5rem;
+  padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -110,8 +121,19 @@
   max-width: 36rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .hero-text-block {
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -153,9 +175,18 @@
 .hero-headline {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   line-height: 1.05;
   margin: 0;
   padding: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-headline {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .hero-headline-primary {
@@ -309,6 +340,8 @@
   margin-top: 2rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   gap: 1.5rem;
   flex-wrap: wrap;
 }
@@ -316,6 +349,8 @@
 @media (min-width: 768px) {
   .hero-actions-row {
     margin-top: 2.25rem;
+    justify-content: flex-start;
+    width: auto;
     gap: 2rem;
   }
 }

@@ -96,7 +96,12 @@ export default function Footer() {
                 className="site-footer-logo"
               />
             </Link>
-            <p>Create. Connect. Grow</p>
+            <p
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="italic font-bold text-[#926818] text-[28px] sm:text-[32px] md:text-[36px] mt-3 tracking-wide"
+            >
+              Create. Connect. Grow.
+            </p>
           </div>
 
           {footerColumns.map((column) => (
