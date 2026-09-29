@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   description:
     "Streamline your jewellery operations with Blogtec Software. Our ERP solutions manage inventory, billing, schemes, and accounts in one platform.",
   icons: {
-    icon: "/fav-icon-2.jpg",
-    shortcut: "/fav-icon-2.jpg",
-    apple: "/fav-icon-2.jpg",
+    icon: "/fav-icon.jpg",
+    shortcut: "/fav-icon.jpg",
+    apple: "/fav-icon.jpg",
   },
   openGraph: {
     title: "Blogtec Software | Jewellery ERP & Management Solutions",
