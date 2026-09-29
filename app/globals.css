@@ -130,5 +130,7 @@ body {
   will-change: opacity, transform, filter;
 }
 
-
-
+html.page-transition-pending [data-page-shutter] {
+  transform: translateY(0%) !important;
+  transition: none !important;
+}

@@ -66,6 +66,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${dmSans.variable} ${inter.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("blogtec_page_transition")==="1"){sessionStorage.removeItem("blogtec_page_transition");document.documentElement.classList.add("page-transition-pending")}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#f8f8f8]">
         <Preloader />
         <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
