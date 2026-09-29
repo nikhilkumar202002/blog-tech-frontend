@@ -134,7 +134,7 @@ export default function Pagetransition({ children }: { children: React.ReactNode
       <Suspense fallback={null}>
         <RouteObserver onCommit={handleRouteCommit} />
       </Suspense>
-      {/* Render outside Frame's clip path and stacking context. */}
+      {/* Frame clips the shutters to its shape and keeps the header above them. */}
       {(["top", "bottom"] as const).map((edge) => (
         <div
           key={edge}
