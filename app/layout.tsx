@@ -68,15 +68,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-[#f8f8f8]">
         <Preloader />
-        <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
-          <Header position="fixed" />
-          <Frame id="site-frame" contentClassName="p-0">
-            <Pagetransition>
-              {children}
-            </Pagetransition>
-            <Footer />
-          </Frame>
-        </div>
+        <Pagetransition>
+          <div className="relative min-h-screen bg-[#f8f8f8] flex items-center justify-center p-3 md:p-5">
+            <Header position="fixed" />
+            <Frame id="site-frame" contentClassName="p-0">
+              <div className="w-full flex-1 flex-shrink-0">{children}</div>
+              <Footer />
+            </Frame>
+          </div>
+        </Pagetransition>
       </body>
     </html>
   );
