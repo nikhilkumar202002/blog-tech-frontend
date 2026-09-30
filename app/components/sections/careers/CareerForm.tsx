@@ -67,7 +67,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
     <section
       className={`w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${className}`}
     >
-      <div className="site-container w-full max-w-5xl mx-auto">
+      <div className="site-container w-full max-w-6xl mx-auto">
         
         {/* Section Header (Centered, 2 Lines) */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
@@ -94,9 +94,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
         </div>
 
         {/* Modern Form Card */}
-        <div className="bg-white/85 backdrop-blur-xl border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl shadow-stone-200/50 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40">
-          <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#A44B03]/10 rounded-full blur-3xl pointer-events-none" />
-          
+        <div className="bg-white/85 backdrop-blur-xl border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40">
           {submitted ? (
             <div className="py-12 sm:py-16 text-center max-w-md mx-auto">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">

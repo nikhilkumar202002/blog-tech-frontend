@@ -31,7 +31,7 @@ export interface DropdownItem {
 
 const PRODUCTS_DROPDOWN: DropdownItem[] = [
   {
-    label: "AURIX",
+    label: "Aurix",
     href: "/our-products/aurix",
     description: "Jewellery ERP & POS Management Solution",
   },
@@ -56,7 +56,7 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
     description: "Staff Attendance, Salary & HR Management",
   },
   {
-    label: "STOCKMATE",
+    label: "Stockmate",
     href: "/our-products/stockmate",
     description: "Smart Inventory & Multi-Branch Stock Control",
   },
