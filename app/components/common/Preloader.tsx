@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Script from "next/script";
 
 const FADE_DURATION_MS = 250;
 const PRELOADER_DURATION_MS = 1_200; // Fast 1.2s initial brand entrance
@@ -79,7 +80,9 @@ export default function Preloader() {
         exiting ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <script
+      <Script
+        id="preloader-state"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: `try{if(sessionStorage.getItem('blogtec_preloaded')==='true'){document.getElementById('preloader-root').style.display='none';}}catch(e){}`,
         }}

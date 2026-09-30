@@ -14,6 +14,7 @@ const footerColumns = [
       { label: "Scheme Mobile App", href: "/our-products/scheme-app" },
       { label: "Jewel Connect", href: "/our-products/jewel-connect" },
       { label: "Employee & Payroll", href: "/our-products/employee-payroll" },
+      { label: "STOCKMATE", href: "/our-products/stockmate" },
     ],
   },
   {
@@ -21,18 +22,18 @@ const footerColumns = [
     links: [
       { label: "About", href: "/about-us" },
       { label: "Our Experience", href: "/#founder-story" },
-      { label: "Our Approach", href: "/#platform" },
+      { label: "Our Approach", href: "/about-us#approach" },
       { label: "Contact", href: "/contact-us" },
     ],
   },
   {
     title: "Services",
     links: [
-      { label: "ERP Solutions", href: "/our-services" },
-      { label: "Support & Maintenance", href: "/our-services" },
-      { label: "Custom Software", href: "/our-services" },
-      { label: "Data & System Management", href: "/our-services" },
-      { label: "Mobile & Digital Solutions", href: "/our-services" },
+      { label: "ERP Solutions", href: "/our-services#jewellery-erp" },
+      { label: "Support & Maintenance", href: "/our-services#maintenance-support" },
+      { label: "Custom Software", href: "/our-services#custom-solutions" },
+      { label: "Data & System Management", href: "/our-services#data-management" },
+      { label: "Mobile & Digital Solutions", href: "/our-services#mobile-digital" },
     ],
   },
 ];

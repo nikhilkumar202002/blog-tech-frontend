@@ -57,6 +57,14 @@ const PRODUCTS: ServiceItem[] = [
     image: "/products/enroll-payroll/enroll-management-system.webp",
     imageAlt: "Employee and Payroll Management System",
   },
+  {
+    id: "stockmate",
+    title: "STOCKMATE",
+    description:
+      "A Smart Inventory And Multi-Branch Stock Control System To Manage Items, Track Movements, And Maintain Accurate Stock Records.",
+    image: "/products/stockmate/stock-mate-banner.webp",
+    imageAlt: "StockMate Smart Inventory and Multi-Branch Stock Control",
+  },
 ];
 
 const Service: React.FC = () => {

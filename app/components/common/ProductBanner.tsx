@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 export interface ProductBannerProps {
@@ -17,6 +17,8 @@ export interface ProductBannerProps {
   description?: string;
   buttonText?: string;
   buttonLink?: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
   lazyLoadImage?: boolean;
   className?: string;
 }
@@ -33,6 +35,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
   description = "",
   buttonText = "Book an AURIX Demo",
   buttonLink = "/contact-us",
+  secondaryButtonText,
+  secondaryButtonLink = "#features",
   lazyLoadImage = false,
   className = "",
 }) => {
@@ -70,7 +74,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
           </picture>
 
           {/* Dark Gradient Overlay: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
-          <div className="absolute inset-0 w-full md:w-[55%] bg-gradient-to-b md:bg-gradient-to-r from-black via-black/80 md:via-black/70 to-transparent pointer-events-none opacity-90 z-1" />
+          <div className="absolute inset-0 w-full md:w-[72%] bg-gradient-to-b md:bg-gradient-to-r from-black via-black/85 md:via-black/80 to-transparent pointer-events-none opacity-95 z-1" />
         </motion.div>
       )}
 
@@ -155,10 +159,11 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
               transition={{ duration: 0.45, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center justify-center md:justify-start"
             >
-              <Link
-                href={buttonLink}
-                className="group relative inline-flex items-center justify-between gap-3 sm:gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-6 lg:pl-7 pr-1.5 sm:pr-2 md:pr-2 py-1.5 sm:py-2 md:py-2 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-300 shadow-xl"
-              >
+              <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                <Link
+                  href={buttonLink}
+                  className="group relative inline-flex items-center justify-between gap-3 sm:gap-4 md:gap-5 pl-4 sm:pl-5 md:pl-6 lg:pl-7 pr-1.5 sm:pr-2 md:pr-2 py-1.5 sm:py-2 md:py-2 rounded-full border border-white/90 bg-black/20 backdrop-blur-sm text-white font-[var(--font-dm-sans)] overflow-hidden transition-colors duration-300 shadow-xl"
+                >
                 {/* Expanding White Circle Background on Hover */}
                 <span className="absolute right-1.5 sm:right-2 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[36] pointer-events-none z-0" />
 
@@ -171,7 +176,18 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
                 <span className="relative z-10 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white text-black flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
                   <FiArrowUpRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 stroke-[2.2] text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
-              </Link>
+                </Link>
+
+                {secondaryButtonText && (
+                  <Link
+                    href={secondaryButtonLink}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/70 px-4 py-2.5 text-xs sm:text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-black"
+                  >
+                    {secondaryButtonText}
+                    <FiArrowDown className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
             </motion.div>
           )}
         </div>

@@ -38,7 +38,7 @@ const Platform: React.FC<PlatformProps> = ({ className = '' }) => {
 
           <div className="platform-actions">
             <Button
-              href="#our-services"
+              href="/about-us"
               variant="transparent-white-hover"
               pillColor="bg-white"
               onClick={(e) => {

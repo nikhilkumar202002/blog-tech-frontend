@@ -48,7 +48,7 @@ export interface CoreApproachProps {
 
 const CoreApproach: React.FC<CoreApproachProps> = ({ className = "" }) => {
   return (
-    <section className={`w-full py-20 sm:py-28 lg:py-36 bg-white text-stone-900 flex-shrink-0 ${className}`}>
+    <section id="approach" className={`w-full py-20 sm:py-28 lg:py-36 bg-white text-stone-900 flex-shrink-0 ${className}`}>
       <div className="site-container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 xl:gap-16 items-center">
 

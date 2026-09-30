@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Cormorant_Garamond, DM_Sans, Inter } from "next/font/google";
 import Frame from "./components/common/Frame";
 import Header from "./components/common/Header";
@@ -67,7 +68,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dmSans.variable} ${inter.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
       <head>
-        <script
+        <Script
+          id="page-transition-state"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `try{if(sessionStorage.getItem("blogtec_page_transition")==="1"){sessionStorage.removeItem("blogtec_page_transition");document.documentElement.classList.add("page-transition-pending")}}catch(e){}`,
           }}
