@@ -17,6 +17,7 @@ export interface ProductBannerProps {
   description?: string;
   buttonText?: string;
   buttonLink?: string;
+  lazyLoadImage?: boolean;
   className?: string;
 }
 
@@ -32,6 +33,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
   description = "",
   buttonText = "Book an AURIX Demo",
   buttonLink = "/contact-us",
+  lazyLoadImage = false,
   className = "",
 }) => {
   const activeImage = bgImage || bannerImage || "/products/aurix/product-aurix.webp";
@@ -60,8 +62,8 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             <img
               src={activeImage}
               alt={titleHighlight || titlePrefix || "Product Showcase Mobile"}
-              loading="eager"
-              fetchPriority="high"
+              loading={lazyLoadImage ? "lazy" : "eager"}
+              fetchPriority={lazyLoadImage ? "auto" : "high"}
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover object-center md:object-right transition-all duration-700"
             />

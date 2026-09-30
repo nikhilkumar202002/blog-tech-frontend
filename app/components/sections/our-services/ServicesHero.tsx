@@ -11,7 +11,7 @@ export interface ServicesHeroProps {
 const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
   return (
     <section
-      className={`relative w-full h-[540px] sm:h-[620px] md:h-[85vh] lg:h-screen min-h-[540px] sm:min-h-[620px] md:min-h-[85vh] lg:min-h-screen flex items-start md:items-center justify-start pt-28 sm:pt-32 md:pt-24 lg:pt-28 pb-10 md:pb-16 bg-[#FBF9F5] overflow-hidden ${className}`}
+      className={`relative w-full h-[540px] sm:h-[620px] md:h-[85vh] lg:h-screen min-h-[540px] sm:min-h-[620px] md:min-h-[85vh] lg:min-h-screen flex items-center justify-start bg-[#FBF9F5] overflow-hidden ${className}`}
     >
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0">
@@ -35,9 +35,9 @@ const ServicesHero: React.FC<ServicesHeroProps> = ({ className = "" }) => {
         />
       </div>
 
-      {/* Main Content Container (Top Aligned on Mobile, Vertically Centered on Desktop) */}
-      <div className="site-container w-full relative z-10 flex items-start md:items-center h-full">
-        <div className="max-w-[340px] sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl text-left mt-0 md:my-auto">
+      {/* Main Content Container */}
+      <div className="site-container relative z-10 flex h-full w-full items-center">
+        <div className="max-w-[340px] text-left sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl">
           {/* Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 25 }}

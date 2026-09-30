@@ -33,15 +33,6 @@ const SERVICES_GRID_DATA: ServiceCardItem[] = [
     href: "/contact-us?service=support",
   },
   {
-    id: "upgrades-enhancements",
-    title: "Upgrades & Enhancements",
-    description:
-      "Regular updates, performance improvements, and feature enhancements to keep your software aligned with evolving business and regulatory requirements.",
-    highlights: ["Feature Expansions", "GST & Tax Updates", "UI/UX Enhancements"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=upgrades",
-  },
-  {
     id: "custom-solutions",
     title: "Custom Software Solutions",
     description:
@@ -68,33 +59,6 @@ const SERVICES_GRID_DATA: ServiceCardItem[] = [
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
     href: "/our-products/scheme-app",
   },
-  {
-    id: "cloud-sync",
-    title: "Cloud & Multi-Branch Sync",
-    description:
-      "Real-time data synchronization across multiple showrooms, branch stores, and central warehouses with unified inventory and sales tracking.",
-    highlights: ["Multi-Store Visibility", "Centralized Pricing", "Real-Time Stock Sync"],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=cloud",
-  },
-  {
-    id: "security-backup",
-    title: "Security & Backup Solutions",
-    description:
-      "Enterprise-grade data encryption, automated daily cloud backups, access permissions control, and comprehensive disaster recovery management.",
-    highlights: ["Automated Backups", "Role-Based Access", "Disaster Recovery"],
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=security",
-  },
-  {
-    id: "third-party-integrations",
-    title: "Third-Party Integrations",
-    description:
-      "Seamless API integrations with accounting software like Tally, SMS/WhatsApp gateways, payment terminals, and e-commerce platforms.",
-    highlights: ["Tally Sync", "WhatsApp Notifications", "Payment Gateways"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=integrations",
-  },
 ];
 
 export interface ServicesGridProps {
@@ -120,6 +84,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
             >
               <Link
                 href={item.href}
+                id={item.id}
                 className="group block bg-white rounded-[25px] p-[18px] transition-all duration-300 flex flex-col h-full hover:shadow-sm"
               >
                 {/* Image Container */}

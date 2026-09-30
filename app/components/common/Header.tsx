@@ -55,37 +55,38 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
     href: "/our-products/employee-payroll",
     description: "Staff Attendance, Salary & HR Management",
   },
+  {
+    label: "STOCKMATE",
+    href: "/our-products/stockmate",
+    description: "Smart Inventory & Multi-Branch Stock Control",
+  },
 ];
 
 const SERVICES_DROPDOWN: DropdownItem[] = [
   {
     label: "Jewellery ERP Solutions",
-    href: "/our-services",
+    href: "/our-services#jewellery-erp",
     description: "Enterprise Operations for Jewellery Stores",
   },
-  {
-    label: "Jewel Connect Platform",
-    href: "/our-products/jewel-connect",
-    description: "Digital Catalogue & Barcode Stock Availability",
-  },
+
   {
     label: "Support & Maintenance",
-    href: "/our-services",
+    href: "/our-services#maintenance-support",
     description: "24/7 Technical Care & System Updates",
   },
   {
     label: "Custom Software",
-    href: "/our-services",
+    href: "/our-services#custom-solutions",
     description: "Tailored Development & Workflows",
   },
   {
     label: "Data & System Management",
-    href: "/our-services",
+    href: "/our-services#data-management",
     description: "Cloud Infrastructure & Data Migration",
   },
   {
     label: "Mobile & Digital Solutions",
-    href: "/our-services",
+    href: "/our-services#mobile-digital",
     description: "Apps for Store Owners, Employees & Clients",
   },
 ];

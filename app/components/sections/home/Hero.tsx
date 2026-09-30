@@ -124,43 +124,58 @@ const Hero: React.FC<HeroProps> = ({
   className = "",
   autoPlayInterval = 5500,
 }) => {
-  const desktopVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
 
-  // Autoplay video initialization
+  // Load only the video needed for the current breakpoint when the hero is
+  // close to the viewport. Native video elements do not support loading="lazy".
   useEffect(() => {
-    const playVideos = () => {
-      [desktopVideoRef.current, mobileVideoRef.current].forEach((video) => {
-        if (video) {
-          video.muted = true;
-          video.defaultMuted = true;
-          video.play().catch(() => {
-            // Ignore autoplay restriction errors
-          });
-        }
+    const section = sectionRef.current;
+    const video = videoRef.current;
+    if (!section || !video) return;
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    let shouldLoad = false;
+
+    const loadVideo = () => {
+      if (!shouldLoad) return;
+
+      const source = mediaQuery.matches
+        ? "/video/Hero-Banner.webm"
+        : "/video/blogtech-banner-video-mobile.mp4";
+
+      if (video.dataset.source !== source) {
+        video.dataset.source = source;
+        video.src = source;
+        video.load();
+      }
+
+      video.muted = true;
+      video.defaultMuted = true;
+      video.play().catch(() => {
+        // Ignore autoplay restriction errors.
       });
     };
 
-    playVideos();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        shouldLoad = true;
+        loadVideo();
+        observer.disconnect();
+      },
+      { rootMargin: "200px 0px" },
+    );
 
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    const handleMediaChange = () => {
-      playVideos();
-    };
-
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener("change", handleMediaChange);
-    } else {
-      mediaQuery.addListener(handleMediaChange);
-    }
+    observer.observe(section);
+    const handleMediaChange = () => loadVideo();
+    mediaQuery.addEventListener("change", handleMediaChange);
 
     return () => {
-      if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener("change", handleMediaChange);
-      } else {
-        mediaQuery.removeListener(handleMediaChange);
-      }
+      observer.disconnect();
+      mediaQuery.removeEventListener("change", handleMediaChange);
+      video.pause();
     };
   }, []);
 
@@ -176,39 +191,22 @@ const Hero: React.FC<HeroProps> = ({
   const currentSlide = heroSlides[currentIdx];
 
   return (
-    <section className={`hero-section h-[580px] min-h-[580px] md:h-screen md:min-h-screen ${className || ""}`} id="home">
-      {/* 100vh Full Width Background Video - Desktop */}
+    <section
+      ref={sectionRef}
+      className={`hero-section h-[580px] min-h-[580px] md:h-screen md:min-h-screen ${className || ""}`}
+      id="home"
+    >
+      {/* The source is assigned when this section approaches the viewport. */}
       <video
-        ref={desktopVideoRef}
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
-        className="hero-video hero-video-desktop"
+        preload="none"
+        className="hero-video"
         aria-hidden="true"
-      >
-        <source src="/video/hero-banner.mp4" type="video/mp4" />
-        Your browser does not support HTML5 video.
-      </video>
-
-      {/* 100vh Full Width Background Video - Mobile */}
-      <video
-        ref={mobileVideoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        className="hero-video hero-video-mobile"
-        aria-hidden="true"
-      >
-        <source
-          src="/video/blogtech-banner-video-mobile.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support HTML5 video.
-      </video>
+      />
 
       {/* Animated Soft Overlay */}
       <motion.div

@@ -30,7 +30,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
       "Industry-focused ERP software designed around the unique needs of jewellery businesses to streamline inventory, manufacturing, and POS operations.",
     imageUrl:
       "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1000&auto=format&fit=crop",
-    link: "/our-services",
+    link: "/our-services#jewellery-erp",
   },
   {
     id: "maintenance-support",
@@ -42,7 +42,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
       "Continuous technical support, security updates, and software maintenance to keep your business systems reliable and operating smoothly.",
     imageUrl:
       "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=1000&auto=format&fit=crop",
-    link: "/our-services",
+    link: "/our-services#maintenance-support",
   },
   {
     id: "custom-software",
@@ -54,7 +54,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
       "Tailored features, custom modules, and specialized workflows engineered specifically to match your company's operational requirements.",
     imageUrl:
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop",
-    link: "/our-services",
+    link: "/our-services#custom-solutions",
   },
   {
     id: "data-management",
@@ -66,7 +66,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
       "Secure database architecture, seamless data migration, and high-performance system optimization for enterprise reliability.",
     imageUrl:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop",
-    link: "/our-services",
+    link: "/our-services#data-management",
   },
   {
     id: "business-reporting",
@@ -78,7 +78,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
       "Real-time analytics, inventory forecasting, and comprehensive sales reports to empower smart decision-making in the jewellery industry.",
     imageUrl:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
-    link: "/our-services",
+    link: "/our-services#business-reporting",
   },
 ];
 
