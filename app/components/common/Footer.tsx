@@ -75,8 +75,8 @@ export default function Footer() {
       {/* Background Banner Image from images folder */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image
-          src="/images/footer-banner.jpg"
-          alt="Blogtec Footer Background"
+          src="/images/footer-banner.webp"
+          alt=""
           fill
           sizes="100vw"
           quality={90}

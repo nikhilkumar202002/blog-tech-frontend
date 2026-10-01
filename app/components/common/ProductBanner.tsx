@@ -86,7 +86,7 @@ const ProductBanner: React.FC<ProductBannerProps> = ({
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.15] mb-3 sm:mb-4 drop-shadow-md"
+            className="text-2xl sm:text-3xl md:text-[36px] lg:text-[44px] xl:text-[52px] 2xl:text-[60px] font-semibold tracking-tight text-white font-[var(--font-dm-sans)] leading-[1.15] mb-3 sm:mb-4 drop-shadow-md"
           >
             {titlePrefix.includes("\n") ? (
               <>
