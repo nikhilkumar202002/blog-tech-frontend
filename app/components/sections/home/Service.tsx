@@ -85,8 +85,7 @@ const Service: React.FC = () => {
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const wrapper = section.querySelector(".service-sticky-wrapper") as HTMLElement;
-    const scrollParent = section.closest(".overflow-y-auto") as HTMLElement | null;
+    const scrollParent = section.closest("[data-site-scroll]") as HTMLElement | null;
     if (!scrollParent) return;
     scrollParentRef.current = scrollParent;
 
@@ -109,11 +108,13 @@ const Service: React.FC = () => {
 
     const measure = () => {
       const distance = Math.max(0, track.scrollWidth - track.clientWidth);
-      section.style.setProperty("--service-viewport-height", `${scrollParent.clientHeight}px`);
-      const topPadding = Number.parseFloat(window.getComputedStyle(wrapper).paddingTop);
-      const pinned = pinMedia.matches && distance > 0 &&
-        scrollParent.clientHeight >= track.offsetHeight + topPadding;
-      section.style.height = pinned ? `${scrollParent.clientHeight + distance}px` : "";
+      const viewportHeight = Math.max(scrollParent.clientHeight, 1);
+      section.style.setProperty("--service-viewport-height", `${viewportHeight}px`);
+
+      // Pin on every desktop viewport that has horizontal overflow. The previous
+      // height check disabled the animation on shorter desktop screens.
+      const pinned = pinMedia.matches && distance > 0;
+      section.style.height = pinned ? `${viewportHeight + distance}px` : "";
       section.classList.toggle("is-pinned", pinned);
       scheduleSync();
     };

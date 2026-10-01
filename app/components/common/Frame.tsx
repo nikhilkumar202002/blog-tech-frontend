@@ -127,7 +127,7 @@ const Frame: React.FC<FrameProps> = ({
             <div
                 data-site-scroll
                 style={{ clipPath: `url(#${clipId})` }}
-                className={`relative z-10 flex-1 flex flex-col pointer-events-auto overflow-y-auto overflow-x-hidden no-scrollbar ${contentClassName ? contentClassName : headerSlot ? "pt-2 px-6 pb-6" : "pt-12 md:pt-14 px-6 md:px-8 pb-6"
+                className={`relative z-10 min-h-0 flex-1 flex flex-col pointer-events-auto overflow-y-auto overflow-x-hidden no-scrollbar ${contentClassName ? contentClassName : headerSlot ? "pt-2 px-6 pb-6" : "pt-12 md:pt-14 px-6 md:px-8 pb-6"
                     }`}
             >
                 {children}
