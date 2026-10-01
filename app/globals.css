@@ -63,7 +63,10 @@ body {
   @media (min-width: 768px) {
     padding-inline: 50px;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (max-width: 1299px) {
+    padding-inline: 60px;
+  }
+  @media (min-width: 1300px) {
     padding-inline: 95px;
   }
 }
@@ -75,7 +78,10 @@ body {
   @media (min-width: 768px) {
     padding-inline: 50px;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (max-width: 1299px) {
+    padding-inline: 60px;
+  }
+  @media (min-width: 1300px) {
     padding-inline: 95px;
   }
 }
@@ -101,7 +107,17 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (max-width: 1299px) {
+  .container,
+  .site-container,
+  .custom-container,
+  .container-padding {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media (min-width: 1300px) {
   .container,
   .site-container,
   .custom-container,
