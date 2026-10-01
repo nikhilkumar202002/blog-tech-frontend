@@ -4,7 +4,7 @@ import AurownVisibility from "@/app/components/sections/our-products/aurown/Auro
 import AurownFeatures from "@/app/components/sections/our-products/aurown/AurownFeatures";
 import AurownAccess from "@/app/components/sections/our-products/aurown/AurownAccess";
 import AurownNotifications from "@/app/components/sections/our-products/aurown/AurownNotifications";
-import AurownSecurity from "@/app/components/sections/our-products/aurown/AurownSecurity";
+// import AurownSecurity from "@/app/components/sections/our-products/aurown/AurownSecurity";
 
 export default function AurownPage() {
   return (
@@ -23,7 +23,7 @@ export default function AurownPage() {
       <AurownFeatures />
       <AurownAccess />
       <AurownNotifications />
-      <AurownSecurity />
+      {/* <AurownSecurity /> */}
     </main>
   );
 }
