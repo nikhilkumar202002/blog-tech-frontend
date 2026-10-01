@@ -15,7 +15,7 @@ const AurownNotifications: React.FC<AurownNotificationsProps> = ({ className = "
       <div className="site-container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: 2 Mobile Mockup PNG Images */}
+          {/* Left Column: Mobile Mockup Image */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -23,37 +23,18 @@ const AurownNotifications: React.FC<AurownNotificationsProps> = ({ className = "
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 flex justify-center items-center relative min-h-[440px] sm:min-h-[500px]"
           >
-            <div className="relative w-full max-w-[500px] flex items-center justify-center gap-4 sm:gap-6">
-              {/* Soft Ambient Radial Glow */}
-              <div className="absolute w-[80%] h-[80%] bg-[#FAF2E4] rounded-full filter blur-3xl opacity-70 z-0 pointer-events-none" />
-
-              {/* Left Phone Mockup */}
+            <div className="relative w-full flex items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="w-1/2 relative drop-shadow-2xl z-10"
+                className="w-full relative z-10"
               >
                 <img
-                  src="/products/aurown/mobile-mockup-1.png"
-                  alt="Aurown Mobile App Mockup 1"
-                  className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
-                />
-              </motion.div>
-
-              {/* Right Phone Mockup */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="w-1/2 relative drop-shadow-2xl z-20 mt-8 sm:mt-12"
-              >
-                <img
-                  src="/products/aurown/mobile-mockup-2.png"
-                  alt="Aurown Mobile App Mockup 2"
-                  className="w-full h-auto object-contain transition-transform duration-500 hover:scale-[1.03]"
+                  src="/products/aurown/image-4.webp"
+                  alt="Aurown mobile app notifications"
+                  className="w-full h-auto rounded-2xl object-contain transition-transform duration-500 hover:scale-[1.03]"
                 />
               </motion.div>
             </div>
