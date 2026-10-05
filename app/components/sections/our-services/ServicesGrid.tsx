@@ -29,7 +29,7 @@ const SERVICES_GRID_DATA: ServiceCardItem[] = [
     description:
       "Continuous technical support and software maintenance to keep your systems reliable, secure, and running smoothly during peak business hours.",
     highlights: ["Dedicated Helpdesk", "Priority Support", "System Health Checks"],
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=800&q=80",
+    image: "/images/maintance.webp",
     href: "/contact-us?service=support",
   },
   {

@@ -6,6 +6,7 @@ import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import Preloader from "./components/common/Preloader";
 import Pagetransition from "./components/common/Pagetransition";
+import WhatsAppButton from "./components/common/WhatsAppButton";
 import "./globals.css";
 import "./components/styles/Section.css";
 import "./components/styles/Components.css";
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Pagetransition>
             <Footer />
           </Frame>
+          <WhatsAppButton />
         </div>
       </body>
     </html>

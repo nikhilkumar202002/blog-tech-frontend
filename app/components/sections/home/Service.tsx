@@ -89,7 +89,7 @@ const Service: React.FC = () => {
     if (!scrollParent) return;
     scrollParentRef.current = scrollParent;
 
-    const pinMedia = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    const pinMedia = window.matchMedia("(min-width: 768px)");
     let frame = 0;
 
     const syncTrack = () => {
