@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   FiUser,
@@ -11,30 +11,40 @@ import {
   FiCheckCircle,
   FiChevronDown,
   FiFileText,
+  FiArrowLeft,
 } from "react-icons/fi";
 import Button from "@/app/components/common/Button";
-
 
 export interface CareerFormProps {
   className?: string;
 }
 
-const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    areaOfInterest: "",
-    experience: "",
-    portfolioUrl: "",
-    aboutYourself: "",
-    additionalMessage: "",
-    consent: false,
-  });
+const INITIAL_FORM_DATA = {
+  fullName: "",
+  email: "",
+  phone: "",
+  areaOfInterest: "",
+  experience: "",
+  portfolioUrl: "",
+  aboutYourself: "",
+  additionalMessage: "",
+  consent: false,
+};
 
+const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedSummary, setSubmittedSummary] = useState<{
+    fullName: string;
+    email: string;
+    areaOfInterest: string;
+    fileName?: string;
+  } | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const formCardRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -57,10 +67,40 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    const summary = {
+      fullName: formData.fullName,
+      email: formData.email,
+      areaOfInterest: formData.areaOfInterest,
+      fileName: selectedFile?.name,
+    };
+
     setTimeout(() => {
       setIsSubmitting(false);
+      setSubmittedSummary(summary);
       setSubmitted(true);
-    }, 1200);
+      if (formCardRef.current) {
+        formCardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 1000);
+  };
+
+  const handleBackToForm = () => {
+    // Clear all form inputs
+    setFormData(INITIAL_FORM_DATA);
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setSubmitted(false);
+    setSubmittedSummary(null);
+
+    // Scroll to the top of the form
+    setTimeout(() => {
+      if (formCardRef.current) {
+        formCardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
   };
 
   return (
@@ -94,25 +134,83 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
         </div>
 
         {/* Modern Form Card */}
-        <div className="bg-white/85 backdrop-blur-xl border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40">
+        <div
+          ref={formCardRef}
+          className="bg-white/85 backdrop-blur-xl border border-stone-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden transition-all duration-300 hover:border-[#A44B03]/40"
+        >
           {submitted ? (
-            <div className="py-12 sm:py-16 text-center max-w-md mx-auto">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FiCheckCircle className="w-10 h-10" />
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="py-8 sm:py-14 text-center max-w-xl mx-auto"
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-emerald-100">
+                <FiCheckCircle className="w-8 h-8 sm:w-10 sm:h-10" />
               </div>
-              <h3 className="text-2xl font-bold text-stone-900 mb-3 font-[var(--font-dm-sans)]">
-                Application Received!
+
+              <span className="inline-block px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-100/70 text-emerald-800 mb-4 font-[var(--font-dm-sans)]">
+                Application Received
+              </span>
+
+              <h3 className="text-2xl sm:text-3xl font-medium text-stone-900 mb-3 font-[var(--font-dm-sans)]">
+                Thank You{submittedSummary?.fullName ? `, ${submittedSummary.fullName}` : ""}!
               </h3>
-              <p className="text-stone-600 text-base mb-8 font-[var(--font-dm-sans)]">
-                Thank you for reaching out to Blogtec. Our team will review your profile and contact you regarding potential career opportunities.
+
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed mb-6 font-[var(--font-dm-sans)] max-w-md mx-auto">
+                Your application has been received successfully. Our recruitment team will review your profile and contact you regarding potential opportunities.
               </p>
-              <button
-                onClick={() => setSubmitted(false)}
-                className="px-8 py-3 rounded-full bg-[#A44B03] hover:bg-[#8b3f02] text-white text-sm font-medium transition-colors shadow-md"
-              >
-                Submit Another Application
-              </button>
-            </div>
+
+              {/* Submission Summary Box */}
+              {submittedSummary && (
+                <div className="bg-stone-50/90 border border-stone-200/80 rounded-2xl p-5 mb-8 text-left space-y-3 font-[var(--font-dm-sans)]">
+                  <div className="text-xs uppercase tracking-wider font-semibold text-stone-400 pb-1 border-b border-stone-200/60">
+                    Submission Details
+                  </div>
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <span className="text-stone-500 font-medium">Applicant:</span>
+                    <span className="text-stone-800 font-semibold">{submittedSummary.fullName}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <span className="text-stone-500 font-medium">Email:</span>
+                    <span className="text-stone-800 font-semibold">{submittedSummary.email}</span>
+                  </div>
+                  {submittedSummary.areaOfInterest && (
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
+                      <span className="text-stone-500 font-medium">Area of Interest:</span>
+                      <span className="text-stone-800 font-semibold">{submittedSummary.areaOfInterest}</span>
+                    </div>
+                  )}
+                  {submittedSummary.fileName && (
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
+                      <span className="text-stone-500 font-medium">Resume Attached:</span>
+                      <span className="text-stone-800 font-semibold flex items-center gap-1.5 truncate max-w-[200px] sm:max-w-[260px]">
+                        <FiFileText className="w-3.5 h-3.5 text-[#A44B03] shrink-0" />
+                        <span className="truncate">{submittedSummary.fileName}</span>
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between text-xs sm:text-sm pt-1">
+                    <span className="text-stone-500 font-medium">Status:</span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100/80 text-emerald-800">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Under Review
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleBackToForm}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#A44B03] hover:bg-[#8b3f02] text-white text-sm font-medium transition-all shadow-md hover:shadow-lg active:scale-[0.98] w-full sm:w-auto cursor-pointer"
+                >
+                  <FiArrowLeft className="w-4 h-4" />
+                  <span>Back to Form</span>
+                </button>
+              </div>
+            </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
               
@@ -308,6 +406,7 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
                     </label>
                     <div className="relative border-2 border-dashed border-stone-200 hover:border-[#A44B03]/50 rounded-2xl p-6 text-center bg-stone-50/40 hover:bg-stone-50 transition-all group cursor-pointer">
                       <input
+                        ref={fileInputRef}
                         type="file"
                         id="resume"
                         name="resume"

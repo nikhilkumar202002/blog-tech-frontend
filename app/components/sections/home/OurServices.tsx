@@ -41,7 +41,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     description:
       "Continuous technical support, security updates, and software maintenance to keep your business systems reliable and operating smoothly.",
     imageUrl:
-      "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=1000&auto=format&fit=crop",
+      "/images/maintance.webp",
     link: "/our-services#maintenance-support",
   },
   {
