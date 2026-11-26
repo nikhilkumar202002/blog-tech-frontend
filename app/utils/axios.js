@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://blogtec.co.in/backend/api";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.blogtec.co.in/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
