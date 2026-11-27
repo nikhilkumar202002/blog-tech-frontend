@@ -167,10 +167,9 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
                 <nav aria-label={sidebarTitle} className="flex flex-col gap-1.5">
                   {products.map((item, idx) => {
                     const label = item.label || item.name || "Product";
-                    const href =
-                      item.href ||
-                      item.url ||
-                      (item.slug ? `/our-products/${item.slug}` : "#");
+                    const href = item.slug
+                      ? `/our-products/${item.slug}`
+                      : item.href || item.url || "#";
                     const isActive =
                       (activeSlug && item.slug === activeSlug) ||
                       (href !== "#" && pathname?.startsWith(href));

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { getMenu } from "@/app/utils/product";
 
 export interface HeaderProps {
   position?: "fixed" | "absolute";
@@ -27,6 +28,7 @@ export interface DropdownItem {
   label: string;
   href: string;
   description: string;
+  image?: string;
 }
 
 const PRODUCTS_DROPDOWN: DropdownItem[] = [
@@ -151,7 +153,49 @@ const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"Products" | "Services" | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
+  const [productMenu, setProductMenu] = useState<DropdownItem[]>(PRODUCTS_DROPDOWN);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchProductMenu = async () => {
+      try {
+        const res = await getMenu();
+        const items = Array.isArray(res?.data) ? res.data : [];
+        if (isMounted && items.length > 0) {
+          const mapped: DropdownItem[] = items.map(
+            (item: {
+              label?: string;
+              name?: string;
+              href?: string;
+              url?: string;
+              slug?: string;
+              short_description?: string;
+              description?: string;
+              featured_image_url?: string;
+              featured_image?: string;
+            }) => ({
+              label: item.label || item.name || "Product",
+              href:
+                item.href ||
+                item.url ||
+                (item.slug ? `/our-products/${item.slug}` : "#"),
+              description: item.short_description || item.description || "",
+              image: item.featured_image_url || item.featured_image || undefined,
+            })
+          );
+          setProductMenu(mapped);
+        }
+      } catch (error) {
+        console.error("Failed to fetch product menu:", error);
+      }
+    };
+
+    fetchProductMenu();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -310,7 +354,7 @@ const Header: React.FC<HeaderProps> = ({
             {navItems.map((item) => {
               const isActive = active === item.label;
               const isDropdownOpen = openDropdown === item.label;
-              const dropdownList = item.label === "Products" ? PRODUCTS_DROPDOWN : item.label === "Services" ? SERVICES_DROPDOWN : null;
+              const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? SERVICES_DROPDOWN : null;
 
               return (
                 <div
@@ -348,15 +392,25 @@ const Header: React.FC<HeaderProps> = ({
                   {/* Desktop Floating Dropdown Menu */}
                   {item.hasDropdown && dropdownList && isDropdownOpen && (
                     <div
-                      className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-[640px] z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      className={`absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 ${
+                        item.label === "Products"
+                          ? "w-[920px] max-w-[calc(100vw-2rem)]"
+                          : "w-[640px]"
+                      }`}
                       onMouseEnter={() => handleMouseEnter(item.label, true)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-3.5">
-                        <div className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#7A3602] font-[var(--font-inter)] border-b border-stone-100 mb-2.5">
+                      <div className="bg-white/95 backdrop-blur-xl border border-stone-200/90 shadow-2xl rounded-2xl p-4">
+                        <div className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#7A3602] font-[var(--font-inter)] border-b border-stone-100 mb-3">
                           Blogtec {item.label}
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div
+                          className={
+                            item.label === "Products"
+                              ? "grid grid-cols-3 gap-3"
+                              : "grid grid-cols-2 gap-2"
+                          }
+                        >
                           {dropdownList.map((sub) => (
                             <Link
                               key={sub.label}
@@ -365,13 +419,23 @@ const Header: React.FC<HeaderProps> = ({
                               onClick={(e) => handleSubItemClick(e, sub.href, item.label)}
                               className="group/item flex flex-col p-3 rounded-xl hover:bg-[#7A3602]/[0.06] transition-colors"
                             >
+                              {item.label === "Products" && sub.image && (
+                                <div className="w-full aspect-[16/9] rounded-lg overflow-hidden bg-stone-100 mb-3">
+                                  <img
+                                    src={sub.image}
+                                    alt={sub.label}
+                                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover/item:scale-105"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              )}
                               <div className="flex items-center justify-between text-sm font-semibold text-stone-900 group-hover/item:text-[#7A3602]">
                                 <span>{sub.label}</span>
-                                <svg className="w-4 h-4 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#7A3602]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 shrink-0 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-[#7A3602]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
                               </div>
-                              <span className="text-xs sm:text-[13px] text-stone-500 font-normal leading-relaxed mt-1">
+                              <span className="text-xs sm:text-[13px] text-stone-500 font-normal leading-relaxed mt-1 line-clamp-2">
                                 {sub.description}
                               </span>
                             </Link>
@@ -437,7 +501,7 @@ const Header: React.FC<HeaderProps> = ({
             <div className="my-auto py-6">
               <nav id="mobile-site-menu" aria-label="Mobile navigation" className="space-y-1">
                 {navItems.map((item) => {
-                  const dropdownList = item.label === "Products" ? PRODUCTS_DROPDOWN : item.label === "Services" ? SERVICES_DROPDOWN : null;
+                  const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? SERVICES_DROPDOWN : null;
                   const isExpanded = !!mobileExpanded[item.label];
 
                   return (
