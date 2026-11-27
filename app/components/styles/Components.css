@@ -14,7 +14,8 @@
 
 .site-footer-main {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  gap: 2rem 2.5rem;
   padding-top: 40px;
   padding-bottom: 36px;
 }
@@ -49,7 +50,7 @@
 
 .site-footer-column ul {
   display: grid;
-  gap: 5px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;

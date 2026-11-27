@@ -1,21 +1,20 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getMenu } from "@/app/utils/product";
+import { getServiceMenu } from "@/app/utils/service";
 import "../styles/Components.css";
 
-const footerColumns = [
+const footerColumns: {
+  title: string;
+  links: { label: string; href: string }[];
+}[] = [
   {
     title: "Products",
-    links: [
-      { label: "Aurix", href: "/our-products/aurix-jewellery-erp-software" },
-      { label: "Aurown", href: "/our-products/auron-jewellery-business-mobile-app" },
-      { label: "Scheme Mobile App", href: "/our-products/scheme-mobile-app" },
-      { label: "Jewel Connect", href: "/our-products/jewel-connect" },
-      { label: "Employee & Payroll", href: "/our-products/employee-payroll-management" },
-      { label: "Stockmate", href: "/our-products/stockmate-inventory-management" },
-    ],
+    links: [],
   },
   {
     title: "Company",
@@ -28,18 +27,87 @@ const footerColumns = [
   },
   {
     title: "Services",
-    links: [
-      { label: "ERP Solutions", href: "/our-services#jewellery-erp" },
-      { label: "Support & Maintenance", href: "/our-services#maintenance-support" },
-      { label: "Custom Software", href: "/our-services#custom-solutions" },
-      { label: "Data & System Management", href: "/our-services#data-management" },
-      { label: "Mobile & Digital Solutions", href: "/our-services#mobile-digital" },
-    ],
+    links: [],
   },
 ];
 
 export default function Footer() {
   const pathname = usePathname();
+  const [columns, setColumns] = useState(footerColumns);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchFooterMenus = async () => {
+      try {
+        const [menuRes, serviceMenuRes] = await Promise.all([
+          getMenu().catch(() => null),
+          getServiceMenu().catch(() => null),
+        ]);
+
+        const apiProducts = Array.isArray(menuRes?.data?.products)
+          ? menuRes.data.products
+          : [];
+        const apiServices = Array.isArray(menuRes?.data?.services)
+          ? menuRes.data.services
+          : Array.isArray(serviceMenuRes?.data)
+            ? serviceMenuRes.data
+            : [];
+
+        if (!isMounted) return;
+
+        setColumns((prev) =>
+          prev.map((col) => {
+            if (col.title === "Products" && apiProducts.length > 0) {
+              return {
+                ...col,
+                links: apiProducts.map(
+                  (item: {
+                    label?: string;
+                    name?: string;
+                    slug?: string;
+                    href?: string;
+                    url?: string;
+                  }) => ({
+                    label: item.label || item.name || "Product",
+                    href: item.slug
+                      ? `/our-products/${item.slug}`
+                      : item.href || item.url || "#",
+                  })
+                ),
+              };
+            }
+            if (col.title === "Services" && apiServices.length > 0) {
+              return {
+                ...col,
+                links: apiServices.map(
+                  (item: {
+                    label?: string;
+                    name?: string;
+                    slug?: string;
+                    href?: string;
+                  }) => ({
+                    label: item.label || item.name || "Service",
+                    href:
+                      item.href ||
+                      (item.slug ? `/our-services#${item.slug}` : "/our-services"),
+                  })
+                ),
+              };
+            }
+            return col;
+          })
+        );
+      } catch (err) {
+        console.error("Failed to fetch footer menus:", err);
+      }
+    };
+
+    fetchFooterMenus();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === "/") {
@@ -105,7 +173,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {footerColumns.map((column) => (
+          {columns.map((column) => (
             <nav className="site-footer-column" aria-label={column.title} key={column.title}>
               <h2>{column.title}</h2>
               <ul>
