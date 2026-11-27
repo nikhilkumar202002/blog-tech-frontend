@@ -14,9 +14,14 @@ import {
   FiArrowLeft,
 } from "react-icons/fi";
 import Button from "@/app/components/common/Button";
+import { submitCareerApplication } from "@/app/utils/career";
 
 export interface CareerFormProps {
   className?: string;
+  hideRoleFields?: boolean;
+  jobTitle?: string;
+  defaultAreaOfInterest?: string;
+  compact?: boolean;
 }
 
 const INITIAL_FORM_DATA = {
@@ -31,10 +36,20 @@ const INITIAL_FORM_DATA = {
   consent: false,
 };
 
-const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+const CareerForm: React.FC<CareerFormProps> = ({
+  className = "",
+  hideRoleFields = false,
+  jobTitle,
+  defaultAreaOfInterest = "",
+  compact = false,
+}) => {
+  const [formData, setFormData] = useState({
+    ...INITIAL_FORM_DATA,
+    areaOfInterest: defaultAreaOfInterest,
+  });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [submittedSummary, setSubmittedSummary] = useState<{
     fullName: string;
@@ -64,25 +79,47 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     const summary = {
       fullName: formData.fullName,
       email: formData.email,
-      areaOfInterest: formData.areaOfInterest,
+      areaOfInterest: hideRoleFields ? "" : formData.areaOfInterest,
       fileName: selectedFile?.name,
     };
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const payload: Record<string, unknown> = {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        area_of_interest: formData.areaOfInterest || jobTitle || "",
+        years_of_experience: formData.experience,
+        portfolio_url: formData.portfolioUrl,
+        about: formData.aboutYourself,
+        additional_message: formData.additionalMessage,
+        consent: formData.consent ? 1 : 0,
+      };
+
+      if (selectedFile) {
+        payload.resume = selectedFile;
+      }
+
+      await submitCareerApplication(payload);
       setSubmittedSummary(summary);
       setSubmitted(true);
       if (formCardRef.current) {
         formCardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 1000);
+    } catch (err) {
+      console.error("Failed to submit application:", err);
+      setSubmitError("Unable to submit your application right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBackToForm = () => {
@@ -105,33 +142,35 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
 
   return (
     <section
-      className={`w-full pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${className}`}
+      className={`w-full ${
+        compact ? "py-0 px-0" : "pt-20 md:pt-28 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8"
+      } overflow-hidden ${className}`}
     >
-      <div className="site-container w-full max-w-6xl mx-auto">
-        
-        {/* Section Header (Centered, 2 Lines) */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-medium text-[#737373] font-[var(--font-dm-sans)] uppercase tracking-widest mb-3 block">
-            JOIN OUR TEAM
-          </span>
+      <div className={compact ? "w-full" : "site-container w-full max-w-6xl mx-auto"}>
+        {!compact && (
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <span className="text-xs sm:text-sm font-medium text-[#737373] font-[var(--font-dm-sans)] uppercase tracking-widest mb-3 block">
+              JOIN OUR TEAM
+            </span>
 
-          <h1 className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-medium tracking-tight text-[#202020] leading-[1.08] font-[var(--font-dm-sans)] mb-5">
-            Don&apos;t See a Role?<br />
-            <span
-              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-              className="italic font-normal text-[#A44B03]"
-            >
-              Send Us
-            </span>{" "}
-            Your Profile.
-          </h1>
+            <h1 className="text-3xl sm:text-4xl md:text-[44px] lg:text-[54px] xl:text-[64px] 2xl:text-[74px] font-medium tracking-tight text-[#202020] leading-[1.08] font-[var(--font-dm-sans)] mb-5">
+              Don&apos;t See a Role?<br />
+              <span
+                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                className="italic font-normal text-[#A44B03]"
+              >
+                Send Us
+              </span>{" "}
+              Your Profile.
+            </h1>
 
-          <p className="text-neutral-600 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto font-[var(--font-dm-sans)]">
-            We welcome applications from people who believe their skills and experience
-            could contribute to Blogtec. Tell us a little about yourself, your experience and
-            the kind of work you&apos;re interested in.
-          </p>
-        </div>
+            <p className="text-neutral-600 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto font-[var(--font-dm-sans)]">
+              We welcome applications from people who believe their skills and experience
+              could contribute to Blogtec. Tell us a little about yourself, your experience and
+              the kind of work you&apos;re interested in.
+            </p>
+          </div>
+        )}
 
         {/* Modern Form Card */}
         <div
@@ -294,61 +333,63 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Area of Interest */}
-                  <div>
-                    <label htmlFor="areaOfInterest" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-2">
-                      Area of Interest *
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="areaOfInterest"
-                        name="areaOfInterest"
-                        required
-                        value={formData.areaOfInterest}
-                        onChange={handleInputChange}
-                        className="w-full bg-stone-50/70 border border-stone-200 rounded-xl px-4 py-3 pr-10 text-stone-900 text-sm focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all appearance-none"
-                      >
-                        <option value="">Select an area</option>
-                        <option value="Software Development">Software Development</option>
-                        <option value="Frontend Development">Frontend Development</option>
-                        <option value="Backend Development">Backend Development</option>
-                        <option value="UI/UX Design">UI/UX Design</option>
-                        <option value="Web Development">Web Development</option>
-                        <option value="Mobile Development">Mobile Development</option>
-                        <option value="Testing / QA">Testing / QA</option>
-                        <option value="Other">Other</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiChevronDown className="w-4 h-4" />
+                  {!hideRoleFields && (
+                    <>
+                      {/* Area of Interest */}
+                      <div>
+                        <label htmlFor="areaOfInterest" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-2">
+                          Area of Interest *
+                        </label>
+                        <div className="relative">
+                          <select
+                            id="areaOfInterest"
+                            name="areaOfInterest"
+                            required
+                            value={formData.areaOfInterest}
+                            onChange={handleInputChange}
+                            className="w-full bg-stone-50/70 border border-stone-200 rounded-xl px-4 py-3 pr-10 text-stone-900 text-sm focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all appearance-none"
+                          >
+                            <option value="">Select an area</option>
+                            {defaultAreaOfInterest && (
+                              <option value={defaultAreaOfInterest}>
+                                {defaultAreaOfInterest}
+                              </option>
+                            )}
+                            <option value="Software Development">Software Development</option>
+                            <option value="Frontend Development">Frontend Development</option>
+                            <option value="Backend Development">Backend Development</option>
+                            <option value="UI/UX Design">UI/UX Design</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Mobile Development">Mobile Development</option>
+                            <option value="Testing / QA">Testing / QA</option>
+                            <option value="Other">Other</option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
+                            <FiChevronDown className="w-4 h-4" />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Years of Experience */}
-                  <div>
-                    <label htmlFor="experience" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-2">
-                      Years of Experience
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="experience"
-                        name="experience"
-                        value={formData.experience}
-                        onChange={handleInputChange}
-                        className="w-full bg-stone-50/70 border border-stone-200 rounded-xl px-4 py-3 pr-10 text-stone-900 text-sm focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all appearance-none"
-                      >
-                        <option value="">Select experience</option>
-                        <option value="Fresh Graduate / 0 Years">Fresh Graduate / 0 Years</option>
-                        <option value="1-2 Years">1-2 Years</option>
-                        <option value="3-5 Years">3-5 Years</option>
-                        <option value="5-8 Years">5-8 Years</option>
-                        <option value="8+ Years">8+ Years</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
-                        <FiChevronDown className="w-4 h-4" />
+                      {/* Years of Experience */}
+                      <div>
+                        <label htmlFor="experience" className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-2">
+                          Years of Experience *
+                        </label>
+                        <input
+                          type="number"
+                          id="experience"
+                          name="experience"
+                          min="0"
+                          max="50"
+                          required
+                          value={formData.experience}
+                          onChange={handleInputChange}
+                          placeholder="e.g. 2"
+                          className="w-full bg-stone-50/70 border border-stone-200 rounded-xl px-4 py-3 text-stone-900 text-sm placeholder-stone-400 focus:bg-white focus:outline-none focus:border-[#A44B03] focus:ring-1 focus:ring-[#A44B03] transition-all"
+                        />
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
 
                   {/* Portfolio / LinkedIn URL */}
                   <div className="sm:col-span-2">
@@ -474,6 +515,12 @@ const CareerForm: React.FC<CareerFormProps> = ({ className = "" }) => {
                     me regarding potential career opportunities.
                   </span>
                 </label>
+
+                {submitError && (
+                  <p className="text-sm text-red-600 font-medium font-[var(--font-dm-sans)]">
+                    {submitError}
+                  </p>
+                )}
 
                 <div>
                   <Button
