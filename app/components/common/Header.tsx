@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getMenu } from "@/app/utils/product";
+import { getServiceMenu } from "@/app/utils/service";
 
 export interface HeaderProps {
   position?: "fixed" | "absolute";
@@ -30,68 +31,6 @@ export interface DropdownItem {
   description: string;
   image?: string;
 }
-
-const PRODUCTS_DROPDOWN: DropdownItem[] = [
-  {
-    label: "Aurix",
-    href: "/our-products/aurix-jewellery-erp-software",
-    description: "Jewellery ERP & POS Management Solution",
-  },
-  {
-    label: "Aurown",
-    href: "/our-products/auron-jewellery-business-mobile-app",
-    description: "Business Operations & Executive Dashboard",
-  },
-  {
-    label: "Jewel Connect",
-    href: "/our-products/jewel-connect",
-    description: "Digital Catalogue & Barcode Stock Availability",
-  },
-  {
-    label: "Scheme Mobile App",
-    href: "/our-products/scheme-mobile-app",
-    description: "Customer Savings & Installment Tracking",
-  },
-  {
-    label: "Employee & Payroll",
-    href: "/our-products/employee-payroll-management",
-    description: "Staff Attendance, Salary & HR Management",
-  },
-  {
-    label: "Stockmate",
-    href: "/our-products/stockmate-inventory-management",
-    description: "Smart Inventory & Multi-Branch Stock Control",
-  },
-];
-
-const SERVICES_DROPDOWN: DropdownItem[] = [
-  {
-    label: "Jewellery ERP Solutions",
-    href: "/our-services#jewellery-erp",
-    description: "Enterprise Operations for Jewellery Stores",
-  },
-
-  {
-    label: "Support & Maintenance",
-    href: "/our-services#maintenance-support",
-    description: "24/7 Technical Care & System Updates",
-  },
-  {
-    label: "Custom Software",
-    href: "/our-services#custom-solutions",
-    description: "Tailored Development & Workflows",
-  },
-  {
-    label: "Data & System Management",
-    href: "/our-services#data-management",
-    description: "Cloud Infrastructure & Data Migration",
-  },
-  {
-    label: "Mobile & Digital Solutions",
-    href: "/our-services#mobile-digital",
-    description: "Apps for Store Owners, Employees & Clients",
-  },
-];
 
 export const BlogtecLogo: React.FC<{ className?: string; onClick?: () => void }> = ({
   className = "",
@@ -153,48 +92,87 @@ const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"Products" | "Services" | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
-  const [productMenu, setProductMenu] = useState<DropdownItem[]>(PRODUCTS_DROPDOWN);
+  const [productMenu, setProductMenu] = useState<DropdownItem[]>([]);
+  const [serviceMenu, setServiceMenu] = useState<DropdownItem[]>([]);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let isMounted = true;
-    const fetchProductMenu = async () => {
+    const fetchMenus = async () => {
       try {
-        const res = await getMenu();
-        const items = Array.isArray(res?.data?.products)
-          ? res.data.products
-          : Array.isArray(res?.data)
-            ? res.data
+        const [menuRes, serviceMenuRes] = await Promise.all([
+          getMenu().catch(() => null),
+          getServiceMenu().catch(() => null),
+        ]);
+
+        const apiProducts = Array.isArray(menuRes?.data?.products)
+          ? menuRes.data.products
+          : Array.isArray(menuRes?.data)
+            ? menuRes.data
             : [];
-        if (isMounted && items.length > 0) {
-          const mapped: DropdownItem[] = items.map(
-            (item: {
-              label?: string;
-              name?: string;
-              href?: string;
-              url?: string;
-              slug?: string;
-              short_description?: string;
-              description?: string;
-              featured_image_url?: string;
-              featured_image?: string;
-            }) => ({
-              label: item.label || item.name || "Product",
-              href: item.slug
-                ? `/our-products/${item.slug}`
-                : item.href || item.url || "#",
-              description: item.short_description || item.description || "",
-              image: item.featured_image_url || item.featured_image || undefined,
-            })
+
+        const apiServices = Array.isArray(menuRes?.data?.services)
+          ? menuRes.data.services
+          : Array.isArray(serviceMenuRes?.data)
+            ? serviceMenuRes.data
+            : [];
+
+        if (!isMounted) return;
+
+        if (apiProducts.length > 0) {
+          setProductMenu(
+            apiProducts.map(
+              (item: {
+                label?: string;
+                name?: string;
+                href?: string;
+                url?: string;
+                slug?: string;
+                short_description?: string;
+                description?: string;
+                featured_image_url?: string;
+                featured_image?: string;
+              }) => ({
+                label: item.label || item.name || "Product",
+                href: item.slug
+                  ? `/our-products/${item.slug}`
+                  : item.href || item.url || "#",
+                description: item.short_description || item.description || "",
+                image: item.featured_image_url || item.featured_image || undefined,
+              })
+            )
           );
-          setProductMenu(mapped);
+        }
+
+        if (apiServices.length > 0) {
+          setServiceMenu(
+            apiServices.map(
+              (item: {
+                label?: string;
+                name?: string;
+                href?: string;
+                slug?: string;
+                short_description?: string;
+                description?: string;
+                featured_image_url?: string;
+                featured_image?: string;
+              }) => ({
+                label: item.label || item.name || "Service",
+                href:
+                  item.href ||
+                  (item.slug ? `/our-services#${item.slug}` : "/our-services"),
+                description: item.short_description || item.description || "",
+                image: item.featured_image_url || item.featured_image || undefined,
+              })
+            )
+          );
         }
       } catch (error) {
-        console.error("Failed to fetch product menu:", error);
+        console.error("Failed to fetch navigation menus:", error);
       }
     };
 
-    fetchProductMenu();
+    fetchMenus();
     return () => {
       isMounted = false;
     };
@@ -357,7 +335,7 @@ const Header: React.FC<HeaderProps> = ({
             {navItems.map((item) => {
               const isActive = active === item.label;
               const isDropdownOpen = openDropdown === item.label;
-              const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? SERVICES_DROPDOWN : null;
+              const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? serviceMenu : null;
 
               return (
                 <div
@@ -393,7 +371,7 @@ const Header: React.FC<HeaderProps> = ({
                   </Link>
 
                   {/* Desktop Floating Dropdown Menu */}
-                  {item.hasDropdown && dropdownList && isDropdownOpen && (
+                  {item.hasDropdown && dropdownList && dropdownList.length > 0 && isDropdownOpen && (
                     <div
                       className={`absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 ${
                         item.label === "Products"
@@ -504,7 +482,7 @@ const Header: React.FC<HeaderProps> = ({
             <div className="my-auto py-6">
               <nav id="mobile-site-menu" aria-label="Mobile navigation" className="space-y-1">
                 {navItems.map((item) => {
-                  const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? SERVICES_DROPDOWN : null;
+                  const dropdownList = item.label === "Products" ? productMenu : item.label === "Services" ? serviceMenu : null;
                   const isExpanded = !!mobileExpanded[item.label];
 
                   return (
