@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { getServices } from "@/app/utils/service";
 
 export interface ServiceCardItem {
   id: string;
@@ -13,59 +14,76 @@ export interface ServiceCardItem {
   href: string;
 }
 
-const SERVICES_GRID_DATA: ServiceCardItem[] = [
-  {
-    id: "jewellery-erp",
-    title: "Jewellery ERP Solutions",
-    description:
-      "Industry-focused ERP software designed around the unique operational needs of jewellery businesses—from counter billing and inventory to metal accounting.",
-    highlights: ["Counter Billing & POS", "Gold & Silver Metal Accounting", "Stock & Tag Management"],
-    image: "/images/mobile-laptop-mockup-3.webp",
-    href: "/our-products/aurix",
-  },
-  {
-    id: "maintenance-support",
-    title: "Maintenance & Support",
-    description:
-      "Continuous technical support and software maintenance to keep your systems reliable, secure, and running smoothly during peak business hours.",
-    highlights: ["Dedicated Helpdesk", "Priority Support", "System Health Checks"],
-    image: "/images/maintance.webp",
-    href: "/contact-us?service=support",
-  },
-  {
-    id: "custom-solutions",
-    title: "Custom Software Solutions",
-    description:
-      "Tailored features, proprietary workflows, and specialized functionalities built around your specific business processes and retail/wholesale models.",
-    highlights: ["Custom Workflows", "Tailored Reports", "Bespoke Modules"],
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=custom",
-  },
-  {
-    id: "data-management",
-    title: "Data & System Management",
-    description:
-      "Secure database management, legacy data migration, system configuration, and continuous database optimization for fast query performance.",
-    highlights: ["Legacy Migration", "Database Optimization", "Data Sanitation"],
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
-    href: "/contact-us?service=data",
-  },
-  {
-    id: "mobile-digital",
-    title: "Mobile & Digital Solutions",
-    description:
-      "Mobile applications and digital platforms that connect business owners, showroom staff, and customers beyond traditional retail spaces.",
-    highlights: ["Scheme Savings App", "Executive Dashboards", "Customer Portals"],
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
-    href: "/our-products/scheme-app",
-  },
-];
+interface ApiServiceItem {
+  id: number;
+  name: string;
+  slug: string;
+  url?: string;
+  short_description?: string | null;
+  description?: string | null;
+  features?: string[] | null;
+  featured_image?: string | null;
+  featured_image_url?: string | null;
+  sort_order?: number;
+}
+
+const SERVICE_ROUTE_MAP: Record<string, string> = {
+  "jewellery-erp-solutions": "/our-products/aurix",
+  "maintenance-support": "/contact-us?service=support",
+  "custom-software-solutions": "/contact-us?service=custom",
+  "data-system-management": "/contact-us?service=data",
+  "mobile-digital-solutions": "/our-products/scheme-app",
+};
 
 export interface ServicesGridProps {
   className?: string;
 }
 
 const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
+  const [services, setServices] = useState<ServiceCardItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchServices = async () => {
+      try {
+        const res = await getServices();
+        const items: ApiServiceItem[] = Array.isArray(res?.data) ? res.data : [];
+
+        if (isMounted) {
+          const sorted = [...items].sort(
+            (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)
+          );
+          const mapped: ServiceCardItem[] = sorted.map((item) => ({
+            id: item.slug || String(item.id),
+            title: item.name,
+            description: item.short_description || item.description || "",
+            highlights: Array.isArray(item.features) ? item.features : [],
+            image:
+              item.featured_image_url ||
+              item.featured_image ||
+              "/images/mobile-laptop-mockup-3.webp",
+            href: SERVICE_ROUTE_MAP[item.slug] || item.url || "/contact-us",
+          }));
+          setServices(mapped);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchServices();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section
       className={`w-full py-[80px] lg:py-[150px] bg-[#f8f8f8] text-stone-900 ${className}`}
@@ -74,7 +92,27 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
         
         {/* 3-Column Cards Grid with 20px gap */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
-          {SERVICES_GRID_DATA.map((item, idx) => (
+          {loading
+            ? Array.from({ length: 6 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-[25px] p-[18px] flex flex-col h-full animate-pulse"
+                >
+                  <div className="w-full aspect-[4/3] rounded-[18px] bg-stone-200 mb-4" />
+                  <div className="px-1 pb-1 space-y-3">
+                    <div className="h-6 w-2/3 bg-stone-200 rounded-md" />
+                    <div className="space-y-2">
+                      <div className="h-4 w-full bg-stone-100 rounded-md" />
+                      <div className="h-4 w-5/6 bg-stone-100 rounded-md" />
+                    </div>
+                    <div className="flex gap-1.5 pt-3 border-t border-stone-100">
+                      <div className="h-6 w-24 bg-stone-100 rounded-full" />
+                      <div className="h-6 w-28 bg-stone-100 rounded-full" />
+                    </div>
+                  </div>
+                </div>
+              ))
+            : services.map((item, idx) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 30 }}
