@@ -161,7 +161,11 @@ const Header: React.FC<HeaderProps> = ({
     const fetchProductMenu = async () => {
       try {
         const res = await getMenu();
-        const items = Array.isArray(res?.data) ? res.data : [];
+        const items = Array.isArray(res?.data?.products)
+          ? res.data.products
+          : Array.isArray(res?.data)
+            ? res.data
+            : [];
         if (isMounted && items.length > 0) {
           const mapped: DropdownItem[] = items.map(
             (item: {

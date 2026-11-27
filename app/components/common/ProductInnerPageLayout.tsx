@@ -65,7 +65,11 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
 
         if (items.length === 0) {
           const menuRes = await getMenu();
-          items = Array.isArray(menuRes?.data) ? menuRes.data : [];
+          items = Array.isArray(menuRes?.data?.products)
+            ? menuRes.data.products
+            : Array.isArray(menuRes?.data)
+              ? menuRes.data
+              : [];
         }
 
         if (isMounted) {
