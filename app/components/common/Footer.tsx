@@ -9,12 +9,12 @@ const footerColumns = [
   {
     title: "Products",
     links: [
-      { label: "Aurix", href: "/our-products/aurix" },
-      { label: "Aurown", href: "/our-products/aurown" },
-      { label: "Scheme Mobile App", href: "/our-products/scheme-app" },
+      { label: "Aurix", href: "/our-products/aurix-jewellery-erp-software" },
+      { label: "Aurown", href: "/our-products/auron-jewellery-business-mobile-app" },
+      { label: "Scheme Mobile App", href: "/our-products/scheme-mobile-app" },
       { label: "Jewel Connect", href: "/our-products/jewel-connect" },
-      { label: "Employee & Payroll", href: "/our-products/employee-payroll" },
-      { label: "Stockmate", href: "/our-products/stockmate" },
+      { label: "Employee & Payroll", href: "/our-products/employee-payroll-management" },
+      { label: "Stockmate", href: "/our-products/stockmate-inventory-management" },
     ],
   },
   {

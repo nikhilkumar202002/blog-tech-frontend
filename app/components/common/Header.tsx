@@ -34,12 +34,12 @@ export interface DropdownItem {
 const PRODUCTS_DROPDOWN: DropdownItem[] = [
   {
     label: "Aurix",
-    href: "/our-products/aurix",
+    href: "/our-products/aurix-jewellery-erp-software",
     description: "Jewellery ERP & POS Management Solution",
   },
   {
     label: "Aurown",
-    href: "/our-products/aurown",
+    href: "/our-products/auron-jewellery-business-mobile-app",
     description: "Business Operations & Executive Dashboard",
   },
   {
@@ -49,17 +49,17 @@ const PRODUCTS_DROPDOWN: DropdownItem[] = [
   },
   {
     label: "Scheme Mobile App",
-    href: "/our-products/scheme-app",
+    href: "/our-products/scheme-mobile-app",
     description: "Customer Savings & Installment Tracking",
   },
   {
     label: "Employee & Payroll",
-    href: "/our-products/employee-payroll",
+    href: "/our-products/employee-payroll-management",
     description: "Staff Attendance, Salary & HR Management",
   },
   {
     label: "Stockmate",
-    href: "/our-products/stockmate",
+    href: "/our-products/stockmate-inventory-management",
     description: "Smart Inventory & Multi-Branch Stock Control",
   },
 ];
@@ -176,10 +176,9 @@ const Header: React.FC<HeaderProps> = ({
               featured_image?: string;
             }) => ({
               label: item.label || item.name || "Product",
-              href:
-                item.href ||
-                item.url ||
-                (item.slug ? `/our-products/${item.slug}` : "#"),
+              href: item.slug
+                ? `/our-products/${item.slug}`
+                : item.href || item.url || "#",
               description: item.short_description || item.description || "",
               image: item.featured_image_url || item.featured_image || undefined,
             })

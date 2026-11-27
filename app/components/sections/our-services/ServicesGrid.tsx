@@ -28,11 +28,11 @@ interface ApiServiceItem {
 }
 
 const SERVICE_ROUTE_MAP: Record<string, string> = {
-  "jewellery-erp-solutions": "/our-products/aurix",
+  "jewellery-erp-solutions": "/our-products/aurix-jewellery-erp-software",
   "maintenance-support": "/contact-us?service=support",
   "custom-software-solutions": "/contact-us?service=custom",
   "data-system-management": "/contact-us?service=data",
-  "mobile-digital-solutions": "/our-products/scheme-app",
+  "mobile-digital-solutions": "/our-products/scheme-mobile-app",
 };
 
 export interface ServicesGridProps {
