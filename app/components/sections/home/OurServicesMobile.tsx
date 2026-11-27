@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { ServiceDetail } from "./OurServices";
+import { ServiceDetail } from "./OurProducts";
 
 interface OurServiceMobileProps {
   services: ServiceDetail[];
@@ -73,11 +73,10 @@ const OurServiceMobile: React.FC<OurServiceMobileProps> = ({ services }) => {
         onClick={() => scrollToMobileSlide(Math.max(0, mobileActiveIndex - 1))}
         disabled={mobileActiveIndex === 0}
         aria-label="Previous service"
-        className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all ${
-          mobileActiveIndex === 0
+        className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all ${mobileActiveIndex === 0
             ? "opacity-20 cursor-not-allowed"
             : "opacity-90 hover:opacity-100 hover:bg-[#A44B03] hover:border-[#A44B03] active:scale-95"
-        }`}
+          }`}
       >
         <FiChevronLeft className="w-5 h-5" />
       </button>
@@ -87,11 +86,10 @@ const OurServiceMobile: React.FC<OurServiceMobileProps> = ({ services }) => {
         onClick={() => scrollToMobileSlide(Math.min(services.length - 1, mobileActiveIndex + 1))}
         disabled={mobileActiveIndex === services.length - 1}
         aria-label="Next service"
-        className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all ${
-          mobileActiveIndex === services.length - 1
+        className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all ${mobileActiveIndex === services.length - 1
             ? "opacity-20 cursor-not-allowed"
             : "opacity-90 hover:opacity-100 hover:bg-[#A44B03] hover:border-[#A44B03] active:scale-95"
-        }`}
+          }`}
       >
         <FiChevronRight className="w-5 h-5" />
       </button>
@@ -105,9 +103,8 @@ const OurServiceMobile: React.FC<OurServiceMobileProps> = ({ services }) => {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onPointerLeave={handlePointerUp}
-        className={`flex overflow-x-auto overflow-y-hidden gap-4 w-full py-2 px-2 touch-pan-y [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
-          isDragging ? "snap-none cursor-grabbing select-none" : "snap-x snap-mandatory cursor-grab"
-        }`}
+        className={`flex overflow-x-auto overflow-y-hidden gap-4 w-full py-2 px-2 touch-pan-y [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "snap-none cursor-grabbing select-none" : "snap-x snap-mandatory cursor-grab"
+          }`}
       >
         {services.map((item, idx) => (
           <motion.div

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Button from "@/app/components/common/Button";
+import { getProducts } from "@/app/utils/product";
 import "@/app/components/styles/Section.css";
 
 const MotionLink = motion.create(Link);
@@ -16,61 +17,59 @@ export interface ServiceItem {
   imageAlt: string;
 }
 
-const PRODUCTS: ServiceItem[] = [
-  {
-    id: "aurix",
-    title: "AURIX",
-    description:
-      "A Comprehensive Jewellery Management Solution Built To Streamline Day-To-Day Operations, From Inventory And Billing To Customer Management And Accounting.",
-    image: "/products/aurix.jpg",
-    imageAlt: "AURIX Jewellery Management Solution",
-  },
-  {
-    id: "aurown",
-    title: "AUROWN",
-    description:
-      "An Application Designed Specifically For Jewellery Business Owners To Monitor And Track Business Operations, Sales, And Inventory From Anywhere.",
-    image: "/products/aurown/aurown-app-mockup.webp",
-    imageAlt: "AUROWN Business Owners Tracking App",
-  },
-  {
-    id: "scheme-app",
-    title: "SCHEME MOBILE APP",
-    description:
-      "A Mobile App Customized With Your Branding That Allows Customers To Manage Their Jewellery Schemes, Make Installment Payments, And Track Their Progress.",
-    image: "/products/scheme-app.jpg",
-    imageAlt: "Scheme Mobile Application Interface",
-  },
-  {
-    id: "jewel-connect",
-    title: "JEWEL CONNECT",
-    description:
-      "A Digital Platform Designed To Provide Jewellery Customers With Easy Access To Jewellery Designs, Product Information, Barcode Details, And Stock Availability.",
-    image: "/products/jewel.jpg",
-    imageAlt: "JEWEL CONNECT Digital Jewellery Platform",
-  },
-  {
-    id: "employee-payroll",
-    title: "EMPLOYEE & PAYROLL MANAGEMENT",
-    description:
-      "A Centralized System To Manage Employee Information, Attendance, Salary Processing, And Documentation Efficiently.",
-    image: "/products/enroll-payroll/enroll-management-system.webp",
-    imageAlt: "Employee and Payroll Management System",
-  },
-  {
-    id: "stockmate",
-    title: "STOCKMATE",
-    description:
-      "A Smart Inventory And Multi-Branch Stock Control System To Manage Items, Track Movements, And Maintain Accurate Stock Records.",
-    image: "/products/stockmate/stock-mate-banner.webp",
-    imageAlt: "StockMate Smart Inventory and Multi-Branch Stock Control",
-  },
-];
-
 const Service: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const scrollParentRef = useRef<HTMLElement | null>(null);
+  const [products, setProducts] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchProducts = async () => {
+      try {
+        const res = await getProducts();
+        const data = Array.isArray(res?.data) ? res.data : [];
+        if (isMounted && data.length > 0) {
+          const sorted = [...data].sort(
+            (a: { sort_order?: number }, b: { sort_order?: number }) =>
+              (a.sort_order ?? 0) - (b.sort_order ?? 0)
+          );
+          const mapped: ServiceItem[] = sorted.map(
+            (item: {
+              slug: string;
+              name: string;
+              short_description?: string | null;
+              description?: string | null;
+              featured_image_url?: string | null;
+              featured_image?: string | null;
+            }) => ({
+              id: item.slug,
+              title: item.name,
+              description: item.short_description || item.description || "",
+              image:
+                item.featured_image_url ||
+                item.featured_image ||
+                "",
+              imageAlt: item.name,
+            })
+          );
+          setProducts(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   const dragStartRef = useRef<{
     pointerId: number;
     x: number;
@@ -143,7 +142,7 @@ const Service: React.FC = () => {
       if (frame) window.cancelAnimationFrame(frame);
       scrollParentRef.current = null;
     };
-  }, []);
+  }, [loading, products.length]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== "mouse" || event.button !== 0 ||
@@ -239,32 +238,50 @@ const Service: React.FC = () => {
             </motion.div>
 
             {/* Product Cards */}
-            {PRODUCTS.map((product, idx) => (
-              <MotionLink
-                key={product.id}
-                id={product.id}
-                href={`/our-products/${product.id}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
-                className="service-card service-product-card group cursor-pointer block text-inherit no-underline"
-              >
-                <div className="service-card-image-wrapper">
-                  <img
-                    src={product.image}
-                    alt={product.imageAlt}
-                    className="service-card-image"
-                    loading="lazy"
-                    draggable={false}
-                  />
-                </div>
-                <div className="service-card-content">
-                  <h3 className="service-product-title">{product.title}</h3>
-                  <p className="service-product-description">{product.description}</p>
-                </div>
-              </MotionLink>
-            ))}
+            {loading
+              ? Array.from({ length: 4 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="service-card service-product-card animate-pulse"
+                  >
+                    <div className="service-card-image-wrapper shrink-0 !h-[220px] md:!h-[235px] bg-stone-200" />
+                    <div className="service-card-content space-y-2">
+                      <div className="h-5 w-2/3 bg-stone-200 rounded" />
+                      <div className="h-4 w-full bg-stone-100 rounded" />
+                      <div className="h-4 w-5/6 bg-stone-100 rounded" />
+                    </div>
+                  </div>
+                ))
+              : products.map((product, idx) => (
+                  <MotionLink
+                    key={product.id}
+                    id={product.id}
+                    href={`/our-products/${product.id}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
+                    className="service-card service-product-card group cursor-pointer flex flex-col text-inherit no-underline"
+                  >
+                    <div className="service-card-image-wrapper shrink-0 !h-[220px] md:!h-[235px]">
+                      {product.image && (
+                        <img
+                          src={product.image}
+                          alt={product.imageAlt}
+                          className="service-card-image w-full h-full object-cover"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                      )}
+                    </div>
+                    <div className="service-card-content min-w-0">
+                      <h3 className="service-product-title truncate">
+                        {product.title}
+                      </h3>
+                      <p className="service-product-description">{product.description}</p>
+                    </div>
+                  </MotionLink>
+                ))}
           </div>
         </div>
       </div>

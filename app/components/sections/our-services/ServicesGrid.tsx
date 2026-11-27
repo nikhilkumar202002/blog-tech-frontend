@@ -84,6 +84,22 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (loading || services.length === 0) return;
+
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+
+    const timer = window.setTimeout(() => {
+      const target = document.getElementById(hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+
+    return () => window.clearTimeout(timer);
+  }, [loading, services]);
+
   return (
     <section
       className={`w-full py-[80px] lg:py-[150px] bg-[#f8f8f8] text-stone-900 ${className}`}
@@ -123,7 +139,7 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ className = "" }) => {
               <Link
                 href={item.href}
                 id={item.id}
-                className="group block bg-white rounded-[25px] p-[18px] transition-all duration-300 flex flex-col h-full hover:shadow-sm"
+                className="group block bg-white rounded-[25px] p-[18px] transition-all duration-300 flex flex-col h-full hover:shadow-sm scroll-mt-28"
               >
                 {/* Image Container */}
                 <div className="relative w-full aspect-[4/3] rounded-[18px] overflow-hidden mb-4 bg-stone-100">
