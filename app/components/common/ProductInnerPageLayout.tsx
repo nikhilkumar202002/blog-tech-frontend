@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getMenu } from "@/app/utils/product";
+import { getMenu, getProducts } from "@/app/utils/product";
 
 export interface ProductMenuItem {
   id?: string | number;
@@ -58,10 +58,16 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
     if (menuItems) return;
 
     let isMounted = true;
-    const fetchMenu = async () => {
+    const fetchOtherProducts = async () => {
       try {
-        const res = await getMenu();
-        const items = Array.isArray(res?.data) ? res.data : [];
+        const res = await getProducts();
+        let items: ProductMenuItem[] = Array.isArray(res?.data) ? res.data : [];
+
+        if (items.length === 0) {
+          const menuRes = await getMenu();
+          items = Array.isArray(menuRes?.data) ? menuRes.data : [];
+        }
+
         if (isMounted) {
           setFetchedProducts(items);
         }
@@ -74,7 +80,7 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
       }
     };
 
-    fetchMenu();
+    fetchOtherProducts();
     return () => {
       isMounted = false;
     };
@@ -88,6 +94,9 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
   const galleryImages =
     product?.gallery_image_urls ?? product?.gallery_images ?? [];
   const activeSlug = currentSlug ?? product?.slug;
+  const otherProducts = products.filter(
+    (item) => !activeSlug || item.slug !== activeSlug
+  );
 
   return (
     <section
@@ -151,7 +160,7 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
           </div>
 
           {/* Right Side: Other Products Sidebar */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-28">
+          <aside className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
             <div className="bg-white rounded-[25px] p-6">
               <h2 className="text-[18px] font-medium text-stone-900 mb-4 pb-3 border-b border-stone-100 font-[var(--font-dm-sans)]">
                 {sidebarTitle}
@@ -163,9 +172,9 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
                     <div key={idx} className="h-10 bg-stone-100 rounded-[14px]" />
                   ))}
                 </div>
-              ) : products.length > 0 ? (
+              ) : otherProducts.length > 0 ? (
                 <nav aria-label={sidebarTitle} className="flex flex-col gap-1.5">
-                  {products.map((item, idx) => {
+                  {otherProducts.map((item, idx) => {
                     const label = item.label || item.name || "Product";
                     const href = item.slug
                       ? `/our-products/${item.slug}`
@@ -195,6 +204,43 @@ const ProductInnerPageLayout: React.FC<ProductInnerPageLayoutProps> = ({
                   No other products available.
                 </p>
               )}
+            </div>
+
+            {/* Contact CTA Card */}
+            <div className="bg-white rounded-[25px] p-6 border border-stone-100">
+           
+              <h2 className="text-[20px] font-medium text-stone-900 leading-snug mb-2 font-[var(--font-dm-sans)]">
+                Ready to Transform Your Business Operations?
+              </h2>
+              <p className="text-[14px] text-stone-500 leading-relaxed mb-5 font-[var(--font-inter)]">
+                Speak directly with BLOGTECH Software experts for a personalized
+                demo, pricing details, and tailored implementation of{" "}
+                <strong className="font-medium text-stone-700">
+                  {displayTitle || "our enterprise software solutions"}
+                </strong>{" "}
+                for your showroom, multi-branch inventory, or workforce workflow.
+              </p>
+
+              <div className="flex flex-col gap-2.5">
+                <a
+                  href={`https://wa.me/917994455922?text=${encodeURIComponent(
+                    `Hi BLOGTECH team, I would like to know more about ${
+                      displayTitle || "your software products"
+                    }.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-full bg-[#A44B03] hover:bg-[#7A3602] text-white text-[14px] font-medium transition-colors duration-200 font-[var(--font-dm-sans)]"
+                >
+                  <span>Chat on WhatsApp</span>
+                </a>
+                <a
+                  href="tel:+917994455922"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-full bg-[#FAF2E4] hover:bg-[#A44B03] text-[#A44B03] hover:text-white text-[14px] font-medium transition-colors duration-200 font-[var(--font-dm-sans)]"
+                >
+                  <span>Call +91 79944 55922</span>
+                </a>
+              </div>
             </div>
           </aside>
         </div>
